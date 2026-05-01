@@ -10,6 +10,13 @@ type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "white" | "black" | "clear";
 type Urgency = "standard" | "rush";
 type AcrylicThickness = "1/4" | "1/2" | "1";
+type LacquerColor = "black" | "white" | "gold";
+
+const LACQUER_COLOR: Record<LacquerColor, { es: string; en: string }> = {
+  black: { es: "Negro", en: "Black" },
+  white: { es: "Blanco", en: "White" },
+  gold: { es: "Dorado", en: "Gold" },
+};
 
 const ACRYLIC_THICKNESS: Record<AcrylicThickness, { es: string; en: string; mult: number }> = {
   "1/4": { es: '1/4 de pulgada', en: '1/4 inch', mult: 1 },
