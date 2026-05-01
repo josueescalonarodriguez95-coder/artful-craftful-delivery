@@ -155,6 +155,19 @@ export const PedestalEstimator = () => {
                 </Field>
               )}
 
+              {/* Paint color */}
+              {finish === "paint" && (
+                <Field label={lang === "es" ? "Color de la pintura" : "Paint color"}>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(Object.keys(PAINT_COLOR) as PaintColor[]).map((c) => (
+                      <Choice key={c} active={paintColor === c} onClick={() => setPaintColor(c)}>
+                        {PAINT_COLOR[c][lang]}
+                      </Choice>
+                    ))}
+                  </div>
+                </Field>
+              )}
+
               {/* Acrylic thickness */}
               {material === "acrylic" && (
                 <Field label={lang === "es" ? "Grosor del acrílico" : "Acrylic thickness"}>
