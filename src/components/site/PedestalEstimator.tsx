@@ -146,7 +146,7 @@ export const PedestalEstimator = () => {
               {/* Lacquer color */}
               {finish === "lacquer" && (
                 <Field label={lang === "es" ? "Color del laqueado" : "Lacquer color"}>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {(Object.keys(LACQUER_COLOR) as LacquerColor[]).map((c) => (
                       <Choice key={c} active={lacquerColor === c} onClick={() => setLacquerColor(c)}>
                         {LACQUER_COLOR[c][lang]}
