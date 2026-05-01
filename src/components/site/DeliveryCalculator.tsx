@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Switch } from "@/components/ui/switch";
-import { Mail, Phone, MessageSquare } from "lucide-react";
 
 const FRAGILE_PCT = 0.15;
 
@@ -10,14 +9,6 @@ const FRAGILE_PCT = 0.15;
 // Referencia: 60×50×5 in (15.000 in³) = $477 → escala lineal por volumen
 const CRATE_RATE_PER_CUIN = 477 / (60 * 50 * 5);
 const MIN_CRATE_PRICE = 80;
-
-const EMAIL = "hola@ateliertrasiego.com";
-const PHONE_DISPLAY = "+1 (809) 555-1234";
-const PHONE_TEL = "+18095551234";
-const SMS_BODY = {
-  es: "Hola, quiero cotizar un guacal a medida. Quiero enviar:",
-  en: "Hi, I'd like to quote a custom crate. I want to ship:",
-};
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
@@ -44,11 +35,6 @@ export const DeliveryCalculator = () => {
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
 
-  const dimsText = hasDims ? `${hNum}×${wNum}×${dNum} in` : (lang === "es" ? "medidas a definir" : "dimensions TBD");
-  const summary =
-    lang === "es"
-      ? `${SMS_BODY.es} guacal ${dimsText}, cantidad ${qty}${fragile ? ", manejo extra-frágil" : ""}.`
-      : `${SMS_BODY.en} crate ${dimsText}, quantity ${qty}${fragile ? ", extra-fragile handling" : ""}.`;
 
   return (
     <section id="delivery" className="relative py-24 md:py-36 bg-gradient-warm overflow-hidden grain">
@@ -143,54 +129,6 @@ export const DeliveryCalculator = () => {
                 <Switch checked={fragile} onCheckedChange={setFragile} />
               </div>
 
-              {/* Contact box */}
-              <div className="rounded-md border border-border/70 bg-secondary/40 p-5 md:p-6">
-                <div className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
-                  {lang === "es" ? "Cuéntanos qué quieres enviar" : "Tell us what you'd like to ship"}
-                </div>
-                <p className="mt-2 text-sm text-ink/65">
-                  {lang === "es"
-                    ? "Escríbenos al correo o contáctanos por teléfono — llamada o mensaje de texto."
-                    : "Email us or reach out by phone — call or text message."}
-                </p>
-                <div className="mt-4 grid sm:grid-cols-3 gap-2">
-                  <a
-                    href={`mailto:${EMAIL}?subject=${encodeURIComponent(
-                      lang === "es" ? "Cotización de guacal a medida" : "Custom crate quote",
-                    )}&body=${encodeURIComponent(summary)}`}
-                    className="flex items-center gap-2 px-4 py-3 rounded border border-border bg-background hover:border-ink/40 hover:bg-ink hover:text-cream transition-all duration-300 text-sm"
-                  >
-                    <Mail className="h-4 w-4" />
-                    <span>{lang === "es" ? "Correo" : "Email"}</span>
-                  </a>
-                  <a
-                    href={`tel:${PHONE_TEL}`}
-                    className="flex items-center gap-2 px-4 py-3 rounded border border-border bg-background hover:border-ink/40 hover:bg-ink hover:text-cream transition-all duration-300 text-sm"
-                  >
-                    <Phone className="h-4 w-4" />
-                    <span>{lang === "es" ? "Llamada" : "Call"}</span>
-                  </a>
-                  <a
-                    href={`sms:${PHONE_TEL}?body=${encodeURIComponent(summary)}`}
-                    className="flex items-center gap-2 px-4 py-3 rounded border border-border bg-background hover:border-ink/40 hover:bg-ink hover:text-cream transition-all duration-300 text-sm"
-                  >
-                    <MessageSquare className="h-4 w-4" />
-                    <span>{lang === "es" ? "Mensaje" : "Text"}</span>
-                  </a>
-                </div>
-                <div className="mt-4 text-[11px] text-ink/55 space-y-1">
-                  <div>
-                    <span className="uppercase tracking-[0.18em] text-ink/45">Email · </span>
-                    <span>{EMAIL}</span>
-                  </div>
-                  <div>
-                    <span className="uppercase tracking-[0.18em] text-ink/45">
-                      {lang === "es" ? "Teléfono · " : "Phone · "}
-                    </span>
-                    <span>{PHONE_DISPLAY}</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
 
