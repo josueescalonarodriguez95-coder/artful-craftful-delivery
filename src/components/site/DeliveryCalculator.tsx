@@ -202,6 +202,10 @@ export const DeliveryCalculator = () => {
                 <Row label={t.delivery.base[lang]} value={fmt(calc.base)} />
                 <Row label={`${t.delivery.extraMiles[lang]} (${calc.extraMiles} mi)`} value={fmt(calc.extraMilesCost)} />
                 <Row label={`${t.delivery.extraPieces[lang]} (${Math.max(0, pieces - 1)})`} value={fmt(calc.extraPiecesCost)} />
+                <Row
+                  label={`${lang === "es" ? "Guacales" : "Crates"} (${pieces} × ${CRATES[crate][lang]})`}
+                  value={fmt(calc.crateCost)}
+                />
                 {fragile && <Row label={t.delivery.fragileFee[lang]} value={fmt(calc.fragileFee)} accent />}
               </div>
               <div className="mt-6 pt-6 border-t border-cream/20 flex items-end justify-between">
