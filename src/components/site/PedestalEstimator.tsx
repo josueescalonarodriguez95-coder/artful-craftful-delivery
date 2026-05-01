@@ -10,13 +10,14 @@ type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "white" | "black" | "clear";
 type Urgency = "standard" | "rush";
 type AcrylicThickness = "1/4" | "1/2" | "1";
-type LacquerColor = "black" | "white" | "gold";
+type LacquerColor = "black" | "white" | "gold" | "silver";
 type PaintColor = "white" | "black" | "gray";
 
 const LACQUER_COLOR: Record<LacquerColor, { es: string; en: string }> = {
   black: { es: "Negro", en: "Black" },
   white: { es: "Blanco", en: "White" },
   gold: { es: "Dorado", en: "Gold" },
+  silver: { es: "Plateado", en: "Silver" },
 };
 
 const PAINT_COLOR: Record<PaintColor, { es: string; en: string }> = {
