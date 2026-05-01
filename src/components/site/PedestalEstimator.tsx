@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 type Service = "new" | "restore";
 type Material = "plywood" | "acrylic" | "marble";
-type Finish = "raw" | "paint" | "lacquer" | "veneer";
+type Finish = "raw" | "paint" | "lacquer" | "veneer" | "white" | "black";
 type Urgency = "standard" | "rush";
 
 const MATERIAL: Record<Material, { es: string; en: string; rate: number }> = {
@@ -22,7 +22,12 @@ const FINISH: Record<Finish, { es: string; en: string; mult: number }> = {
   paint: { es: "Pintura mate", en: "Matte paint", mult: 0.18 },
   lacquer: { es: "Laca pulida", en: "Polished lacquer", mult: 0.35 },
   veneer: { es: "Chapilla", en: "Veneer", mult: 0.55 },
+  white: { es: "Blanco", en: "White", mult: 0.2 },
+  black: { es: "Negro", en: "Black", mult: 0.2 },
 };
+
+const MARBLE_FINISHES: Finish[] = ["white", "black"];
+const DEFAULT_FINISHES: Finish[] = ["raw", "paint", "lacquer", "veneer"];
 
 const SERVICE_BASE = { new: 120, restore: 95 };
 const RESTORE_DISCOUNT = 0.55; // material discount when restoring
@@ -38,6 +43,14 @@ export const PedestalEstimator = () => {
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
   const ref = useReveal<HTMLDivElement>();
+
+  const availableFinishes = material === "marble" ? MARBLE_FINISHES : DEFAULT_FINISHES;
+
+  useEffect(() => {
+    if (!availableFinishes.includes(finish)) {
+      setFinish(availableFinishes[0]);
+    }
+  }, [material, finish, availableFinishes]);
 
   const calc = useMemo(() => {
     const volume = h * w * d; // cubic inches
@@ -103,7 +116,7 @@ export const PedestalEstimator = () => {
               {/* Finish */}
               <Field label={t.pedestal.finish[lang]}>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {(Object.keys(FINISH) as Finish[]).map((f) => (
+                  {availableFinishes.map((f) => (
                     <Choice key={f} active={finish === f} onClick={() => setFinish(f)}>
                       {FINISH[f][lang]}
                     </Choice>
