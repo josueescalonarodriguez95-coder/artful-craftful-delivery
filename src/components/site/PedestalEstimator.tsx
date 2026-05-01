@@ -24,10 +24,9 @@ const MATERIAL: Record<Material, { es: string; en: string; rate: number }> = {
 };
 
 const FINISH: Record<Finish, { es: string; en: string; mult: number }> = {
-  raw: { es: "Crudo", en: "Raw", mult: 0 },
+  raw: { es: "Natural", en: "Natural", mult: 0 },
   paint: { es: "Pintura mate", en: "Matte paint", mult: 0.18 },
-  lacquer: { es: "Laca pulida", en: "Polished lacquer", mult: 0.35 },
-  veneer: { es: "Chapilla", en: "Veneer", mult: 0.55 },
+  lacquer: { es: "Laqueado", en: "Lacquered", mult: 0.35 },
   white: { es: "Blanco", en: "White", mult: 0.2 },
   black: { es: "Negro", en: "Black", mult: 0.2 },
   clear: { es: "Transparente", en: "Clear", mult: 0.15 },
@@ -35,7 +34,7 @@ const FINISH: Record<Finish, { es: string; en: string; mult: number }> = {
 
 const MARBLE_FINISHES: Finish[] = ["white", "black"];
 const ACRYLIC_FINISHES: Finish[] = ["clear", "black", "white"];
-const DEFAULT_FINISHES: Finish[] = ["raw", "paint", "lacquer", "veneer"];
+const DEFAULT_FINISHES: Finish[] = ["raw", "paint", "lacquer"];
 
 const SERVICE_BASE = { new: 120 };
 
