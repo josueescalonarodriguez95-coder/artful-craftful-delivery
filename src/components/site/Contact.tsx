@@ -42,11 +42,11 @@ export const Contact = () => {
             <div className="mt-10 space-y-5 text-cream/80">
               <div>
                 <div className="text-xs uppercase tracking-[0.2em] text-cream/50">Email</div>
-                <a href="mailto:hola@ateliertrasiego.com" className="text-lg hairline">hola@ateliertrasiego.com</a>
+                <a href="mailto:ramosdeliverye@gmail.com" className="text-lg hairline">ramosdeliverye@gmail.com</a>
               </div>
               <div>
                 <div className="text-xs uppercase tracking-[0.2em] text-cream/50">{lang === "es" ? "Teléfono" : "Phone"}</div>
-                <a href="tel:+18095551234" className="text-lg hairline">+1 (809) 555-1234</a>
+                <a href="tel:+17864262444" className="text-lg hairline">+1 (786) 426-2444</a>
               </div>
               <div>
                 <div className="text-xs uppercase tracking-[0.2em] text-cream/50">{lang === "es" ? "Estudio" : "Studio"}</div>
