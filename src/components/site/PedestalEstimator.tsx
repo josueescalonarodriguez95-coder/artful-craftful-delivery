@@ -10,6 +10,13 @@ type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "white" | "black" | "clear";
 type Urgency = "standard" | "rush";
 type AcrylicThickness = "1/4" | "1/2" | "1";
+type LacquerColor = "black" | "white" | "gold";
+
+const LACQUER_COLOR: Record<LacquerColor, { es: string; en: string }> = {
+  black: { es: "Negro", en: "Black" },
+  white: { es: "Blanco", en: "White" },
+  gold: { es: "Dorado", en: "Gold" },
+};
 
 const ACRYLIC_THICKNESS: Record<AcrylicThickness, { es: string; en: string; mult: number }> = {
   "1/4": { es: '1/4 de pulgada', en: '1/4 inch', mult: 1 },
@@ -46,6 +53,7 @@ export const PedestalEstimator = () => {
   const [material, setMaterial] = useState<Material>("plywood");
   const [finish, setFinish] = useState<Finish>("paint");
   const [acrylicThickness, setAcrylicThickness] = useState<AcrylicThickness>("1/4");
+  const [lacquerColor, setLacquerColor] = useState<LacquerColor>("black");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
   const ref = useReveal<HTMLDivElement>();
@@ -126,6 +134,19 @@ export const PedestalEstimator = () => {
                 </div>
               </Field>
 
+              {/* Lacquer color */}
+              {finish === "lacquer" && (
+                <Field label={lang === "es" ? "Color del laqueado" : "Lacquer color"}>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(Object.keys(LACQUER_COLOR) as LacquerColor[]).map((c) => (
+                      <Choice key={c} active={lacquerColor === c} onClick={() => setLacquerColor(c)}>
+                        {LACQUER_COLOR[c][lang]}
+                      </Choice>
+                    ))}
+                  </div>
+                </Field>
+              )}
+
               {/* Acrylic thickness */}
               {material === "acrylic" && (
                 <Field label={lang === "es" ? "Grosor del acrílico" : "Acrylic thickness"}>
@@ -182,7 +203,7 @@ export const PedestalEstimator = () => {
                   </li>
                   <li className="flex justify-between gap-4">
                     <span className="text-cream/70">{t.pedestal.finish[lang]}</span>
-                    <span>{FINISH[finish][lang]}</span>
+                    <span>{FINISH[finish][lang]}{finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : ""}</span>
                   </li>
                   {material === "acrylic" && (
                     <li className="flex justify-between gap-4">
