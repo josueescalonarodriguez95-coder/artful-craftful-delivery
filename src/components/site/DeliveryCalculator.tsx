@@ -17,12 +17,27 @@ const ZONES: Record<ZoneKey, { es: string; en: string; base: number; included: n
 const PIECE_FEE = 18;
 const FRAGILE_PCT = 0.15;
 
+// Tamaños predefinidos de guacales (in)
+type CrateKey = "S" | "M" | "L" | "XL" | "CUSTOM";
+const CRATES: Record<CrateKey, { es: string; en: string; h: number; w: number; d: number; fee: number }> = {
+  S:      { es: "Pequeño · 24×18×12 in",   en: "Small · 24×18×12 in",    h: 24, w: 18, d: 12, fee: 120 },
+  M:      { es: "Mediano · 36×24×18 in",   en: "Medium · 36×24×18 in",   h: 36, w: 24, d: 18, fee: 220 },
+  L:      { es: "Grande · 48×36×24 in",    en: "Large · 48×36×24 in",    h: 48, w: 36, d: 24, fee: 360 },
+  XL:     { es: "Extra grande · 72×48×36 in", en: "Extra large · 72×48×36 in", h: 72, w: 48, d: 36, fee: 580 },
+  CUSTOM: { es: "Medida personalizada",    en: "Custom size",            h: 0,  w: 0,  d: 0,  fee: 0 },
+};
+const CRATE_RATE_PER_CUIN = 580 / (72 * 48 * 36); // escala con la talla XL como referencia
+
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
   const [zone, setZone] = useState<ZoneKey>("A");
   const [miles, setMiles] = useState(8);
   const [pieces, setPieces] = useState(1);
   const [fragile, setFragile] = useState(false);
+  const [crate, setCrate] = useState<CrateKey>("M");
+  const [customH, setCustomH] = useState(36);
+  const [customW, setCustomW] = useState(24);
+  const [customD, setCustomD] = useState(18);
   const ref = useReveal<HTMLDivElement>();
 
   const calc = useMemo(() => {
@@ -31,11 +46,17 @@ export const DeliveryCalculator = () => {
     const extraMiles = Math.max(0, miles - z.included);
     const extraMilesCost = extraMiles * z.perMile;
     const extraPiecesCost = Math.max(0, pieces - 1) * PIECE_FEE;
-    const subtotal = base + extraMilesCost + extraPiecesCost;
+    const crateDef = CRATES[crate];
+    const crateUnitCost =
+      crate === "CUSTOM"
+        ? Math.max(80, customH * customW * customD * CRATE_RATE_PER_CUIN)
+        : crateDef.fee;
+    const crateCost = crateUnitCost * pieces;
+    const subtotal = base + extraMilesCost + extraPiecesCost + crateCost;
     const fragileFee = fragile ? subtotal * FRAGILE_PCT : 0;
     const total = subtotal + fragileFee;
-    return { base, extraMiles, extraMilesCost, extraPiecesCost, fragileFee, total };
-  }, [zone, miles, pieces, fragile]);
+    return { base, extraMiles, extraMilesCost, extraPiecesCost, crateCost, fragileFee, total };
+  }, [zone, miles, pieces, fragile, crate, customH, customW, customD]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
 
@@ -116,6 +137,55 @@ export const DeliveryCalculator = () => {
                 </div>
               </div>
 
+              {/* Crate size selector */}
+              <div>
+                <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
+                  {lang === "es" ? "Tamaño del guacal" : "Crate size"}
+                </label>
+                <div className="mt-3 grid sm:grid-cols-2 gap-2">
+                  {(Object.keys(CRATES) as CrateKey[]).map((k) => (
+                    <button
+                      key={k}
+                      onClick={() => setCrate(k)}
+                      className={`text-left px-4 py-3 rounded border transition-all duration-300 ${
+                        crate === k
+                          ? "border-ink bg-ink text-cream shadow-soft"
+                          : "border-border bg-background hover:border-ink/40"
+                      }`}
+                    >
+                      <div className="text-sm font-medium">{CRATES[k][lang]}</div>
+                      {k !== "CUSTOM" && (
+                        <div className={`text-xs mt-0.5 ${crate === k ? "text-cream/70" : "text-ink/55"}`}>
+                          {fmt(CRATES[k].fee)} {lang === "es" ? "por guacal" : "per crate"}
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+
+                {crate === "CUSTOM" && (
+                  <div className="mt-4 grid grid-cols-3 gap-3">
+                    {[
+                      { label: lang === "es" ? "Alto (in)" : "Height (in)", value: customH, set: setCustomH },
+                      { label: lang === "es" ? "Ancho (in)" : "Width (in)", value: customW, set: setCustomW },
+                      { label: lang === "es" ? "Profundidad (in)" : "Depth (in)", value: customD, set: setCustomD },
+                    ].map((f, i) => (
+                      <div key={i}>
+                        <label className="text-[10px] uppercase tracking-[0.18em] text-ink/55 font-medium">{f.label}</label>
+                        <input
+                          type="number"
+                          min={1}
+                          max={200}
+                          value={f.value}
+                          onChange={(e) => f.set(Math.max(1, Number(e.target.value) || 1))}
+                          className="mt-1 w-full px-3 py-2 rounded border border-border bg-background text-ink text-sm focus:outline-none focus:border-ink"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {/* Fragile toggle */}
               <div className="flex items-center justify-between p-4 bg-secondary/50 rounded">
                 <span className="text-sm text-ink">{t.delivery.fragile[lang]}</span>
@@ -132,6 +202,10 @@ export const DeliveryCalculator = () => {
                 <Row label={t.delivery.base[lang]} value={fmt(calc.base)} />
                 <Row label={`${t.delivery.extraMiles[lang]} (${calc.extraMiles} mi)`} value={fmt(calc.extraMilesCost)} />
                 <Row label={`${t.delivery.extraPieces[lang]} (${Math.max(0, pieces - 1)})`} value={fmt(calc.extraPiecesCost)} />
+                <Row
+                  label={`${lang === "es" ? "Guacales" : "Crates"} (${pieces} × ${CRATES[crate][lang]})`}
+                  value={fmt(calc.crateCost)}
+                />
                 {fragile && <Row label={t.delivery.fragileFee[lang]} value={fmt(calc.fragileFee)} accent />}
               </div>
               <div className="mt-6 pt-6 border-t border-cream/20 flex items-end justify-between">
