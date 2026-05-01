@@ -6,10 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
-type Service = "new" | "restore";
 type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "veneer" | "white" | "black" | "clear";
 type Urgency = "standard" | "rush";
+type AcrylicThickness = "1/4" | "1/2" | "1";
+
+const ACRYLIC_THICKNESS: Record<AcrylicThickness, { es: string; en: string; mult: number }> = {
+  "1/4": { es: '1/4 de pulgada', en: '1/4 inch', mult: 1 },
+  "1/2": { es: '1/2 pulgada', en: '1/2 inch', mult: 1.25 },
+  "1": { es: '1 pulgada', en: '1 inch', mult: 1.6 },
+};
 
 const MATERIAL: Record<Material, { es: string; en: string; rate: number }> = {
   plywood: { es: 'Plywood natural 3/4"', en: 'Natural plywood 3/4"', rate: 0.022 },
@@ -31,17 +37,16 @@ const MARBLE_FINISHES: Finish[] = ["white", "black"];
 const ACRYLIC_FINISHES: Finish[] = ["clear", "black", "white"];
 const DEFAULT_FINISHES: Finish[] = ["raw", "paint", "lacquer", "veneer"];
 
-const SERVICE_BASE = { new: 120, restore: 95 };
-const RESTORE_DISCOUNT = 0.55; // material discount when restoring
+const SERVICE_BASE = { new: 120 };
 
 export const PedestalEstimator = () => {
   const { lang } = useLang();
-  const [service, setService] = useState<Service>("new");
   const [h, setH] = useState(36);
   const [w, setW] = useState(14);
   const [d, setD] = useState(14);
   const [material, setMaterial] = useState<Material>("plywood");
   const [finish, setFinish] = useState<Finish>("paint");
+  const [acrylicThickness, setAcrylicThickness] = useState<AcrylicThickness>("1/4");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
   const ref = useReveal<HTMLDivElement>();
@@ -64,11 +69,14 @@ export const PedestalEstimator = () => {
     if (material === "marble" && finish === "black") {
       perUnit += 50;
     }
-    if (service === "restore") perUnit *= RESTORE_DISCOUNT + 0.2; // restore costs less
+    // Acrylic thickness multiplier
+    if (material === "acrylic") {
+      perUnit *= ACRYLIC_THICKNESS[acrylicThickness].mult;
+    }
     if (urgency === "rush") perUnit *= 1.25;
     const total = perUnit * qty;
     return { volume, perUnit, total };
-  }, [service, h, w, d, material, finish, qty, urgency]);
+  }, [h, w, d, material, finish, acrylicThickness, qty, urgency]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
 
@@ -86,17 +94,6 @@ export const PedestalEstimator = () => {
         <div className="grid lg:grid-cols-5 gap-6 lg:gap-10 items-start">
           <div className="lg:col-span-3 bg-secondary/40 rounded-md p-6 md:p-10 border border-border/60">
             <div className="space-y-8">
-              {/* Service */}
-              <Field label={t.pedestal.service[lang]}>
-                <div className="grid grid-cols-2 gap-2">
-                  {(["new", "restore"] as Service[]).map((s) => (
-                    <Choice key={s} active={service === s} onClick={() => setService(s)}>
-                      {s === "new" ? t.pedestal.new[lang] : t.pedestal.restore[lang]}
-                    </Choice>
-                  ))}
-                </div>
-              </Field>
-
               {/* Dimensions */}
               <Field label={lang === "es" ? "Dimensiones (pulgadas)" : "Dimensions (inches)"}>
                 <div className="grid grid-cols-3 gap-3">
@@ -127,6 +124,19 @@ export const PedestalEstimator = () => {
                   ))}
                 </div>
               </Field>
+
+              {/* Acrylic thickness */}
+              {material === "acrylic" && (
+                <Field label={lang === "es" ? "Grosor del acrílico" : "Acrylic thickness"}>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(Object.keys(ACRYLIC_THICKNESS) as AcrylicThickness[]).map((tk) => (
+                      <Choice key={tk} active={acrylicThickness === tk} onClick={() => setAcrylicThickness(tk)}>
+                        {ACRYLIC_THICKNESS[tk][lang]}
+                      </Choice>
+                    ))}
+                  </div>
+                </Field>
+              )}
 
               {/* Qty + urgency */}
               <div className="grid sm:grid-cols-2 gap-6">
