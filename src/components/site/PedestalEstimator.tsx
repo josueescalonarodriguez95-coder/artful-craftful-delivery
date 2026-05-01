@@ -49,8 +49,9 @@ export const PedestalEstimator = () => {
     const subtotal = base + materialCost + finishCost;
     const rushCost = urgency === "rush" ? subtotal * 0.25 : 0;
     const perUnit = subtotal + rushCost;
-    const total = perUnit * qty;
-    return { volume, base, materialCost, finishCost, rushCost, perUnit, total };
+    const serviceFee = 150;
+    const total = perUnit * qty + serviceFee;
+    return { volume, base, materialCost, finishCost, rushCost, perUnit, serviceFee, total };
   }, [service, h, w, d, material, finish, qty, urgency]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
