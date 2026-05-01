@@ -37,17 +37,16 @@ const MARBLE_FINISHES: Finish[] = ["white", "black"];
 const ACRYLIC_FINISHES: Finish[] = ["clear", "black", "white"];
 const DEFAULT_FINISHES: Finish[] = ["raw", "paint", "lacquer", "veneer"];
 
-const SERVICE_BASE = { new: 120, restore: 95 };
-const RESTORE_DISCOUNT = 0.55; // material discount when restoring
+const SERVICE_BASE = { new: 120 };
 
 export const PedestalEstimator = () => {
   const { lang } = useLang();
-  const [service, setService] = useState<Service>("new");
   const [h, setH] = useState(36);
   const [w, setW] = useState(14);
   const [d, setD] = useState(14);
   const [material, setMaterial] = useState<Material>("plywood");
   const [finish, setFinish] = useState<Finish>("paint");
+  const [acrylicThickness, setAcrylicThickness] = useState<AcrylicThickness>("1/4");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
   const ref = useReveal<HTMLDivElement>();
