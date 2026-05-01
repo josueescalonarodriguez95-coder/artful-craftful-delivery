@@ -125,6 +125,19 @@ export const PedestalEstimator = () => {
                 </div>
               </Field>
 
+              {/* Acrylic thickness */}
+              {material === "acrylic" && (
+                <Field label={lang === "es" ? "Grosor del acrílico" : "Acrylic thickness"}>
+                  <div className="grid grid-cols-3 gap-2">
+                    {(Object.keys(ACRYLIC_THICKNESS) as AcrylicThickness[]).map((tk) => (
+                      <Choice key={tk} active={acrylicThickness === tk} onClick={() => setAcrylicThickness(tk)}>
+                        {ACRYLIC_THICKNESS[tk][lang]}
+                      </Choice>
+                    ))}
+                  </div>
+                </Field>
+              )}
+
               {/* Qty + urgency */}
               <div className="grid sm:grid-cols-2 gap-6">
                 <Field label={t.pedestal.qty[lang]}>
