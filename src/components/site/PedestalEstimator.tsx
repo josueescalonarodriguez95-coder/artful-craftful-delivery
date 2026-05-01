@@ -6,10 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
-type Service = "new" | "restore";
 type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "veneer" | "white" | "black" | "clear";
 type Urgency = "standard" | "rush";
+type AcrylicThickness = "1/4" | "1/2" | "1";
+
+const ACRYLIC_THICKNESS: Record<AcrylicThickness, { es: string; en: string; mult: number }> = {
+  "1/4": { es: '1/4 de pulgada', en: '1/4 inch', mult: 1 },
+  "1/2": { es: '1/2 pulgada', en: '1/2 inch', mult: 1.25 },
+  "1": { es: '1 pulgada', en: '1 inch', mult: 1.6 },
+};
 
 const MATERIAL: Record<Material, { es: string; en: string; rate: number }> = {
   plywood: { es: 'Plywood natural 3/4"', en: 'Natural plywood 3/4"', rate: 0.022 },
