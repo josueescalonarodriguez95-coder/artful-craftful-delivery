@@ -5,20 +5,14 @@ import crates from "@/assets/service-crates.jpg";
 import pedestals from "@/assets/service-pedestals.jpg";
 import restoration from "@/assets/service-restoration.jpg";
 
-const images = [
-  null, // delivery placeholder text-only? actually use for delivery too
-  crates,
-  pedestals,
-];
-
 export const Services = () => {
   const { lang } = useLang();
   const ref = useReveal<HTMLDivElement>();
 
   const cards = [
-    { img: restoration, ...t.services.items[0] },
-    { img: crates, ...t.services.items[1] },
-    { img: pedestals, ...t.services.items[2] },
+    { img: restoration, ...t.services.items[0], href: "#delivery" },
+    { img: crates, ...t.services.items[1], href: "#delivery" },
+    { img: pedestals, ...t.services.items[2], href: "#pedestals" },
   ];
 
   return (
@@ -33,17 +27,17 @@ export const Services = () => {
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
           {cards.map((c, i) => (
-              <ServiceCard
-                key={i}
-                href={i === 0 ? "#delivery" : "#pedestals"}
-                delay={i * 120}
-                image={c.img}
-                tag={c.tag[lang]}
-                title={c.title[lang]}
-                body={c.body[lang]}
-                more={lang === "es" ? "Ver más" : "Learn more"}
-              />
-            ))}
+            <ServiceCard
+              key={i}
+              href={c.href}
+              delay={i * 120}
+              image={c.img}
+              tag={c.tag[lang]}
+              title={c.title[lang]}
+              body={c.body[lang]}
+              more={lang === "es" ? "Ver más" : "Learn more"}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -59,30 +53,25 @@ const ServiceCard = ({ href, delay, image, tag, title, body, more }: { href: str
       className="reveal group block bg-card rounded-md overflow-hidden shadow-soft hover:shadow-elegant transition-all duration-700"
       style={{ transitionDelay: `${delay}ms` }}
     >
-                <div className="aspect-[4/5] overflow-hidden bg-secondary">
-                  <img
-                    src={c.img}
-                    alt={c.title[lang]}
-                    loading="lazy"
-                    width={1200}
-                    height={900}
-                    className="h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.06]"
-                  />
-                </div>
-                <div className="p-6 md:p-8">
-                  <span className="text-xs uppercase tracking-[0.2em] text-clay font-medium">{c.tag[lang]}</span>
-                  <h3 className="mt-3 font-display text-2xl md:text-3xl text-ink">{c.title[lang]}</h3>
-                  <p className="mt-3 text-sm text-ink/65 leading-relaxed">{c.body[lang]}</p>
-                  <div className="mt-5 inline-flex items-center gap-2 text-sm text-ink group-hover:text-clay transition-colors">
-                    <span className="hairline pb-0.5">{lang === "es" ? "Ver más" : "Learn more"}</span>
-                    <span className="transition-transform group-hover:translate-x-1">→</span>
-                  </div>
-                </div>
-              </a>
-            );
-          })}
+      <div className="aspect-[4/5] overflow-hidden bg-secondary">
+        <img
+          src={image}
+          alt={title}
+          loading="lazy"
+          width={1200}
+          height={900}
+          className="h-full w-full object-cover transition-transform duration-[1.4s] ease-out group-hover:scale-[1.06]"
+        />
+      </div>
+      <div className="p-6 md:p-8">
+        <span className="text-xs uppercase tracking-[0.2em] text-clay font-medium">{tag}</span>
+        <h3 className="mt-3 font-display text-2xl md:text-3xl text-ink">{title}</h3>
+        <p className="mt-3 text-sm text-ink/65 leading-relaxed">{body}</p>
+        <div className="mt-5 inline-flex items-center gap-2 text-sm text-ink group-hover:text-clay transition-colors">
+          <span className="hairline pb-0.5">{more}</span>
+          <span className="transition-transform group-hover:translate-x-1">→</span>
         </div>
       </div>
-    </section>
+    </a>
   );
 };
