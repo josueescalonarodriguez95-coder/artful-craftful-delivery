@@ -84,8 +84,10 @@ export const PedestalEstimator = () => {
     // - Plywood + matte paint: $400 (any color)
     // - Plywood + lacquered: $550 ($150 more than matte paint)
     // - Other materials: $1,200
+    // - Plywood + natural: $220
     const isPlywoodPaint = material === "plywood" && finish === "paint";
     const isPlywoodLacquer = material === "plywood" && finish === "lacquer";
+    const isPlywoodRaw = material === "plywood" && finish === "raw";
     const PRICE_PER_CUIN =
       material === "acrylic"
         ? 700 / REF_VOLUME
@@ -93,6 +95,8 @@ export const PedestalEstimator = () => {
         ? 400 / REF_VOLUME
         : isPlywoodLacquer
         ? 550 / REF_VOLUME
+        : isPlywoodRaw
+        ? 220 / REF_VOLUME
         : 1200 / REF_VOLUME;
     let perUnit = volume * PRICE_PER_CUIN;
     // Black marble surcharge (extra labor)
