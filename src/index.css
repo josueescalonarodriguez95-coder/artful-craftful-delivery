@@ -109,6 +109,17 @@
     background-position: 0 100%;
   }
 
+  .story-link {
+    @apply relative inline-block;
+  }
+  .story-link::after {
+    content: "";
+    @apply absolute left-0 -bottom-0.5 h-px w-full bg-current origin-bottom-right scale-x-0 transition-transform duration-300;
+  }
+  .story-link:hover::after {
+    @apply scale-x-100 origin-bottom-left;
+  }
+
   .grain::before {
     content: "";
     position: absolute;
