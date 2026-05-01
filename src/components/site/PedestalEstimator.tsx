@@ -79,9 +79,17 @@ export const PedestalEstimator = () => {
   const calc = useMemo(() => {
     const volume = h * w * d; // cubic inches
     const REF_VOLUME = 36 * 14 * 14; // 7,056 in³
-    // Acrylic reference: 36x14x14 @ 1/4" = $700  →  ~$0.0992 per in³
-    // Other materials reference: 36x14x14 = $1,200  →  ~$0.17 per in³
-    const PRICE_PER_CUIN = material === "acrylic" ? 700 / REF_VOLUME : 1200 / REF_VOLUME;
+    // Reference rates for 36x14x14:
+    // - Acrylic 1/4": $700
+    // - Plywood + matte paint: $400 (any color)
+    // - Other materials: $1,200
+    const isPlywoodPaint = material === "plywood" && finish === "paint";
+    const PRICE_PER_CUIN =
+      material === "acrylic"
+        ? 700 / REF_VOLUME
+        : isPlywoodPaint
+        ? 400 / REF_VOLUME
+        : 1200 / REF_VOLUME;
     let perUnit = volume * PRICE_PER_CUIN;
     // Black marble surcharge (extra labor)
     if (material === "marble" && finish === "black") {
