@@ -94,17 +94,6 @@ export const PedestalEstimator = () => {
         <div className="grid lg:grid-cols-5 gap-6 lg:gap-10 items-start">
           <div className="lg:col-span-3 bg-secondary/40 rounded-md p-6 md:p-10 border border-border/60">
             <div className="space-y-8">
-              {/* Service */}
-              <Field label={t.pedestal.service[lang]}>
-                <div className="grid grid-cols-2 gap-2">
-                  {(["new", "restore"] as Service[]).map((s) => (
-                    <Choice key={s} active={service === s} onClick={() => setService(s)}>
-                      {s === "new" ? t.pedestal.new[lang] : t.pedestal.restore[lang]}
-                    </Choice>
-                  ))}
-                </div>
-              </Field>
-
               {/* Dimensions */}
               <Field label={lang === "es" ? "Dimensiones (pulgadas)" : "Dimensions (inches)"}>
                 <div className="grid grid-cols-3 gap-3">
