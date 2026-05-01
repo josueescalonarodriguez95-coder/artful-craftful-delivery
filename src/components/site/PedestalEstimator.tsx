@@ -10,13 +10,14 @@ type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "white" | "black" | "clear";
 type Urgency = "standard" | "rush";
 type AcrylicThickness = "1/4" | "1/2" | "1";
-type LacquerColor = "black" | "white" | "gold";
+type LacquerColor = "black" | "white" | "gold" | "silver";
 type PaintColor = "white" | "black" | "gray";
 
 const LACQUER_COLOR: Record<LacquerColor, { es: string; en: string }> = {
   black: { es: "Negro", en: "Black" },
   white: { es: "Blanco", en: "White" },
   gold: { es: "Dorado", en: "Gold" },
+  silver: { es: "Plateado", en: "Silver" },
 };
 
 const PAINT_COLOR: Record<PaintColor, { es: string; en: string }> = {
@@ -145,7 +146,7 @@ export const PedestalEstimator = () => {
               {/* Lacquer color */}
               {finish === "lacquer" && (
                 <Field label={lang === "es" ? "Color del laqueado" : "Lacquer color"}>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {(Object.keys(LACQUER_COLOR) as LacquerColor[]).map((c) => (
                       <Choice key={c} active={lacquerColor === c} onClick={() => setLacquerColor(c)}>
                         {LACQUER_COLOR[c][lang]}
