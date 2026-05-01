@@ -136,18 +136,9 @@ export const PedestalEstimator = () => {
               <div className="text-xs uppercase tracking-[0.2em] text-cream/70 font-medium">{t.pedestal.estimate[lang]}</div>
               <div className="mt-6 space-y-3 text-sm">
                 <Row label={`${t.pedestal.volume[lang]} (${h}×${w}×${d})`} value={`${calc.volume.toLocaleString()} in³`} />
-                <Row label={lang === "es" ? "Base de servicio" : "Service base"} value={fmt(calc.base)} />
-                <Row label={t.pedestal.materialCost[lang]} value={fmt(calc.materialCost)} />
-                <Row label={t.pedestal.finishCost[lang]} value={fmt(calc.finishCost)} />
-                {urgency === "rush" && <Row label={t.pedestal.rushCost[lang]} value={fmt(calc.rushCost)} />}
-                <Row label={lang === "es" ? "Cargo de servicio" : "Service fee"} value={fmt(calc.serviceFee)} />
               </div>
               <div className="mt-6 pt-6 border-t border-cream/20">
                 <div className="flex items-baseline justify-between">
-                  <span className="text-xs uppercase tracking-[0.2em] text-cream/70">{t.pedestal.perUnit[lang]}</span>
-                  <span className="font-display text-2xl tabular-nums">${calc.perUnit.toFixed(0)}</span>
-                </div>
-                <div className="mt-2 flex items-baseline justify-between">
                   <span className="text-xs uppercase tracking-[0.2em] text-cream/70">Total · {qty}u</span>
                   <span className="font-display text-5xl tabular-nums">${calc.total.toFixed(0)}</span>
                 </div>
