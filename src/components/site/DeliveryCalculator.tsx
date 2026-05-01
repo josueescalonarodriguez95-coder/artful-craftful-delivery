@@ -1,195 +1,188 @@
 import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
-import { t } from "@/i18n/translations";
 import { useReveal } from "@/hooks/useReveal";
-import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { Mail, Phone, MessageSquare } from "lucide-react";
 
-type ZoneKey = "A" | "D";
-
-const ZONES: Record<ZoneKey, { es: string; en: string; base: number; included: number; perMile: number }> = {
-  A: { es: "Zona A · Local (0–10 mi)", en: "Zone A · Local (0–10 mi)", base: 45, included: 10, perMile: 2.5 },
-  D: { es: "Zona D · Larga distancia (75+ mi)", en: "Zone D · Long haul (75+ mi)", base: 295, included: 150, perMile: 1.65 },
-};
-
-const PIECE_FEE = 18;
 const FRAGILE_PCT = 0.15;
 
-// Tamaños predefinidos de guacales (in)
-type CrateKey = "S" | "M" | "L" | "XL" | "CUSTOM";
-const CRATES: Record<CrateKey, { es: string; en: string; h: number; w: number; d: number; fee: number }> = {
-  S:      { es: "Pequeño · 24×18×12 in",   en: "Small · 24×18×12 in",    h: 24, w: 18, d: 12, fee: 120 },
-  M:      { es: "Mediano · 36×24×18 in",   en: "Medium · 36×24×18 in",   h: 36, w: 24, d: 18, fee: 220 },
-  L:      { es: "Grande · 48×36×24 in",    en: "Large · 48×36×24 in",    h: 48, w: 36, d: 24, fee: 360 },
-  XL:     { es: "Extra grande · 72×48×36 in", en: "Extra large · 72×48×36 in", h: 72, w: 48, d: 36, fee: 580 },
-  CUSTOM: { es: "Medida personalizada",    en: "Custom size",            h: 0,  w: 0,  d: 0,  fee: 0 },
+// Tarifa base por pulgada cúbica para guacales personalizados
+// Referencia: 72×48×36 in ≈ $580
+const CRATE_RATE_PER_CUIN = 580 / (72 * 48 * 36);
+const MIN_CRATE_PRICE = 80;
+
+const EMAIL = "hola@ateliertrasiego.com";
+const PHONE_DISPLAY = "+1 (809) 555-1234";
+const PHONE_TEL = "+18095551234";
+const SMS_BODY = {
+  es: "Hola, quiero cotizar un guacal a medida. Quiero enviar:",
+  en: "Hi, I'd like to quote a custom crate. I want to ship:",
 };
-const CRATE_RATE_PER_CUIN = 580 / (72 * 48 * 36); // escala con la talla XL como referencia
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
-  const [zone, setZone] = useState<ZoneKey>("A");
-  const [miles, setMiles] = useState(8);
-  const [pieces, setPieces] = useState(1);
+  const [height, setHeight] = useState(36);
+  const [width, setWidth] = useState(24);
+  const [depth, setDepth] = useState(18);
+  const [qty, setQty] = useState(1);
   const [fragile, setFragile] = useState(false);
-  const [crate, setCrate] = useState<CrateKey>("M");
-  const [customH, setCustomH] = useState(36);
-  const [customW, setCustomW] = useState(24);
-  const [customD, setCustomD] = useState(18);
   const ref = useReveal<HTMLDivElement>();
 
   const calc = useMemo(() => {
-    const z = ZONES[zone];
-    const base = z.base;
-    const extraMiles = Math.max(0, miles - z.included);
-    const extraMilesCost = extraMiles * z.perMile;
-    const extraPiecesCost = Math.max(0, pieces - 1) * PIECE_FEE;
-    const crateDef = CRATES[crate];
-    const crateUnitCost =
-      crate === "CUSTOM"
-        ? Math.max(80, customH * customW * customD * CRATE_RATE_PER_CUIN)
-        : crateDef.fee;
-    const crateCost = crateUnitCost * pieces;
-    const subtotal = base + extraMilesCost + extraPiecesCost + crateCost;
+    const volume = height * width * depth;
+    const unit = Math.max(MIN_CRATE_PRICE, volume * CRATE_RATE_PER_CUIN);
+    const subtotal = unit * qty;
     const fragileFee = fragile ? subtotal * FRAGILE_PCT : 0;
     const total = subtotal + fragileFee;
-    return { base, extraMiles, extraMilesCost, extraPiecesCost, crateCost, fragileFee, total };
-  }, [zone, miles, pieces, fragile, crate, customH, customW, customD]);
+    return { volume, unit, subtotal, fragileFee, total };
+  }, [height, width, depth, qty, fragile]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
+
+  const summary =
+    lang === "es"
+      ? `${SMS_BODY.es} guacal ${height}×${width}×${depth} in, cantidad ${qty}${fragile ? ", manejo extra-frágil" : ""}.`
+      : `${SMS_BODY.en} crate ${height}×${width}×${depth} in, quantity ${qty}${fragile ? ", extra-fragile handling" : ""}.`;
 
   return (
     <section id="delivery" className="relative py-24 md:py-36 bg-gradient-warm overflow-hidden grain">
       <div className="container relative">
         <div ref={ref} className="reveal max-w-2xl mb-12 md:mb-16">
-          <span className="text-xs uppercase tracking-[0.25em] text-clay font-medium">{t.delivery.eyebrow[lang]}</span>
+          <span className="text-xs uppercase tracking-[0.25em] text-clay font-medium">
+            {lang === "es" ? "Guacales a medida" : "Custom crates"}
+          </span>
           <h2 className="mt-4 font-display text-4xl md:text-6xl text-ink leading-[1.05] text-balance">
-            {t.delivery.title[lang]}
+            {lang === "es" ? "Diseña tu guacal personalizado." : "Design your custom crate."}
           </h2>
-          <p className="mt-5 text-ink/70 max-w-lg">{t.delivery.sub[lang]}</p>
+          <p className="mt-5 text-ink/70 max-w-lg">
+            {lang === "es"
+              ? "Define las medidas exactas en pulgadas. Cuéntanos qué quieres enviar por correo, llamada o mensaje."
+              : "Set exact dimensions in inches. Tell us what you'd like to ship by email, call, or text."}
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-5 gap-6 lg:gap-10 items-start">
           {/* Controls */}
           <div className="lg:col-span-3 bg-card rounded-md p-6 md:p-10 shadow-soft border border-border/60">
             <div className="space-y-8">
-              {/* Zone selector */}
+              {/* Custom dimensions */}
               <div>
-                <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">{t.delivery.zone[lang]}</label>
-                <div className="mt-3 grid sm:grid-cols-2 gap-2">
-                  {(Object.keys(ZONES) as ZoneKey[]).map((k) => (
-                    <button
-                      key={k}
-                      onClick={() => { setZone(k); if (miles < ZONES[k].included * 0.3) setMiles(Math.max(miles, Math.round(ZONES[k].included * 0.5))); }}
-                      className={`text-left px-4 py-3 rounded border transition-all duration-300 ${
-                        zone === k
-                          ? "border-ink bg-ink text-cream shadow-soft"
-                          : "border-border bg-background hover:border-ink/40"
-                      }`}
-                    >
-                      <div className="text-sm font-medium">{ZONES[k][lang]}</div>
-                      <div className={`text-xs mt-0.5 ${zone === k ? "text-cream/70" : "text-ink/55"}`}>
-                        {lang === "es" ? "Base" : "Base"} {fmt(ZONES[k].base)} · {fmt(ZONES[k].perMile)}/mi
-                      </div>
-                    </button>
+                <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
+                  {lang === "es" ? "Medidas del guacal (in)" : "Crate dimensions (in)"}
+                </label>
+                <div className="mt-4 grid grid-cols-3 gap-3">
+                  {[
+                    { label: lang === "es" ? "Alto" : "Height", value: height, set: setHeight },
+                    { label: lang === "es" ? "Ancho" : "Width", value: width, set: setWidth },
+                    { label: lang === "es" ? "Profundidad" : "Depth", value: depth, set: setDepth },
+                  ].map((f, i) => (
+                    <div key={i}>
+                      <label className="text-[10px] uppercase tracking-[0.18em] text-ink/55 font-medium">
+                        {f.label}
+                      </label>
+                      <input
+                        type="number"
+                        min={1}
+                        max={200}
+                        value={f.value}
+                        onChange={(e) => f.set(Math.max(1, Math.min(200, Number(e.target.value) || 1)))}
+                        className="mt-1 w-full px-3 py-2 rounded border border-border bg-background text-ink text-sm focus:outline-none focus:border-ink"
+                      />
+                    </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Miles slider */}
-              <div>
-                <div className="flex items-baseline justify-between">
-                  <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">{t.delivery.miles[lang]}</label>
-                  <span className="font-display text-3xl text-ink">{miles} <span className="text-base text-ink/50">mi</span></span>
+                <div className="mt-3 text-xs text-ink/55">
+                  {lang === "es" ? "Volumen" : "Volume"}: {calc.volume.toLocaleString()} in³
                 </div>
-                <Slider
-                  value={[miles]}
-                  onValueChange={(v) => setMiles(v[0])}
-                  min={1}
-                  max={3000}
-                  step={1}
-                  className="mt-4"
-                />
               </div>
 
-              {/* Pieces */}
+              {/* Quantity */}
               <div>
                 <div className="flex items-baseline justify-between">
-                  <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">{t.delivery.pieces[lang]}</label>
-                  <span className="font-display text-3xl text-ink">{pieces}</span>
+                  <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
+                    {lang === "es" ? "Cantidad de guacales" : "Number of crates"}
+                  </label>
+                  <span className="font-display text-3xl text-ink">{qty}</span>
                 </div>
                 <div className="mt-4 flex items-center gap-3">
                   <button
-                    onClick={() => setPieces(Math.max(1, pieces - 1))}
+                    onClick={() => setQty(Math.max(1, qty - 1))}
                     className="h-10 w-10 rounded-full border border-border hover:bg-ink hover:text-cream transition"
                     aria-label="-"
-                  >−</button>
+                  >
+                    −
+                  </button>
                   <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
-                    <div className="h-full bg-clay transition-all duration-500" style={{ width: `${Math.min(100, pieces * 10)}%` }} />
+                    <div
+                      className="h-full bg-clay transition-all duration-500"
+                      style={{ width: `${Math.min(100, qty * 10)}%` }}
+                    />
                   </div>
                   <button
-                    onClick={() => setPieces(Math.min(20, pieces + 1))}
+                    onClick={() => setQty(Math.min(20, qty + 1))}
                     className="h-10 w-10 rounded-full border border-border hover:bg-ink hover:text-cream transition"
                     aria-label="+"
-                  >+</button>
+                  >
+                    +
+                  </button>
                 </div>
-              </div>
-
-              {/* Crate size selector */}
-              <div>
-                <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
-                  {lang === "es" ? "Tamaño del guacal" : "Crate size"}
-                </label>
-                <div className="mt-3 grid sm:grid-cols-2 gap-2">
-                  {(Object.keys(CRATES) as CrateKey[]).map((k) => (
-                    <button
-                      key={k}
-                      onClick={() => setCrate(k)}
-                      className={`text-left px-4 py-3 rounded border transition-all duration-300 ${
-                        crate === k
-                          ? "border-ink bg-ink text-cream shadow-soft"
-                          : "border-border bg-background hover:border-ink/40"
-                      }`}
-                    >
-                      <div className="text-sm font-medium">{CRATES[k][lang]}</div>
-                      {k !== "CUSTOM" && (
-                        <div className={`text-xs mt-0.5 ${crate === k ? "text-cream/70" : "text-ink/55"}`}>
-                          {fmt(CRATES[k].fee)} {lang === "es" ? "por guacal" : "per crate"}
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-
-                {crate === "CUSTOM" && (
-                  <div className="mt-4 grid grid-cols-3 gap-3">
-                    {[
-                      { label: lang === "es" ? "Alto (in)" : "Height (in)", value: customH, set: setCustomH },
-                      { label: lang === "es" ? "Ancho (in)" : "Width (in)", value: customW, set: setCustomW },
-                      { label: lang === "es" ? "Profundidad (in)" : "Depth (in)", value: customD, set: setCustomD },
-                    ].map((f, i) => (
-                      <div key={i}>
-                        <label className="text-[10px] uppercase tracking-[0.18em] text-ink/55 font-medium">{f.label}</label>
-                        <input
-                          type="number"
-                          min={1}
-                          max={200}
-                          value={f.value}
-                          onChange={(e) => f.set(Math.max(1, Number(e.target.value) || 1))}
-                          className="mt-1 w-full px-3 py-2 rounded border border-border bg-background text-ink text-sm focus:outline-none focus:border-ink"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
 
               {/* Fragile toggle */}
               <div className="flex items-center justify-between p-4 bg-secondary/50 rounded">
-                <span className="text-sm text-ink">{t.delivery.fragile[lang]}</span>
+                <span className="text-sm text-ink">
+                  {lang === "es" ? "Manejo extra-frágil (+15%)" : "Extra-fragile handling (+15%)"}
+                </span>
                 <Switch checked={fragile} onCheckedChange={setFragile} />
+              </div>
+
+              {/* Contact box */}
+              <div className="rounded-md border border-border/70 bg-secondary/40 p-5 md:p-6">
+                <div className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
+                  {lang === "es" ? "Cuéntanos qué quieres enviar" : "Tell us what you'd like to ship"}
+                </div>
+                <p className="mt-2 text-sm text-ink/65">
+                  {lang === "es"
+                    ? "Escríbenos al correo o contáctanos por teléfono — llamada o mensaje de texto."
+                    : "Email us or reach out by phone — call or text message."}
+                </p>
+                <div className="mt-4 grid sm:grid-cols-3 gap-2">
+                  <a
+                    href={`mailto:${EMAIL}?subject=${encodeURIComponent(
+                      lang === "es" ? "Cotización de guacal a medida" : "Custom crate quote",
+                    )}&body=${encodeURIComponent(summary)}`}
+                    className="flex items-center gap-2 px-4 py-3 rounded border border-border bg-background hover:border-ink/40 hover:bg-ink hover:text-cream transition-all duration-300 text-sm"
+                  >
+                    <Mail className="h-4 w-4" />
+                    <span>{lang === "es" ? "Correo" : "Email"}</span>
+                  </a>
+                  <a
+                    href={`tel:${PHONE_TEL}`}
+                    className="flex items-center gap-2 px-4 py-3 rounded border border-border bg-background hover:border-ink/40 hover:bg-ink hover:text-cream transition-all duration-300 text-sm"
+                  >
+                    <Phone className="h-4 w-4" />
+                    <span>{lang === "es" ? "Llamada" : "Call"}</span>
+                  </a>
+                  <a
+                    href={`sms:${PHONE_TEL}?body=${encodeURIComponent(summary)}`}
+                    className="flex items-center gap-2 px-4 py-3 rounded border border-border bg-background hover:border-ink/40 hover:bg-ink hover:text-cream transition-all duration-300 text-sm"
+                  >
+                    <MessageSquare className="h-4 w-4" />
+                    <span>{lang === "es" ? "Mensaje" : "Text"}</span>
+                  </a>
+                </div>
+                <div className="mt-4 text-[11px] text-ink/55 space-y-1">
+                  <div>
+                    <span className="uppercase tracking-[0.18em] text-ink/45">Email · </span>
+                    <span>{EMAIL}</span>
+                  </div>
+                  <div>
+                    <span className="uppercase tracking-[0.18em] text-ink/45">
+                      {lang === "es" ? "Teléfono · " : "Phone · "}
+                    </span>
+                    <span>{PHONE_DISPLAY}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -197,28 +190,35 @@ export const DeliveryCalculator = () => {
           {/* Breakdown */}
           <div className="lg:col-span-2 lg:sticky lg:top-24">
             <div className="bg-ink text-cream rounded-md p-6 md:p-8 shadow-elegant">
-              <div className="text-xs uppercase tracking-[0.2em] text-cream/60 font-medium">{t.delivery.breakdown[lang]}</div>
+              <div className="text-xs uppercase tracking-[0.2em] text-cream/60 font-medium">
+                {lang === "es" ? "Desglose" : "Breakdown"}
+              </div>
               <div className="mt-6 space-y-3 text-sm">
-                <Row label={t.delivery.base[lang]} value={fmt(calc.base)} />
-                <Row label={`${t.delivery.extraMiles[lang]} (${calc.extraMiles} mi)`} value={fmt(calc.extraMilesCost)} />
-                <Row label={`${t.delivery.extraPieces[lang]} (${Math.max(0, pieces - 1)})`} value={fmt(calc.extraPiecesCost)} />
                 <Row
-                  label={`${lang === "es" ? "Guacales" : "Crates"} (${pieces} × ${CRATES[crate][lang]})`}
-                  value={fmt(calc.crateCost)}
+                  label={`${lang === "es" ? "Guacal" : "Crate"} (${height}×${width}×${depth} in)`}
+                  value={fmt(calc.unit)}
                 />
-                {fragile && <Row label={t.delivery.fragileFee[lang]} value={fmt(calc.fragileFee)} accent />}
+                <Row label={lang === "es" ? "Cantidad" : "Quantity"} value={`× ${qty}`} />
+                <Row label={lang === "es" ? "Subtotal" : "Subtotal"} value={fmt(calc.subtotal)} />
+                {fragile && (
+                  <Row
+                    label={lang === "es" ? "Recargo frágil" : "Fragile surcharge"}
+                    value={fmt(calc.fragileFee)}
+                    accent
+                  />
+                )}
               </div>
               <div className="mt-6 pt-6 border-t border-cream/20 flex items-end justify-between">
-                <span className="text-xs uppercase tracking-[0.2em] text-cream/60">{t.delivery.total[lang]}</span>
+                <span className="text-xs uppercase tracking-[0.2em] text-cream/60">
+                  {lang === "es" ? "Total estimado" : "Estimated total"}
+                </span>
                 <span className="font-display text-5xl tabular-nums">${calc.total.toFixed(0)}</span>
               </div>
-              <Button
-                onClick={() => toast.success(lang === "es" ? "Solicitud enviada — te contactaremos." : "Request sent — we'll be in touch.")}
-                className="mt-6 w-full bg-cream text-ink hover:bg-clay hover:text-cream rounded-full py-6"
-              >
-                {t.delivery.request[lang]}
-              </Button>
-              <p className="mt-4 text-[11px] text-cream/50 leading-relaxed">{t.delivery.note[lang]}</p>
+              <p className="mt-6 text-[11px] text-cream/50 leading-relaxed">
+                {lang === "es"
+                  ? "* Precios estimados. La cotización final se confirma tras evaluar la pieza a empacar."
+                  : "* Estimated pricing. Final quote confirmed after assessing the item to be packed."}
+              </p>
             </div>
           </div>
         </div>
