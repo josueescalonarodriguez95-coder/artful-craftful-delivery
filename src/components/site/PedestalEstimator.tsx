@@ -44,6 +44,14 @@ export const PedestalEstimator = () => {
   const [urgency, setUrgency] = useState<Urgency>("standard");
   const ref = useReveal<HTMLDivElement>();
 
+  const availableFinishes = material === "marble" ? MARBLE_FINISHES : DEFAULT_FINISHES;
+
+  useEffect(() => {
+    if (!availableFinishes.includes(finish)) {
+      setFinish(availableFinishes[0]);
+    }
+  }, [material, finish, availableFinishes]);
+
   const calc = useMemo(() => {
     const volume = h * w * d; // cubic inches
     const base = SERVICE_BASE[service];
