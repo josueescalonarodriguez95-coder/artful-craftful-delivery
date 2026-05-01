@@ -89,7 +89,7 @@ export const DeliveryCalculator = () => {
                   value={[miles]}
                   onValueChange={(v) => setMiles(v[0])}
                   min={1}
-                  max={400}
+                  max={3000}
                   step={1}
                   className="mt-4"
                 />
