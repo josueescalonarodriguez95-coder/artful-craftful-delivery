@@ -35,11 +35,6 @@ export const DeliveryCalculator = () => {
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
 
-  const dimsText = hasDims ? `${hNum}×${wNum}×${dNum} in` : (lang === "es" ? "medidas a definir" : "dimensions TBD");
-  const summary =
-    lang === "es"
-      ? `${SMS_BODY.es} guacal ${dimsText}, cantidad ${qty}${fragile ? ", manejo extra-frágil" : ""}.`
-      : `${SMS_BODY.en} crate ${dimsText}, quantity ${qty}${fragile ? ", extra-fragile handling" : ""}.`;
 
   return (
     <section id="delivery" className="relative py-24 md:py-36 bg-gradient-warm overflow-hidden grain">
