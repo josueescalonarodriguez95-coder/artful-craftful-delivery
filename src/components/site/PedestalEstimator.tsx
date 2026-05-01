@@ -33,7 +33,7 @@ export const PedestalEstimator = () => {
   const [h, setH] = useState(36);
   const [w, setW] = useState(14);
   const [d, setD] = useState(14);
-  const [material, setMaterial] = useState<Material>("pine");
+  const [material, setMaterial] = useState<Material>("plywood");
   const [finish, setFinish] = useState<Finish>("paint");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
