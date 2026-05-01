@@ -7,15 +7,14 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 type Service = "new" | "restore";
-type Material = "mdf" | "pine" | "oak" | "walnut";
+type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "veneer";
 type Urgency = "standard" | "rush";
 
 const MATERIAL: Record<Material, { es: string; en: string; rate: number }> = {
-  mdf: { es: "MDF", en: "MDF", rate: 0.012 },
-  pine: { es: "Pino", en: "Pine", rate: 0.018 },
-  oak: { es: "Roble", en: "Oak", rate: 0.032 },
-  walnut: { es: "Nogal", en: "Walnut", rate: 0.048 },
+  plywood: { es: 'Plywood natural 3/4"', en: 'Natural plywood 3/4"', rate: 0.022 },
+  acrylic: { es: "Acrílico", en: "Acrylic", rate: 0.055 },
+  marble: { es: "Mármol", en: "Marble", rate: 0.085 },
 };
 
 const FINISH: Record<Finish, { es: string; en: string; mult: number }> = {
