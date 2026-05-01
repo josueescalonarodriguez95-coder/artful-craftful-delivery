@@ -88,21 +88,17 @@ export const PedestalEstimator = () => {
     const isPlywoodPaint = material === "plywood" && finish === "paint";
     const isPlywoodLacquer = material === "plywood" && finish === "lacquer";
     const isPlywoodRaw = material === "plywood" && finish === "raw";
-    // Reference price at 36x14x14 (7,056 in³) per material/finish
-    const REF_PRICE =
+    const PRICE_PER_CUIN =
       material === "acrylic"
-        ? 700
+        ? 700 / REF_VOLUME
         : isPlywoodPaint
-        ? 400
+        ? 400 / REF_VOLUME
         : isPlywoodLacquer
-        ? 550
+        ? 550 / REF_VOLUME
         : isPlywoodRaw
-        ? 220
-        : 1200;
-    // Soft power curve: price scales with volume^0.23
-    // Calibrated so 60x50x5 (15,000 in³) on plywood+paint = ~$477
-    const SCALE_EXP = 0.23;
-    let perUnit = REF_PRICE * Math.pow(volume / REF_VOLUME, SCALE_EXP);
+        ? 220 / REF_VOLUME
+        : 1200 / REF_VOLUME;
+    let perUnit = volume * PRICE_PER_CUIN;
     // Black marble surcharge (extra labor)
     if (material === "marble" && finish === "black") {
       perUnit += 50;
