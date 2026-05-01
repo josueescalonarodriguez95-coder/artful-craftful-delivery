@@ -141,6 +141,7 @@ export const PedestalEstimator = () => {
                 <Row label={t.pedestal.materialCost[lang]} value={fmt(calc.materialCost)} />
                 <Row label={t.pedestal.finishCost[lang]} value={fmt(calc.finishCost)} />
                 {urgency === "rush" && <Row label={t.pedestal.rushCost[lang]} value={fmt(calc.rushCost)} />}
+                <Row label={lang === "es" ? "Cargo de servicio" : "Service fee"} value={fmt(calc.serviceFee)} />
               </div>
               <div className="mt-6 pt-6 border-t border-cream/20">
                 <div className="flex items-baseline justify-between">
