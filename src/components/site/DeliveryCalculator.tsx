@@ -7,8 +7,8 @@ import { Mail, Phone, MessageSquare } from "lucide-react";
 const FRAGILE_PCT = 0.15;
 
 // Tarifa base por pulgada cúbica para guacales personalizados
-// Referencia: 72×48×36 in ≈ $580
-const CRATE_RATE_PER_CUIN = 580 / (72 * 48 * 36);
+// Referencia: 60×50×5 in (15.000 in³) = $477 → escala lineal por volumen
+const CRATE_RATE_PER_CUIN = 477 / (60 * 50 * 5);
 const MIN_CRATE_PRICE = 80;
 
 const EMAIL = "hola@ateliertrasiego.com";
