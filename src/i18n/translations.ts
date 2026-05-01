@@ -50,10 +50,10 @@ export const t = {
       },
       {
         tag: { es: "03 — Pedestales", en: "03 — Pedestals" },
-        title: { es: "Pedestales y restauración", en: "Pedestals & restoration" },
+        title: { es: "Pedestales", en: "Pedestals" },
         body: {
-          es: "Fabricación de pedestales museísticos y restauración fina de piezas existentes.",
-          en: "Museum-grade pedestal fabrication and fine restoration of existing pieces.",
+          es: "Fabricación de pedestales museísticos a medida, con acabados finos y precisión museística.",
+          en: "Museum-grade custom pedestal fabrication with fine finishes and museum precision.",
         },
       },
     ],
