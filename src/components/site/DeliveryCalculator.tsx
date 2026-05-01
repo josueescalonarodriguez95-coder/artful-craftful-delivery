@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Switch } from "@/components/ui/switch";
-import { Mail, Phone, MessageSquare } from "lucide-react";
 
 const FRAGILE_PCT = 0.15;
 
@@ -10,14 +9,6 @@ const FRAGILE_PCT = 0.15;
 // Referencia: 60×50×5 in (15.000 in³) = $477 → escala lineal por volumen
 const CRATE_RATE_PER_CUIN = 477 / (60 * 50 * 5);
 const MIN_CRATE_PRICE = 80;
-
-const EMAIL = "hola@ateliertrasiego.com";
-const PHONE_DISPLAY = "+1 (809) 555-1234";
-const PHONE_TEL = "+18095551234";
-const SMS_BODY = {
-  es: "Hola, quiero cotizar un guacal a medida. Quiero enviar:",
-  en: "Hi, I'd like to quote a custom crate. I want to ship:",
-};
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
