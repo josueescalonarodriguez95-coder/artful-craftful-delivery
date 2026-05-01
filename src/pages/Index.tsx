@@ -6,6 +6,7 @@ import { Marquee } from "@/components/site/Marquee";
 import { Services } from "@/components/site/Services";
 import { DeliveryCalculator } from "@/components/site/DeliveryCalculator";
 import { PedestalEstimator } from "@/components/site/PedestalEstimator";
+import { ShippingOptions } from "@/components/site/ShippingOptions";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 
