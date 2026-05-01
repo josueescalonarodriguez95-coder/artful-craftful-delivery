@@ -30,7 +30,7 @@ export const Nav = () => {
       <div className="container flex items-center justify-between h-16 md:h-20">
         <a href="#top" className="flex items-baseline gap-2 group">
           <span className="font-display text-xl md:text-2xl tracking-tight text-ink">
-            Atelier<span className="text-clay">·</span>Trasiego
+            Ramos<span className="text-clay">·</span>Delivery<span className="text-ink/50"> Enterprise</span>
           </span>
         </a>
 
