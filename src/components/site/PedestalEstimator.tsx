@@ -57,16 +57,17 @@ export const PedestalEstimator = () => {
 
   const calc = useMemo(() => {
     const volume = h * w * d; // cubic inches
-    const base = SERVICE_BASE[service];
-    const matRate = MATERIAL[material].rate * (service === "restore" ? RESTORE_DISCOUNT : 1);
-    const materialCost = volume * matRate;
-    const finishCost = (base + materialCost) * FINISH[finish].mult;
-    const subtotal = base + materialCost + finishCost;
-    const rushCost = urgency === "rush" ? subtotal * 0.25 : 0;
-    const perUnit = subtotal + rushCost;
-    const serviceFee = 150;
-    const total = perUnit * qty + serviceFee;
-    return { volume, base, materialCost, finishCost, rushCost, perUnit, serviceFee, total };
+    // Reference: 36x14x14 = 7,056 in³ → $1,200  →  ~$0.17 per in³
+    const PRICE_PER_CUIN = 1200 / (36 * 14 * 14);
+    let perUnit = volume * PRICE_PER_CUIN;
+    // Black marble surcharge (extra labor)
+    if (material === "marble" && finish === "black") {
+      perUnit += 50;
+    }
+    if (service === "restore") perUnit *= RESTORE_DISCOUNT + 0.2; // restore costs less
+    if (urgency === "rush") perUnit *= 1.25;
+    const total = perUnit * qty;
+    return { volume, perUnit, total };
   }, [service, h, w, d, material, finish, qty, urgency]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
