@@ -7,7 +7,7 @@ export const Footer = () => {
     <footer className="bg-cream border-t border-border">
       <div className="container py-10 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="font-display text-lg text-ink">
-          Atelier<span className="text-clay">·</span>Trasiego
+          Ramos<span className="text-clay">·</span>Delivery<span className="text-ink/50"> Enterprise</span>
         </div>
         <p className="text-sm text-ink/55 italic font-display">{t.footer.tag[lang]}</p>
         <div className="text-xs text-ink/50">

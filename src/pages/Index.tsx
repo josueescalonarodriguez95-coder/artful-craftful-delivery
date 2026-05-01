@@ -13,8 +13,8 @@ const SEO = () => {
   const { lang } = useLang();
   useEffect(() => {
     document.title = lang === "es"
-      ? "Atelier Trasiego — Fine Art Delivery, Guacales y Pedestales"
-      : "Atelier Trasiego — Fine Art Delivery, Crates & Pedestals";
+      ? "Ramos Delivery Enterprise — Fine Art Delivery, Guacales y Pedestales"
+      : "Ramos Delivery Enterprise — Fine Art Delivery, Crates & Pedestals";
 
     const desc = lang === "es"
       ? "Servicio especializado de fine art delivery, fabricación de guacales a medida y restauración de pedestales museísticos."
