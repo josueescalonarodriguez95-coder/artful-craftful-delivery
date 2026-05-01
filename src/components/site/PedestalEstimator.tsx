@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { t } from "@/i18n/translations";
 import { useReveal } from "@/hooks/useReveal";
@@ -183,19 +183,42 @@ const Choice = ({ active, onClick, children }: { active: boolean; onClick: () =>
   </button>
 );
 
-const Dim = ({ label, value, onChange }: { label: string; value: number; onChange: (n: number) => void }) => (
-  <div>
-    <div className="text-[11px] uppercase tracking-wider text-ink/50 mb-1.5">{label}</div>
-    <Input
-      type="number"
-      value={value}
-      min={1}
-      max={120}
-      onChange={(e) => onChange(Math.max(1, Math.min(120, Number(e.target.value) || 1)))}
-      className="bg-background border-border focus-visible:ring-clay font-display text-xl h-12"
-    />
-  </div>
-);
+const Dim = ({ label, value, onChange }: { label: string; value: number; onChange: (n: number) => void }) => {
+  const [text, setText] = useState(String(value));
+
+  // Keep local text in sync if parent value changes externally
+  useEffect(() => {
+    setText((prev) => (Number(prev) === value ? prev : String(value)));
+  }, [value]);
+
+  return (
+    <div>
+      <div className="text-[11px] uppercase tracking-wider text-ink/50 mb-1.5">{label}</div>
+      <Input
+        type="number"
+        inputMode="numeric"
+        value={text}
+        min={1}
+        max={120}
+        onChange={(e) => {
+          const v = e.target.value;
+          setText(v);
+          const n = Number(v);
+          if (v !== "" && !Number.isNaN(n) && n >= 1 && n <= 120) {
+            onChange(n);
+          }
+        }}
+        onBlur={() => {
+          const n = Math.max(1, Math.min(120, Number(text) || 1));
+          setText(String(n));
+          onChange(n);
+        }}
+        onFocus={(e) => e.target.select()}
+        className="bg-background border-border focus-visible:ring-clay font-display text-xl h-12"
+      />
+    </div>
+  );
+};
 
 const Row = ({ label, value }: { label: string; value: string }) => (
   <div className="flex items-baseline justify-between gap-4">
