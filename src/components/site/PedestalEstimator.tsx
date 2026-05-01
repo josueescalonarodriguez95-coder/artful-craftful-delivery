@@ -116,7 +116,7 @@ export const PedestalEstimator = () => {
               {/* Finish */}
               <Field label={t.pedestal.finish[lang]}>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {(Object.keys(FINISH) as Finish[]).map((f) => (
+                  {availableFinishes.map((f) => (
                     <Choice key={f} active={finish === f} onClick={() => setFinish(f)}>
                       {FINISH[f][lang]}
                     </Choice>
