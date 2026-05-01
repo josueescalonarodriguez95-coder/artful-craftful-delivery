@@ -17,12 +17,27 @@ const ZONES: Record<ZoneKey, { es: string; en: string; base: number; included: n
 const PIECE_FEE = 18;
 const FRAGILE_PCT = 0.15;
 
+// Tamaños predefinidos de guacales (in)
+type CrateKey = "S" | "M" | "L" | "XL" | "CUSTOM";
+const CRATES: Record<CrateKey, { es: string; en: string; h: number; w: number; d: number; fee: number }> = {
+  S:      { es: "Pequeño · 24×18×12 in",   en: "Small · 24×18×12 in",    h: 24, w: 18, d: 12, fee: 120 },
+  M:      { es: "Mediano · 36×24×18 in",   en: "Medium · 36×24×18 in",   h: 36, w: 24, d: 18, fee: 220 },
+  L:      { es: "Grande · 48×36×24 in",    en: "Large · 48×36×24 in",    h: 48, w: 36, d: 24, fee: 360 },
+  XL:     { es: "Extra grande · 72×48×36 in", en: "Extra large · 72×48×36 in", h: 72, w: 48, d: 36, fee: 580 },
+  CUSTOM: { es: "Medida personalizada",    en: "Custom size",            h: 0,  w: 0,  d: 0,  fee: 0 },
+};
+const CRATE_RATE_PER_CUIN = 580 / (72 * 48 * 36); // escala con la talla XL como referencia
+
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
   const [zone, setZone] = useState<ZoneKey>("A");
   const [miles, setMiles] = useState(8);
   const [pieces, setPieces] = useState(1);
   const [fragile, setFragile] = useState(false);
+  const [crate, setCrate] = useState<CrateKey>("M");
+  const [customH, setCustomH] = useState(36);
+  const [customW, setCustomW] = useState(24);
+  const [customD, setCustomD] = useState(18);
   const ref = useReveal<HTMLDivElement>();
 
   const calc = useMemo(() => {
@@ -31,11 +46,17 @@ export const DeliveryCalculator = () => {
     const extraMiles = Math.max(0, miles - z.included);
     const extraMilesCost = extraMiles * z.perMile;
     const extraPiecesCost = Math.max(0, pieces - 1) * PIECE_FEE;
-    const subtotal = base + extraMilesCost + extraPiecesCost;
+    const crateDef = CRATES[crate];
+    const crateUnitCost =
+      crate === "CUSTOM"
+        ? Math.max(80, customH * customW * customD * CRATE_RATE_PER_CUIN)
+        : crateDef.fee;
+    const crateCost = crateUnitCost * pieces;
+    const subtotal = base + extraMilesCost + extraPiecesCost + crateCost;
     const fragileFee = fragile ? subtotal * FRAGILE_PCT : 0;
     const total = subtotal + fragileFee;
-    return { base, extraMiles, extraMilesCost, extraPiecesCost, fragileFee, total };
-  }, [zone, miles, pieces, fragile]);
+    return { base, extraMiles, extraMilesCost, extraPiecesCost, crateCost, fragileFee, total };
+  }, [zone, miles, pieces, fragile, crate, customH, customW, customD]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
 
