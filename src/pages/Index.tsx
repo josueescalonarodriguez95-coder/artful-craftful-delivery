@@ -47,6 +47,7 @@ const Index = () => {
           <DeliveryCalculator />
           <PedestalEstimator />
           <Contact />
+          <ShippingOptions />
         </main>
         <Footer />
       </div>
