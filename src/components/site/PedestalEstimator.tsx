@@ -13,8 +13,8 @@ type AcrylicThickness = "1/4" | "1/2" | "1";
 
 const ACRYLIC_THICKNESS: Record<AcrylicThickness, { es: string; en: string; mult: number }> = {
   "1/4": { es: '1/4 de pulgada', en: '1/4 inch', mult: 1 },
-  "1/2": { es: '1/2 pulgada', en: '1/2 inch', mult: 1.25 },
-  "1": { es: '1 pulgada', en: '1 inch', mult: 1.6 },
+  "1/2": { es: '1/2 pulgada', en: '1/2 inch', mult: 1500 / 700 / 2 + 0.5 / 2 }, // ~1.57, promedio entre 1/4" y 1"
+  "1": { es: '1 pulgada', en: '1 inch', mult: 1500 / 700 }, // ~2.143 → 36x14x14 = $1500
 };
 
 const MATERIAL: Record<Material, { es: string; en: string; rate: number }> = {
