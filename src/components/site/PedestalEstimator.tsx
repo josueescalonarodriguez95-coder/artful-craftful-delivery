@@ -11,11 +11,18 @@ type Finish = "raw" | "paint" | "lacquer" | "white" | "black" | "clear";
 type Urgency = "standard" | "rush";
 type AcrylicThickness = "1/4" | "1/2" | "1";
 type LacquerColor = "black" | "white" | "gold";
+type PaintColor = "white" | "black" | "gray";
 
 const LACQUER_COLOR: Record<LacquerColor, { es: string; en: string }> = {
   black: { es: "Negro", en: "Black" },
   white: { es: "Blanco", en: "White" },
   gold: { es: "Dorado", en: "Gold" },
+};
+
+const PAINT_COLOR: Record<PaintColor, { es: string; en: string }> = {
+  white: { es: "Blanca", en: "White" },
+  black: { es: "Negra", en: "Black" },
+  gray: { es: "Gris", en: "Gray" },
 };
 
 const ACRYLIC_THICKNESS: Record<AcrylicThickness, { es: string; en: string; mult: number }> = {
