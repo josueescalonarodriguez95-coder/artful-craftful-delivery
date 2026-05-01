@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
 type Material = "plywood" | "acrylic" | "marble";
-type Finish = "raw" | "paint" | "lacquer" | "veneer" | "white" | "black" | "clear";
+type Finish = "raw" | "paint" | "lacquer" | "white" | "black" | "clear";
 type Urgency = "standard" | "rush";
 type AcrylicThickness = "1/4" | "1/2" | "1";
 
