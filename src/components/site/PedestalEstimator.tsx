@@ -61,6 +61,7 @@ export const PedestalEstimator = () => {
   const [finish, setFinish] = useState<Finish>("paint");
   const [acrylicThickness, setAcrylicThickness] = useState<AcrylicThickness>("1/4");
   const [lacquerColor, setLacquerColor] = useState<LacquerColor>("black");
+  const [paintColor, setPaintColor] = useState<PaintColor>("white");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
   const ref = useReveal<HTMLDivElement>();
