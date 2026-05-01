@@ -137,6 +137,55 @@ export const DeliveryCalculator = () => {
                 </div>
               </div>
 
+              {/* Crate size selector */}
+              <div>
+                <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
+                  {lang === "es" ? "Tamaño del guacal" : "Crate size"}
+                </label>
+                <div className="mt-3 grid sm:grid-cols-2 gap-2">
+                  {(Object.keys(CRATES) as CrateKey[]).map((k) => (
+                    <button
+                      key={k}
+                      onClick={() => setCrate(k)}
+                      className={`text-left px-4 py-3 rounded border transition-all duration-300 ${
+                        crate === k
+                          ? "border-ink bg-ink text-cream shadow-soft"
+                          : "border-border bg-background hover:border-ink/40"
+                      }`}
+                    >
+                      <div className="text-sm font-medium">{CRATES[k][lang]}</div>
+                      {k !== "CUSTOM" && (
+                        <div className={`text-xs mt-0.5 ${crate === k ? "text-cream/70" : "text-ink/55"}`}>
+                          {fmt(CRATES[k].fee)} {lang === "es" ? "por guacal" : "per crate"}
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+
+                {crate === "CUSTOM" && (
+                  <div className="mt-4 grid grid-cols-3 gap-3">
+                    {[
+                      { label: lang === "es" ? "Alto (in)" : "Height (in)", value: customH, set: setCustomH },
+                      { label: lang === "es" ? "Ancho (in)" : "Width (in)", value: customW, set: setCustomW },
+                      { label: lang === "es" ? "Profundidad (in)" : "Depth (in)", value: customD, set: setCustomD },
+                    ].map((f, i) => (
+                      <div key={i}>
+                        <label className="text-[10px] uppercase tracking-[0.18em] text-ink/55 font-medium">{f.label}</label>
+                        <input
+                          type="number"
+                          min={1}
+                          max={200}
+                          value={f.value}
+                          onChange={(e) => f.set(Math.max(1, Number(e.target.value) || 1))}
+                          className="mt-1 w-full px-3 py-2 rounded border border-border bg-background text-ink text-sm focus:outline-none focus:border-ink"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               {/* Fragile toggle */}
               <div className="flex items-center justify-between p-4 bg-secondary/50 rounded">
                 <span className="text-sm text-ink">{t.delivery.fragile[lang]}</span>
