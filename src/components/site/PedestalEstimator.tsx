@@ -166,6 +166,42 @@ export const PedestalEstimator = () => {
               <div className="mt-6 space-y-3 text-sm">
                 <Row label={`${t.pedestal.volume[lang]} (${h}×${w}×${d})`} value={`${calc.volume.toLocaleString()} in³`} />
               </div>
+
+              {/* Resumen de selecciones */}
+              <div className="mt-6 pt-6 border-t border-cream/20">
+                <div className="text-xs uppercase tracking-[0.2em] text-cream/70 font-medium mb-3">
+                  {lang === "es" ? "Resumen de tu selección" : "Your selection summary"}
+                </div>
+                <ul className="space-y-2 text-sm text-cream/90">
+                  <li className="flex justify-between gap-4">
+                    <span className="text-cream/70">{lang === "es" ? "Dimensiones" : "Dimensions"}</span>
+                    <span className="tabular-nums">{h}×{w}×{d} in</span>
+                  </li>
+                  <li className="flex justify-between gap-4">
+                    <span className="text-cream/70">{t.pedestal.material[lang]}</span>
+                    <span>{MATERIAL[material][lang]}</span>
+                  </li>
+                  <li className="flex justify-between gap-4">
+                    <span className="text-cream/70">{t.pedestal.finish[lang]}</span>
+                    <span>{FINISH[finish][lang]}</span>
+                  </li>
+                  {material === "acrylic" && (
+                    <li className="flex justify-between gap-4">
+                      <span className="text-cream/70">{lang === "es" ? "Grosor" : "Thickness"}</span>
+                      <span>{ACRYLIC_THICKNESS[acrylicThickness][lang]}</span>
+                    </li>
+                  )}
+                  <li className="flex justify-between gap-4">
+                    <span className="text-cream/70">{t.pedestal.qty[lang]}</span>
+                    <span className="tabular-nums">{qty}</span>
+                  </li>
+                  <li className="flex justify-between gap-4">
+                    <span className="text-cream/70">{t.pedestal.urgency[lang]}</span>
+                    <span>{urgency === "standard" ? t.pedestal.standard[lang] : t.pedestal.rush[lang]}</span>
+                  </li>
+                </ul>
+              </div>
+
               <div className="mt-6 pt-6 border-t border-cream/20">
                 <div className="flex items-baseline justify-between">
                   <span className="text-xs uppercase tracking-[0.2em] text-cream/70">Total · {qty}u</span>
