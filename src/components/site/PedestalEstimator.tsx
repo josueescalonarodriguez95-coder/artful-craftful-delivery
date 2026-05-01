@@ -69,11 +69,14 @@ export const PedestalEstimator = () => {
     if (material === "marble" && finish === "black") {
       perUnit += 50;
     }
-    if (service === "restore") perUnit *= RESTORE_DISCOUNT + 0.2; // restore costs less
+    // Acrylic thickness multiplier
+    if (material === "acrylic") {
+      perUnit *= ACRYLIC_THICKNESS[acrylicThickness].mult;
+    }
     if (urgency === "rush") perUnit *= 1.25;
     const total = perUnit * qty;
     return { volume, perUnit, total };
-  }, [service, h, w, d, material, finish, qty, urgency]);
+  }, [h, w, d, material, finish, acrylicThickness, qty, urgency]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
 
