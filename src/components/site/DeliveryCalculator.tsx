@@ -21,28 +21,34 @@ const SMS_BODY = {
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
-  const [height, setHeight] = useState(36);
-  const [width, setWidth] = useState(24);
-  const [depth, setDepth] = useState(18);
+  const [height, setHeight] = useState<string>("");
+  const [width, setWidth] = useState<string>("");
+  const [depth, setDepth] = useState<string>("");
   const [qty, setQty] = useState(1);
   const [fragile, setFragile] = useState(false);
   const ref = useReveal<HTMLDivElement>();
 
+  const hNum = Number(height) || 0;
+  const wNum = Number(width) || 0;
+  const dNum = Number(depth) || 0;
+  const hasDims = hNum > 0 && wNum > 0 && dNum > 0;
+
   const calc = useMemo(() => {
-    const volume = height * width * depth;
-    const unit = Math.max(MIN_CRATE_PRICE, volume * CRATE_RATE_PER_CUIN);
+    const volume = hNum * wNum * dNum;
+    const unit = hasDims ? Math.max(MIN_CRATE_PRICE, volume * CRATE_RATE_PER_CUIN) : 0;
     const subtotal = unit * qty;
     const fragileFee = fragile ? subtotal * FRAGILE_PCT : 0;
     const total = subtotal + fragileFee;
     return { volume, unit, subtotal, fragileFee, total };
-  }, [height, width, depth, qty, fragile]);
+  }, [hNum, wNum, dNum, hasDims, qty, fragile]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
 
+  const dimsText = hasDims ? `${hNum}×${wNum}×${dNum} in` : (lang === "es" ? "medidas a definir" : "dimensions TBD");
   const summary =
     lang === "es"
-      ? `${SMS_BODY.es} guacal ${height}×${width}×${depth} in, cantidad ${qty}${fragile ? ", manejo extra-frágil" : ""}.`
-      : `${SMS_BODY.en} crate ${height}×${width}×${depth} in, quantity ${qty}${fragile ? ", extra-fragile handling" : ""}.`;
+      ? `${SMS_BODY.es} guacal ${dimsText}, cantidad ${qty}${fragile ? ", manejo extra-frágil" : ""}.`
+      : `${SMS_BODY.en} crate ${dimsText}, quantity ${qty}${fragile ? ", extra-fragile handling" : ""}.`;
 
   return (
     <section id="delivery" className="relative py-24 md:py-36 bg-gradient-warm overflow-hidden grain">
@@ -84,8 +90,9 @@ export const DeliveryCalculator = () => {
                         type="number"
                         min={1}
                         max={200}
+                        placeholder="—"
                         value={f.value}
-                        onChange={(e) => f.set(Math.max(1, Math.min(200, Number(e.target.value) || 1)))}
+                        onChange={(e) => f.set(e.target.value)}
                         className="mt-1 w-full px-3 py-2 rounded border border-border bg-background text-ink text-sm focus:outline-none focus:border-ink"
                       />
                     </div>
