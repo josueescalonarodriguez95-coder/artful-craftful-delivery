@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 type Service = "new" | "restore";
 type Material = "plywood" | "acrylic" | "marble";
-type Finish = "raw" | "paint" | "lacquer" | "veneer" | "white" | "black";
+type Finish = "raw" | "paint" | "lacquer" | "veneer" | "white" | "black" | "clear";
 type Urgency = "standard" | "rush";
 
 const MATERIAL: Record<Material, { es: string; en: string; rate: number }> = {
@@ -24,9 +24,11 @@ const FINISH: Record<Finish, { es: string; en: string; mult: number }> = {
   veneer: { es: "Chapilla", en: "Veneer", mult: 0.55 },
   white: { es: "Blanco", en: "White", mult: 0.2 },
   black: { es: "Negro", en: "Black", mult: 0.2 },
+  clear: { es: "Transparente", en: "Clear", mult: 0.15 },
 };
 
 const MARBLE_FINISHES: Finish[] = ["white", "black"];
+const ACRYLIC_FINISHES: Finish[] = ["clear", "black", "white"];
 const DEFAULT_FINISHES: Finish[] = ["raw", "paint", "lacquer", "veneer"];
 
 const SERVICE_BASE = { new: 120, restore: 95 };
@@ -44,7 +46,8 @@ export const PedestalEstimator = () => {
   const [urgency, setUrgency] = useState<Urgency>("standard");
   const ref = useReveal<HTMLDivElement>();
 
-  const availableFinishes = material === "marble" ? MARBLE_FINISHES : DEFAULT_FINISHES;
+  const availableFinishes =
+    material === "marble" ? MARBLE_FINISHES : material === "acrylic" ? ACRYLIC_FINISHES : DEFAULT_FINISHES;
 
   useEffect(() => {
     if (!availableFinishes.includes(finish)) {
