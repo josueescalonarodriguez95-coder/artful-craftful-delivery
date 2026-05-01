@@ -62,14 +62,16 @@ export const PedestalEstimator = () => {
 
   const calc = useMemo(() => {
     const volume = h * w * d; // cubic inches
-    // Reference: 36x14x14 = 7,056 in³ → $1,200  →  ~$0.17 per in³
-    const PRICE_PER_CUIN = 1200 / (36 * 14 * 14);
+    const REF_VOLUME = 36 * 14 * 14; // 7,056 in³
+    // Acrylic reference: 36x14x14 @ 1/4" = $700  →  ~$0.0992 per in³
+    // Other materials reference: 36x14x14 = $1,200  →  ~$0.17 per in³
+    const PRICE_PER_CUIN = material === "acrylic" ? 700 / REF_VOLUME : 1200 / REF_VOLUME;
     let perUnit = volume * PRICE_PER_CUIN;
     // Black marble surcharge (extra labor)
     if (material === "marble" && finish === "black") {
       perUnit += 50;
     }
-    // Acrylic thickness multiplier
+    // Acrylic thickness multiplier (1/4" is the base price)
     if (material === "acrylic") {
       perUnit *= ACRYLIC_THICKNESS[acrylicThickness].mult;
     }
