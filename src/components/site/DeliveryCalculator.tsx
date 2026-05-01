@@ -7,12 +7,10 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
-type ZoneKey = "A" | "B" | "C" | "D";
+type ZoneKey = "A" | "D";
 
 const ZONES: Record<ZoneKey, { es: string; en: string; base: number; included: number; perMile: number }> = {
   A: { es: "Zona A · Local (0–10 mi)", en: "Zone A · Local (0–10 mi)", base: 45, included: 10, perMile: 2.5 },
-  B: { es: "Zona B · Metro (10–25 mi)", en: "Zone B · Metro (10–25 mi)", base: 85, included: 25, perMile: 2.25 },
-  C: { es: "Zona C · Regional (25–75 mi)", en: "Zone C · Regional (25–75 mi)", base: 165, included: 75, perMile: 1.95 },
   D: { es: "Zona D · Larga distancia (75+ mi)", en: "Zone D · Long haul (75+ mi)", base: 295, included: 150, perMile: 1.65 },
 };
 
