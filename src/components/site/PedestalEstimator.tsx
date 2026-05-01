@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { t } from "@/i18n/translations";
 import { useReveal } from "@/hooks/useReveal";
@@ -187,7 +187,7 @@ const Dim = ({ label, value, onChange }: { label: string; value: number; onChang
   const [text, setText] = useState(String(value));
 
   // Keep local text in sync if parent value changes externally
-  React.useEffect(() => {
+  useEffect(() => {
     setText((prev) => (Number(prev) === value ? prev : String(value)));
   }, [value]);
 
