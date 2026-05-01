@@ -203,7 +203,7 @@ export const PedestalEstimator = () => {
                   </li>
                   <li className="flex justify-between gap-4">
                     <span className="text-cream/70">{t.pedestal.finish[lang]}</span>
-                    <span>{FINISH[finish][lang]}</span>
+                    <span>{FINISH[finish][lang]}{finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : ""}</span>
                   </li>
                   {material === "acrylic" && (
                     <li className="flex justify-between gap-4">
