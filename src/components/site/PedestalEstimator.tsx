@@ -46,7 +46,8 @@ export const PedestalEstimator = () => {
   const [urgency, setUrgency] = useState<Urgency>("standard");
   const ref = useReveal<HTMLDivElement>();
 
-  const availableFinishes = material === "marble" ? MARBLE_FINISHES : DEFAULT_FINISHES;
+  const availableFinishes =
+    material === "marble" ? MARBLE_FINISHES : material === "acrylic" ? ACRYLIC_FINISHES : DEFAULT_FINISHES;
 
   useEffect(() => {
     if (!availableFinishes.includes(finish)) {
