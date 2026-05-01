@@ -1,16 +1,56 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useEffect } from "react";
+import { LangProvider, useLang } from "@/components/site/LangContext";
+import { Nav } from "@/components/site/Nav";
+import { Hero } from "@/components/site/Hero";
+import { Marquee } from "@/components/site/Marquee";
+import { Services } from "@/components/site/Services";
+import { DeliveryCalculator } from "@/components/site/DeliveryCalculator";
+import { PedestalEstimator } from "@/components/site/PedestalEstimator";
+import { Contact } from "@/components/site/Contact";
+import { Footer } from "@/components/site/Footer";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
-  return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
-  );
+const SEO = () => {
+  const { lang } = useLang();
+  useEffect(() => {
+    document.title = lang === "es"
+      ? "Atelier Trasiego — Fine Art Delivery, Guacales y Pedestales"
+      : "Atelier Trasiego — Fine Art Delivery, Crates & Pedestals";
+
+    const desc = lang === "es"
+      ? "Servicio especializado de fine art delivery, fabricación de guacales a medida y restauración de pedestales museísticos."
+      : "Specialized fine art delivery, custom crate fabrication and museum-grade pedestal restoration.";
+
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.setAttribute("name", "description");
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute("content", desc);
+
+    document.documentElement.lang = lang;
+  }, [lang]);
+  return null;
 };
 
-const Index = PlaceholderIndex;
+const Index = () => {
+  return (
+    <LangProvider>
+      <SEO />
+      <div className="min-h-screen bg-cream text-ink">
+        <Nav />
+        <main>
+          <Hero />
+          <Marquee />
+          <Services />
+          <DeliveryCalculator />
+          <PedestalEstimator />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </LangProvider>
+  );
+};
 
 export default Index;
