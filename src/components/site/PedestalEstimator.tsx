@@ -49,8 +49,9 @@ export const PedestalEstimator = () => {
     const subtotal = base + materialCost + finishCost;
     const rushCost = urgency === "rush" ? subtotal * 0.25 : 0;
     const perUnit = subtotal + rushCost;
-    const total = perUnit * qty;
-    return { volume, base, materialCost, finishCost, rushCost, perUnit, total };
+    const serviceFee = 150;
+    const total = perUnit * qty + serviceFee;
+    return { volume, base, materialCost, finishCost, rushCost, perUnit, serviceFee, total };
   }, [service, h, w, d, material, finish, qty, urgency]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
@@ -140,6 +141,7 @@ export const PedestalEstimator = () => {
                 <Row label={t.pedestal.materialCost[lang]} value={fmt(calc.materialCost)} />
                 <Row label={t.pedestal.finishCost[lang]} value={fmt(calc.finishCost)} />
                 {urgency === "rush" && <Row label={t.pedestal.rushCost[lang]} value={fmt(calc.rushCost)} />}
+                <Row label={lang === "es" ? "Cargo de servicio" : "Service fee"} value={fmt(calc.serviceFee)} />
               </div>
               <div className="mt-6 pt-6 border-t border-cream/20">
                 <div className="flex items-baseline justify-between">
