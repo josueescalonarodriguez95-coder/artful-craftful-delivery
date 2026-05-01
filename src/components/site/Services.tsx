@@ -32,16 +32,33 @@ export const Services = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-          {cards.map((c, i) => {
-            const cardRef = useReveal<HTMLAnchorElement>();
-            return (
-              <a
+          {cards.map((c, i) => (
+              <ServiceCard
                 key={i}
-                ref={cardRef}
                 href={i === 0 ? "#delivery" : "#pedestals"}
-                className="reveal group block bg-card rounded-md overflow-hidden shadow-soft hover:shadow-elegant transition-all duration-700"
-                style={{ transitionDelay: `${i * 120}ms` }}
-              >
+                delay={i * 120}
+                image={c.img}
+                tag={c.tag[lang]}
+                title={c.title[lang]}
+                body={c.body[lang]}
+                more={lang === "es" ? "Ver más" : "Learn more"}
+              />
+            ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ServiceCard = ({ href, delay, image, tag, title, body, more }: { href: string; delay: number; image: string; tag: string; title: string; body: string; more: string }) => {
+  const ref = useReveal<HTMLAnchorElement>();
+  return (
+    <a
+      ref={ref}
+      href={href}
+      className="reveal group block bg-card rounded-md overflow-hidden shadow-soft hover:shadow-elegant transition-all duration-700"
+      style={{ transitionDelay: `${delay}ms` }}
+    >
                 <div className="aspect-[4/5] overflow-hidden bg-secondary">
                   <img
                     src={c.img}
