@@ -218,5 +218,3 @@ export const Nav = () => {
     </header>
   );
 };
-  );
-};
