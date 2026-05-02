@@ -172,23 +172,54 @@ export const PedestalEstimator = () => {
           {/* Pedestal preview */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24">
             <div className="bg-secondary/40 rounded-md border border-border/60 overflow-hidden">
-              <div className="aspect-[3/4] bg-cream relative">
-                <img
-                  key={`${material}-${shape}`}
-                  src={previewImage}
-                  alt={`${MATERIAL[material][lang]} ${lang === "es" ? "pedestal" : "pedestal"} ${shape}`}
-                  loading="lazy"
-                  width={768}
-                  height={1024}
-                  className="w-full h-full object-cover animate-fade-in"
-                />
-              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label={lang === "es" ? "Ampliar vista previa" : "Zoom preview"}
+                    className="group relative block w-full aspect-square bg-cream overflow-hidden cursor-zoom-in"
+                  >
+                    <img
+                      key={previewKey}
+                      src={previewImage}
+                      alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                      loading="lazy"
+                      width={1024}
+                      height={1024}
+                      className="w-full h-full object-cover animate-fade-in transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                    <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-ink/80 text-cream text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ZoomIn className="h-3 w-3" />
+                      {lang === "es" ? "Ampliar" : "Zoom"}
+                    </span>
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl p-0 bg-cream border-border/60">
+                  <DialogTitle className="sr-only">
+                    {`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                  </DialogTitle>
+                  <DialogDescription className="sr-only">
+                    {lang === "es" ? "Vista previa ampliada del pedestal" : "Enlarged pedestal preview"}
+                  </DialogDescription>
+                  <img
+                    src={previewImage}
+                    alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                    width={1024}
+                    height={1024}
+                    className="w-full h-auto object-contain rounded-md"
+                  />
+                </DialogContent>
+              </Dialog>
               <div className="p-4 border-t border-border/60">
                 <div className="text-[11px] uppercase tracking-[0.2em] text-ink/50 mb-1">
                   {lang === "es" ? "Vista previa" : "Preview"}
                 </div>
                 <div className="font-display text-xl text-ink leading-tight">
                   {MATERIAL[material][lang]}
+                </div>
+                <div className="text-xs text-ink/60 mt-1">
+                  {FINISH[finish][lang]}
+                  {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
                 </div>
                 <div className="text-xs text-ink/60 mt-1 tabular-nums">
                   {h || "—"}×{w || "—"}×{d || "—"} in
