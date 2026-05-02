@@ -150,8 +150,36 @@ export const PedestalEstimator = () => {
           <p className="mt-5 text-ink/70 max-w-lg">{t.pedestal.sub[lang]}</p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-6 lg:gap-10 items-start">
-          <div className="lg:col-span-3 bg-secondary/40 rounded-md p-6 md:p-10 border border-border/60">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* Pedestal preview */}
+          <aside className="lg:col-span-4 lg:sticky lg:top-24">
+            <div className="bg-secondary/40 rounded-md border border-border/60 overflow-hidden">
+              <div className="aspect-[3/4] bg-cream relative">
+                <img
+                  key={`${material}-${shape}`}
+                  src={previewImage}
+                  alt={`${MATERIAL[material][lang]} ${lang === "es" ? "pedestal" : "pedestal"} ${shape}`}
+                  loading="lazy"
+                  width={768}
+                  height={1024}
+                  className="w-full h-full object-cover animate-fade-in"
+                />
+              </div>
+              <div className="p-4 border-t border-border/60">
+                <div className="text-[11px] uppercase tracking-[0.2em] text-ink/50 mb-1">
+                  {lang === "es" ? "Vista previa" : "Preview"}
+                </div>
+                <div className="font-display text-xl text-ink leading-tight">
+                  {MATERIAL[material][lang]}
+                </div>
+                <div className="text-xs text-ink/60 mt-1 tabular-nums">
+                  {h || "—"}×{w || "—"}×{d || "—"} in
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div className="lg:col-span-5 bg-secondary/40 rounded-md p-6 md:p-10 border border-border/60">
             <div className="space-y-8">
               {/* Dimensions */}
               <Field label={lang === "es" ? "Dimensiones (pulgadas)" : "Dimensions (inches)"}>
