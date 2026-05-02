@@ -139,7 +139,7 @@ export const Nav = () => {
                     <Instagram className="h-4 w-4" />
                   </a>
                   <a
-                    href="https://www.facebook.com/RamosDeliveryEnterprise"
+                    href="https://www.facebook.com/share/1P9s1y3cDh/?mibextid=wwXIfr"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook"
