@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useLang } from "./LangContext";
-import { supabase } from "@/integrations/supabase/client";
+
 import {
   Phone,
   MessageCircle,
