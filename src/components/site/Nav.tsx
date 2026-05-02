@@ -10,8 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import logoEmpire from "@/assets/logo-empire.png";
-import logoRamos from "@/assets/logo-ramos.png";
+import logoRamos from "@/assets/logo-ramos-clean.png";
 
 export const Nav = () => {
   const { lang, setLang } = useLang();
@@ -91,16 +90,11 @@ export const Nav = () => {
               </button>
             </SheetTrigger>
             <SheetContent side="right" className="bg-cream border-l border-border overflow-hidden">
-              <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
-                <img
-                  src={logoEmpire}
-                  alt=""
-                  className="absolute -top-10 -right-10 w-72 opacity-[0.06] grayscale"
-                />
+              <div aria-hidden className="pointer-events-none absolute inset-0 -z-0 flex items-center justify-center overflow-hidden">
                 <img
                   src={logoRamos}
                   alt=""
-                  className="absolute bottom-0 -left-16 w-80 opacity-[0.06] grayscale"
+                  className="w-full h-auto opacity-[0.08] object-contain"
                 />
               </div>
               <div className="relative z-10">
