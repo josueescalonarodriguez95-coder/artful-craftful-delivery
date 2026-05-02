@@ -63,9 +63,9 @@ export const DeliveryCalculator = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
+        <div className="grid lg:grid-cols-2 gap-4 lg:gap-5 items-stretch">
           {/* Controls */}
-          <div className="bg-card rounded-md p-6 md:p-10 pb-10 md:pb-14 shadow-soft border border-border/60 lg:min-h-[640px] flex flex-col">
+          <div className="bg-card rounded-md p-6 md:p-10 pb-10 md:pb-14 shadow-soft border border-border/60 h-full flex flex-col">
             <div className="space-y-8 flex-1">
               {/* Custom dimensions */}
               <div>
