@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useLang } from "./LangContext";
@@ -12,22 +12,37 @@ import img7 from "@/assets/crate-gallery-7.jpg";
 
 const images = [img1, img2, img3, img4, img5, img6, img7];
 const VISIBLE = 3;
+const THUMB = 112; // px (w-28)
+const GAP = 12; // gap-3
+const STEP = THUMB + GAP;
 
 export const CrateGallery = () => {
   const { lang } = useLang();
-  const [start, setStart] = useState(0);
+  const [index, setIndex] = useState(0);
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  const pausedRef = useRef(false);
 
   useEffect(() => {
-    if (openIdx !== null) return;
-    const id = setInterval(() => setStart((s) => (s + 1) % images.length), 3000);
-    return () => clearInterval(id);
+    pausedRef.current = openIdx !== null;
   }, [openIdx]);
 
-  const next = () => setStart((s) => (s + 1) % images.length);
-  const prev = () => setStart((s) => (s - 1 + images.length) % images.length);
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (!pausedRef.current) setIndex((i) => i + 1);
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
 
-  const visible = Array.from({ length: VISIBLE }, (_, i) => (start + i) % images.length);
+  const next = () => setIndex((i) => i + 1);
+  const prev = () => setIndex((i) => i - 1);
+
+  // Build a long extended list so the strip can slide smoothly with a carousel feel.
+  // We render images.length * 3 copies and keep index in middle range visually.
+  const total = images.length;
+  const extended = Array.from({ length: total * 5 }, (_, i) => i % total);
+  const offsetBase = total * 2; // start in the middle
+
+  const translate = -(index + offsetBase) * STEP;
 
   return (
     <div className="mt-10">
@@ -43,23 +58,35 @@ export const CrateGallery = () => {
           <ChevronLeft className="h-4 w-4" />
         </button>
 
-        <div className="flex gap-3">
-          {visible.map((i, pos) => (
-            <button
-              key={`${i}-${start}`}
-              onClick={() => setOpenIdx(i)}
-              style={{ animationDelay: `${pos * 120}ms` }}
-              className="relative shrink-0 w-24 h-24 md:w-28 md:h-28 rounded-md overflow-hidden border border-border shadow-soft hover:shadow-elegant transition-all duration-700 ease-out hover:scale-105 animate-fade-in"
-              aria-label={lang === "es" ? "Ver imagen" : "View image"}
-            >
-              <img
-                src={images[i]}
-                alt={`Crate work ${i + 1}`}
-                loading="lazy"
-                className="h-full w-full object-cover"
-              />
-            </button>
-          ))}
+        <div
+          className="overflow-hidden"
+          style={{ width: VISIBLE * THUMB + (VISIBLE - 1) * GAP }}
+        >
+          <div
+            className="flex"
+            style={{
+              gap: `${GAP}px`,
+              transform: `translateX(${translate}px)`,
+              transition: "transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+            }}
+          >
+            {extended.map((i, pos) => (
+              <button
+                key={pos}
+                onClick={() => setOpenIdx(i)}
+                className="relative shrink-0 w-28 h-28 rounded-md overflow-hidden border border-border shadow-soft hover:shadow-elegant hover:scale-105 transition-transform duration-300"
+                style={{ width: THUMB, height: THUMB }}
+                aria-label={lang === "es" ? "Ver imagen" : "View image"}
+              >
+                <img
+                  src={images[i]}
+                  alt={`Crate work ${i + 1}`}
+                  loading="lazy"
+                  className="h-full w-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
         </div>
 
         <button
