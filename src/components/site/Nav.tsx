@@ -164,6 +164,7 @@ export const Nav = () => {
                   </a>
                 </div>
               </div>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
