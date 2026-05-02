@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/sheet";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { AboutPanel } from "./AboutPanel";
 import logoRamos from "@/assets/logo-ramos-clean.png";
 
 export const Nav = () => {
