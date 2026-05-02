@@ -60,9 +60,6 @@ const Body = ({ slug }: { slug: Slug }) => {
             <ArrowLeft className="h-4 w-4" />
             {lang === "es" ? "Volver" : "Back"}
           </Link>
-            <ArrowLeft className="h-4 w-4" />
-            {lang === "es" ? "Volver al inicio" : "Back to home"}
-          </Link>
           <span className="text-xs uppercase tracking-[0.25em] text-clay font-medium">
             {lang === "es" ? "Restauraciones" : "Restorations"}
           </span>
