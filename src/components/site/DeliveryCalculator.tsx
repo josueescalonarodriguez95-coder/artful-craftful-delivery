@@ -5,10 +5,14 @@ import { Switch } from "@/components/ui/switch";
 
 const FRAGILE_PCT = 0.15;
 
-// Tarifa base por pulgada cúbica para guacales personalizados
-// Referencia: 60×50×5 in (15.000 in³) = $477 → escala lineal por volumen
-const CRATE_RATE_PER_CUIN = 477 / (60 * 50 * 5);
-const MIN_CRATE_PRICE = 80;
+// Costos de materiales y mano de obra para guacales personalizados
+const PLYWOOD_SIZE_IN = 48 * 96; // 4608 in² por plywood (48×96)
+const PLYWOOD_COST = 40;          // $40 cada plywood
+const STAPLES_COST = 10;          // $10 presilla
+const GLUE_COST = 10;             // $10 cola
+const LABOR_COST = 25;            // $25/hora (≈1h por guacal)
+const FOAM_COST = 34;             // $34 foam
+const MARKUP = 3;                 // multiplicador final ×3
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
@@ -26,11 +30,16 @@ export const DeliveryCalculator = () => {
 
   const calc = useMemo(() => {
     const volume = hNum * wNum * dNum;
-    const unit = hasDims ? Math.max(MIN_CRATE_PRICE, volume * CRATE_RATE_PER_CUIN) : 0;
+    // Área total de las 6 caras del guacal (in²)
+    const surface = hasDims ? 2 * (hNum * wNum + hNum * dNum + wNum * dNum) : 0;
+    const plywoods = hasDims ? Math.ceil(surface / PLYWOOD_SIZE_IN) : 0;
+    const plywoodCost = plywoods * PLYWOOD_COST;
+    const materialsAndLabor = plywoodCost + STAPLES_COST + GLUE_COST + LABOR_COST + FOAM_COST;
+    const unit = hasDims ? materialsAndLabor * MARKUP : 0;
     const subtotal = unit * qty;
     const fragileFee = fragile ? subtotal * FRAGILE_PCT : 0;
     const total = subtotal + fragileFee;
-    return { volume, unit, subtotal, fragileFee, total };
+    return { volume, surface, plywoods, plywoodCost, materialsAndLabor, unit, subtotal, fragileFee, total };
   }, [hNum, wNum, dNum, hasDims, qty, fragile]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
