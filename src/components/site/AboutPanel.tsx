@@ -52,8 +52,8 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
-        side="left"
-        className="w-full sm:max-w-3xl p-0 overflow-y-auto bg-white border-r-0"
+        side="right"
+        className="w-full sm:max-w-3xl p-0 overflow-y-auto bg-cream border-l-0"
       >
         {/* TOP — dark hero */}
         <section className="relative bg-[hsl(0,0%,7%)] text-white">
