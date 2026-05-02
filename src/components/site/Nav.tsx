@@ -35,6 +35,7 @@ export const Nav = () => {
     services: lang === "es" ? "Servicios" : "Services",
     delivery: lang === "es" ? "Delivery" : "Delivery",
     pedestals: lang === "es" ? "Pedestales" : "Pedestals",
+    restorations: lang === "es" ? "Restauraciones" : "Restorations",
     contact: lang === "es" ? "Contacto" : "Contact",
     quote: lang === "es" ? "Cotizar" : "Get a Quote",
   };
