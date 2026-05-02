@@ -3,6 +3,8 @@ import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
 import { Star, Wrench, Truck, Archive, Hammer, MapPin, ExternalLink, Phone } from "lucide-react";
 import truckImg from "@/assets/about-truck.jpg";
+import logoRamosPacking from "@/assets/logo-ramos-packing.png";
+import logoEmpireArt from "@/assets/logo-empire-art.png";
 
 const GOOGLE_REVIEWS_URL = "https://www.google.com/search?q=Ramos+Delivery+Enterprise+reviews";
 const RATING = 5.0;
@@ -50,8 +52,8 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
-        side="left"
-        className="w-full sm:max-w-3xl p-0 overflow-y-auto bg-white border-r-0"
+        side="right"
+        className="w-full sm:max-w-3xl p-0 overflow-y-auto bg-cream border-l-0"
       >
         {/* TOP — dark hero */}
         <section className="relative bg-[hsl(0,0%,7%)] text-white">
@@ -88,10 +90,27 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
         </section>
 
         {/* MIDDLE — services + locations */}
-        <section className="bg-white text-[hsl(0,0%,10%)] px-6 md:px-12 py-12">
+        <section className="bg-cream text-ink px-6 md:px-12 py-12">
+          {/* Brand logos row */}
+          <div className="flex items-center justify-center gap-6 md:gap-10 mb-10 pb-10 border-b border-border">
+            <img
+              src={logoRamosPacking}
+              alt="Ramos Delivery Packing"
+              loading="lazy"
+              className="h-16 md:h-20 w-auto rounded-full shadow-soft"
+            />
+            <div className="h-12 w-px bg-border" />
+            <img
+              src={logoEmpireArt}
+              alt="Empire Art Logistics"
+              loading="lazy"
+              className="h-16 md:h-20 w-auto rounded-full shadow-soft"
+            />
+          </div>
+
           <div className="grid md:grid-cols-2 gap-10">
             <div>
-              <h3 className="text-[11px] tracking-[0.3em] font-bold text-[hsl(0,75%,50%)] uppercase mb-5">
+              <h3 className="text-[11px] tracking-[0.3em] font-bold text-clay uppercase mb-5">
                 {tr("Lo que hacemos", "What we do")}
               </h3>
               <div className="grid grid-cols-2 gap-3">
@@ -105,12 +124,12 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
                   return (
                     <div
                       key={key}
-                      className="group rounded-xl border border-black/10 bg-white p-4 hover:shadow-[0_8px_24px_-12px_rgba(0,0,0,0.25)] hover:border-[hsl(0,75%,50%)]/30 transition"
+                      className="group rounded-xl border border-border bg-card p-4 hover:shadow-soft hover:border-clay/40 transition"
                     >
-                      <div className="h-9 w-9 rounded-lg bg-[hsl(0,75%,50%)]/10 text-[hsl(0,75%,45%)] flex items-center justify-center mb-3">
+                      <div className="h-9 w-9 rounded-lg bg-clay/10 text-clay flex items-center justify-center mb-3">
                         <Icon className="h-4 w-4" />
                       </div>
-                      <p className="text-[13px] font-semibold leading-snug uppercase tracking-wide">
+                      <p className="text-[13px] font-semibold leading-snug uppercase tracking-wide text-ink">
                         {labels[key][lang === "es" ? 0 : 1]}
                       </p>
                     </div>
@@ -120,40 +139,42 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
             </div>
 
             <div>
-              <h3 className="text-[11px] tracking-[0.3em] font-bold text-[hsl(0,75%,50%)] uppercase mb-5">
+              <h3 className="text-[11px] tracking-[0.3em] font-bold text-clay uppercase mb-5">
                 {tr("¿Dónde estamos?", "Where we are")}
               </h3>
-              <div className="rounded-xl border border-black/10 p-5 bg-gradient-to-br from-white to-black/[0.02]">
+              <div className="rounded-xl border border-border p-5 bg-card">
                 <ul className="space-y-2.5 mb-5">
                   {locations.map((loc) => (
                     <li key={loc} className="flex items-center gap-2.5 text-sm">
-                      <MapPin className="h-4 w-4 text-[hsl(0,75%,50%)] shrink-0" />
-                      <span className="text-[hsl(0,0%,15%)]">{loc}</span>
+                      <MapPin className="h-4 w-4 text-clay shrink-0" />
+                      <span className="text-ink">{loc}</span>
                     </li>
                   ))}
-                  <li className="flex items-center gap-2.5 text-sm italic text-black/60">
+                  <li className="flex items-center gap-2.5 text-sm italic text-ink/55">
                     <span className="h-4 w-4 inline-block" />
                     {tr("En crecimiento en otros estados", "Growing in other states")}
                   </li>
                 </ul>
-                {/* Stylized US map */}
-                <div className="relative aspect-[16/9] rounded-lg bg-[hsl(0,0%,96%)] border border-black/5 overflow-hidden">
-                  <svg viewBox="0 0 200 110" className="absolute inset-0 w-full h-full">
-                    <path
-                      d="M15 40 L40 25 L75 22 L110 20 L150 25 L180 35 L185 55 L175 75 L160 88 L140 92 L115 90 L90 88 L65 85 L40 78 L20 65 Z"
-                      fill="hsl(0,0%,88%)"
-                      stroke="hsl(0,0%,75%)"
-                      strokeWidth="0.5"
+                {/* Real US map (continental silhouette) with markers */}
+                <div className="relative aspect-[16/10] rounded-lg bg-cream border border-border overflow-hidden">
+                  <svg viewBox="0 0 959 593" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
+                    <image
+                      href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Blank_US_Map_%28states_only%29.svg/1280px-Blank_US_Map_%28states_only%29.svg.png"
+                      x="0" y="0" width="959" height="593"
+                      style={{ filter: "grayscale(1) opacity(0.45) contrast(0.9)" }}
                     />
-                    {/* markers */}
+                    {/* markers — approximate coords on 959x593 US map */}
                     {[
-                      { x: 145, y: 82, label: "Miami" },
-                      { x: 142, y: 76, label: "WPB" },
-                      { x: 168, y: 38, label: "NY" },
+                      { x: 770, y: 510, label: "Miami" },
+                      { x: 763, y: 488, label: "WPB" },
+                      { x: 815, y: 200, label: "NY" },
                     ].map((m) => (
                       <g key={m.label}>
-                        <circle cx={m.x} cy={m.y} r="4" fill="hsl(0,75%,50%)" opacity="0.25" />
-                        <circle cx={m.x} cy={m.y} r="2" fill="hsl(0,75%,50%)" />
+                        <circle cx={m.x} cy={m.y} r="14" fill="hsl(var(--clay))" opacity="0.18">
+                          <animate attributeName="r" values="10;18;10" dur="2.4s" repeatCount="indefinite" />
+                          <animate attributeName="opacity" values="0.25;0.05;0.25" dur="2.4s" repeatCount="indefinite" />
+                        </circle>
+                        <circle cx={m.x} cy={m.y} r="6" fill="hsl(var(--clay))" stroke="white" strokeWidth="2" />
                       </g>
                     ))}
                   </svg>
@@ -164,9 +185,9 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
         </section>
 
         {/* REVIEWS */}
-        <section className="bg-[hsl(0,0%,97%)] px-6 md:px-12 py-12">
-          <div className="rounded-2xl bg-white border border-black/10 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.25)] p-6 md:p-8">
-            <h3 className="font-display text-2xl md:text-3xl text-[hsl(0,0%,10%)] tracking-tight">
+        <section className="bg-sand/40 px-6 md:px-12 py-12">
+          <div className="rounded-2xl bg-card border border-border shadow-soft p-6 md:p-8">
+            <h3 className="font-display text-2xl md:text-3xl text-ink tracking-tight">
               {tr("Nuestros clientes hablan por nosotros", "Our clients speak for us")}
             </h3>
 
@@ -179,14 +200,14 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
                   <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                   <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                 </svg>
-                <span className="font-display text-3xl text-[hsl(0,0%,10%)] tabular-nums">{RATING.toFixed(1)}</span>
+                <span className="font-display text-3xl text-ink tabular-nums">{RATING.toFixed(1)}</span>
                 <div className="flex">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-[hsl(45,95%,55%)] text-[hsl(45,95%,55%)]" />
                   ))}
                 </div>
               </div>
-              <span className="text-sm text-black/60">
+              <span className="text-sm text-ink/60">
                 {tr(`${TOTAL_REVIEWS} reseñas en Google`, `${TOTAL_REVIEWS} Google reviews`)}
               </span>
             </div>
@@ -195,12 +216,12 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
               {reviews.map((r) => (
                 <article
                   key={r.name}
-                  className="rounded-xl border border-black/10 p-4 bg-white hover:border-[hsl(0,75%,50%)]/30 hover:shadow-md transition flex flex-col"
+                  className="rounded-xl border border-border p-4 bg-cream hover:border-clay/40 hover:shadow-soft transition flex flex-col"
                 >
                   <header className="flex items-center justify-between mb-2">
                     <div>
-                      <p className="text-sm font-semibold text-[hsl(0,0%,12%)]">{r.name}</p>
-                      <p className="text-[11px] text-black/50">{r.when}</p>
+                      <p className="text-sm font-semibold text-ink">{r.name}</p>
+                      <p className="text-[11px] text-ink/50">{r.when}</p>
                     </div>
                     <div className="flex">
                       {Array.from({ length: r.stars }).map((_, i) => (
@@ -208,7 +229,7 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
                       ))}
                     </div>
                   </header>
-                  <p className="text-[13px] leading-relaxed text-black/70">{r.text}</p>
+                  <p className="text-[13px] leading-relaxed text-ink/70">{r.text}</p>
                 </article>
               ))}
             </div>
@@ -216,7 +237,7 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
             <div className="mt-7 flex flex-col sm:flex-row gap-3">
               <Button
                 asChild
-                className="bg-[hsl(0,75%,48%)] hover:bg-[hsl(0,75%,42%)] text-white rounded-full px-6 h-11"
+                className="bg-clay hover:bg-clay-deep text-cream rounded-full px-6 h-11"
               >
                 <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer">
                   {tr("Ver todas las reseñas en Google", "See all Google reviews")}
@@ -226,7 +247,7 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
               <Button
                 asChild
                 variant="outline"
-                className="rounded-full px-6 h-11 border-black/20 hover:bg-black hover:text-white"
+                className="rounded-full px-6 h-11 border-border hover:bg-ink hover:text-cream"
                 onClick={() => onOpenChange(false)}
               >
                 <a href="#contact">

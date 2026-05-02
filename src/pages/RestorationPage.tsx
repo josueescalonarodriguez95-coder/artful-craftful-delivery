@@ -54,13 +54,13 @@ const Body = ({ slug }: { slug: Slug }) => {
         <div className="container max-w-4xl">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm text-ink/70 hover:text-clay transition mb-8"
+            className="inline-flex items-center gap-2 text-sm text-ink/70 hover:text-clay transition mb-6"
             aria-label={lang === "es" ? "Volver" : "Back"}
           >
             <ArrowLeft className="h-4 w-4" />
-            {lang === "es" ? "Volver" : "Back"}
+            <span>{lang === "es" ? "Volver" : "Back"}</span>
           </Link>
-          <span className="text-xs uppercase tracking-[0.25em] text-clay font-medium">
+          <span className="block text-xs uppercase tracking-[0.25em] text-clay font-medium">
             {lang === "es" ? "Restauraciones" : "Restorations"}
           </span>
           <h1 className="mt-4 font-display text-4xl md:text-6xl leading-[1.05] text-balance">
