@@ -1,8 +1,15 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck } from "lucide-react";
 import { useEffect, useState } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export const Nav = () => {
   const { lang, setLang } = useLang();
@@ -72,6 +79,46 @@ export const Nav = () => {
               </span>
             )}
           </button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <button
+                aria-label={lang === "es" ? "Más opciones" : "More options"}
+                className="h-10 w-10 rounded-full border border-border bg-background hover:bg-ink hover:text-cream transition flex items-center justify-center text-ink"
+              >
+                <Menu className="h-4 w-4" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="right" className="bg-cream border-l border-border">
+              <SheetHeader>
+                <SheetTitle className="font-display text-2xl font-bold text-ink text-left">
+                  {lang === "es" ? "Otros servicios" : "Other services"}
+                </SheetTitle>
+              </SheetHeader>
+              <nav className="mt-8 flex flex-col gap-1">
+                <a
+                  href="#services"
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
+                >
+                  <Archive className="h-5 w-5 text-clay" />
+                  <span>{lang === "es" ? "Art Storage" : "Art Storage"}</span>
+                </a>
+                <a
+                  href="#services"
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
+                >
+                  <Hammer className="h-5 w-5 text-clay" />
+                  <span>{lang === "es" ? "Art Installation" : "Art Installation"}</span>
+                </a>
+                <a
+                  href="#delivery"
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
+                >
+                  <Truck className="h-5 w-5 text-clay" />
+                  <span>{lang === "es" ? "Transporte" : "Transport"}</span>
+                </a>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>
