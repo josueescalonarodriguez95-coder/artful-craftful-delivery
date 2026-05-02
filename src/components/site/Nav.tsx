@@ -1,7 +1,7 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, Archive, Hammer, Truck, Package } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck, Package, Instagram, Facebook } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Sheet,
@@ -124,6 +124,31 @@ export const Nav = () => {
                   <span>{lang === "es" ? "Transporte" : "Transport"}</span>
                 </a>
               </nav>
+              <div className="mt-8 pt-6 border-t border-border">
+                <p className="text-xs uppercase tracking-wider text-ink/60 mb-3 px-3">
+                  {lang === "es" ? "Síguenos" : "Follow us"}
+                </p>
+                <div className="flex items-center gap-2 px-3">
+                  <a
+                    href="https://www.instagram.com/ramos_delivery_enterprise"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram"
+                    className="h-10 w-10 rounded-full border border-border bg-background hover:bg-ink hover:text-cream transition flex items-center justify-center text-ink"
+                  >
+                    <Instagram className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="https://www.facebook.com/RamosDeliveryEnterprise"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                    className="h-10 w-10 rounded-full border border-border bg-background hover:bg-ink hover:text-cream transition flex items-center justify-center text-ink"
+                  >
+                    <Facebook className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
