@@ -5,10 +5,14 @@ import { Switch } from "@/components/ui/switch";
 
 const FRAGILE_PCT = 0.15;
 
-// Tarifa base por pulgada cúbica para guacales personalizados
-// Referencia: 60×50×5 in (15.000 in³) = $477 → escala lineal por volumen
-const CRATE_RATE_PER_CUIN = 477 / (60 * 50 * 5);
-const MIN_CRATE_PRICE = 80;
+// Costos de materiales y mano de obra para guacales personalizados
+const PLYWOOD_SIZE_IN = 48 * 96; // 4608 in² por plywood (48×96)
+const PLYWOOD_COST = 40;          // $40 cada plywood
+const STAPLES_COST = 10;          // $10 presilla
+const GLUE_COST = 10;             // $10 cola
+const LABOR_COST = 25;            // $25/hora (≈1h por guacal)
+const FOAM_COST = 34;             // $34 foam
+const MARKUP = 3;                 // multiplicador final ×3
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
