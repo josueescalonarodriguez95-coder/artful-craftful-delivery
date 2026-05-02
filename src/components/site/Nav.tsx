@@ -20,7 +20,6 @@ export const Nav = () => {
   const { count, setOpen } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [aboutOpen, setAboutOpen] = useState(false);
   const [restOpen, setRestOpen] = useState(false);
 
   useEffect(() => {
