@@ -12,8 +12,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { AboutPanel } from "./AboutPanel";
 import logoRamos from "@/assets/logo-ramos-clean.png";
 
 export const Nav = () => {
@@ -218,20 +218,7 @@ export const Nav = () => {
         </div>
       </div>
 
-      <Dialog open={aboutOpen} onOpenChange={setAboutOpen}>
-        <DialogContent className="max-w-lg bg-cream border-border">
-          <DialogHeader>
-            <DialogTitle className="font-display text-3xl text-ink">
-              {lang === "es" ? "Quiénes somos" : "About us"}
-            </DialogTitle>
-            <DialogDescription className="text-ink/75 leading-relaxed pt-3 text-base">
-              {lang === "es"
-                ? "Ramos Delivery Enterprise es una empresa especializada en el manejo, embalaje y transporte de arte y piezas delicadas. Con años de experiencia, ofrecemos huacales a medida, pedestales, almacenaje de obras de arte e instalación profesional. Nuestro compromiso es proteger cada pieza con la dedicación y cuidado que merece."
-                : "Ramos Delivery Enterprise specializes in handling, packing and transporting fine art and delicate pieces. With years of experience, we offer custom crates, pedestals, fine art storage and professional installation. Our commitment is to protect every piece with the dedication and care it deserves."}
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <AboutPanel open={aboutOpen} onOpenChange={setAboutOpen} />
     </header>
   );
 };
