@@ -14,6 +14,7 @@ import { ShippingOptions } from "@/components/site/ShippingOptions";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { RevealSection } from "@/components/site/RevealSection";
+import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
 
 const SEO = () => {
   const { lang } = useLang();
@@ -59,6 +60,7 @@ const Index = () => {
             <RevealSection><Contact /></RevealSection>
           </main>
           <Footer />
+          <WhatsAppFloat />
         </div>
       </CartProvider>
     </LangProvider>

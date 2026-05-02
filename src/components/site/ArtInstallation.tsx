@@ -8,10 +8,10 @@ import img3 from "@/assets/installation-3.jpg";
 import img4 from "@/assets/installation-4.jpg";
 
 const photos = [
-  { src: img1, es: "Instaladores colocando una pintura en pared de galería", en: "Handlers installing a painting on a gallery wall" },
-  { src: img2, es: "Instalación de obra contemporánea en residencia privada", en: "Installing a contemporary artwork in a private home" },
-  { src: img3, es: "Equipo instalando una escultura sobre pedestal", en: "Team installing a sculpture on a pedestal" },
-  { src: img4, es: "Instalación de díptico en lobby corporativo", en: "Installing a diptych in a corporate lobby" },
+  { src: img1, es: "Dos fotografías de gran formato instaladas en pared", en: "Two large-format photographs installed on wall" },
+  { src: img2, es: "Instalación de tapiz contemporáneo en comedor", en: "Contemporary tapestry installation in dining room" },
+  { src: img3, es: "Mural abstracto instalado en escalera", en: "Abstract mural installed on staircase wall" },
+  { src: img4, es: "Fotografía de ola enmarcada en sala", en: "Framed wave photograph in living room" },
 ];
 
 export const ArtInstallation = () => {
