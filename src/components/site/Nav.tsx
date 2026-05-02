@@ -64,9 +64,8 @@ export const Nav = () => {
           <a href="#delivery" className="story-link text-ink hover:text-clay transition">{T.delivery}</a>
           <a href="#pedestals" className="story-link text-ink hover:text-clay transition">{T.pedestals}</a>
           <DropdownMenu>
-            <DropdownMenuTrigger className="story-link text-ink hover:text-clay transition flex items-center gap-1 outline-none">
+            <DropdownMenuTrigger className="story-link text-ink hover:text-clay transition outline-none p-0 bg-transparent border-0 font-normal text-sm leading-none">
               {T.restorations}
-              <ChevronDown className="h-3.5 w-3.5" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" className="bg-cream border-border">
               <DropdownMenuItem asChild>
