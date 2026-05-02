@@ -90,7 +90,6 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
         </section>
 
         {/* MIDDLE — services + locations */}
-        <section className="bg-white text-[hsl(0,0%,10%)] px-6 md:px-12 py-12">
         <section className="bg-cream text-ink px-6 md:px-12 py-12">
           {/* Brand logos row */}
           <div className="flex items-center justify-center gap-6 md:gap-10 mb-10 pb-10 border-b border-border">
