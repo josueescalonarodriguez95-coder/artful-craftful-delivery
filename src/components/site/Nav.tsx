@@ -10,6 +10,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import logoEmpire from "@/assets/logo-empire.png";
+import logoRamos from "@/assets/logo-ramos.png";
 
 export const Nav = () => {
   const { lang, setLang } = useLang();
@@ -88,7 +90,20 @@ export const Nav = () => {
                 <Menu className="h-4 w-4" />
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-cream border-l border-border">
+            <SheetContent side="right" className="bg-cream border-l border-border overflow-hidden">
+              <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
+                <img
+                  src={logoEmpire}
+                  alt=""
+                  className="absolute -top-10 -right-10 w-72 opacity-[0.06] grayscale"
+                />
+                <img
+                  src={logoRamos}
+                  alt=""
+                  className="absolute bottom-0 -left-16 w-80 opacity-[0.06] grayscale"
+                />
+              </div>
+              <div className="relative z-10">
               <SheetHeader>
                 <SheetTitle className="font-display text-2xl font-bold text-ink text-left">
                   {lang === "es" ? "Otros servicios" : "Other services"}
@@ -148,6 +163,7 @@ export const Nav = () => {
                     <Facebook className="h-4 w-4" />
                   </a>
                 </div>
+              </div>
               </div>
             </SheetContent>
           </Sheet>
