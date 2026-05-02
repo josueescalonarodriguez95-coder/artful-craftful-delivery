@@ -96,7 +96,7 @@ export const Nav = () => {
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-1">
                 <a
-                  href="#services"
+                  href="#storage"
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Archive className="h-5 w-5 text-clay" />
@@ -110,7 +110,7 @@ export const Nav = () => {
                   <span>Packing</span>
                 </a>
                 <a
-                  href="#services"
+                  href="#installation"
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Hammer className="h-5 w-5 text-clay" />
