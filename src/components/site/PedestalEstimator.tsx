@@ -81,7 +81,16 @@ export const PedestalEstimator = () => {
   const [paintColor, setPaintColor] = useState<PaintColor>("white");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
+  const { add } = useCart();
   const ref = useReveal<HTMLDivElement>();
+
+  const shape: "short" | "medium" | "tall" =
+    h > 0 && h < 20
+      ? "short"
+      : h > 40 && h > w
+      ? "tall"
+      : "medium";
+  const previewImage = PEDESTAL_IMAGES[material][shape];
 
   const availableFinishes =
     material === "marble" ? MARBLE_FINISHES : material === "acrylic" ? ACRYLIC_FINISHES : DEFAULT_FINISHES;
