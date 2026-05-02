@@ -217,6 +217,7 @@ export const Nav = () => {
           </Sheet>
         </div>
       </div>
+      <AboutPanel open={aboutOpen} onOpenChange={setAboutOpen} />
     </header>
   );
 };
