@@ -1,7 +1,7 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, Archive, Hammer, Truck, Package } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck, Package, Instagram, Facebook } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Sheet,
