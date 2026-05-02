@@ -11,6 +11,7 @@ import { PedestalEstimator } from "@/components/site/PedestalEstimator";
 import { ShippingOptions } from "@/components/site/ShippingOptions";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
+import { RevealSection } from "@/components/site/RevealSection";
 
 const SEO = () => {
   const { lang } = useLang();
@@ -46,12 +47,12 @@ const Index = () => {
           <CartDrawer />
           <main>
             <Hero />
-            <Marquee />
-            <Services />
-            <DeliveryCalculator />
-            <PedestalEstimator />
-            <ShippingOptions />
-            <Contact />
+            <RevealSection><Marquee /></RevealSection>
+            <RevealSection><Services /></RevealSection>
+            <RevealSection><DeliveryCalculator /></RevealSection>
+            <RevealSection><PedestalEstimator /></RevealSection>
+            <RevealSection><ShippingOptions /></RevealSection>
+            <RevealSection><Contact /></RevealSection>
           </main>
           <Footer />
         </div>
