@@ -143,8 +143,8 @@ export const DeliveryCalculator = () => {
           </div>
 
           {/* Breakdown */}
-          <div>
-            <div className="bg-ink text-cream rounded-md p-6 md:p-8 shadow-elegant">
+          <div className="lg:max-w-md lg:ml-auto w-full">
+            <div className="bg-ink text-cream rounded-md p-6 md:p-7 shadow-elegant">
               <div className="text-xs uppercase tracking-[0.2em] text-cream/60 font-medium">
                 {lang === "es" ? "Desglose" : "Breakdown"}
               </div>
