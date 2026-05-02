@@ -3,6 +3,8 @@ import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
 import { Star, Wrench, Truck, Archive, Hammer, MapPin, ExternalLink, Phone } from "lucide-react";
 import truckImg from "@/assets/about-truck.jpg";
+import logoRamosPacking from "@/assets/logo-ramos-packing.png";
+import logoEmpireArt from "@/assets/logo-empire-art.png";
 
 const GOOGLE_REVIEWS_URL = "https://www.google.com/search?q=Ramos+Delivery+Enterprise+reviews";
 const RATING = 5.0;
