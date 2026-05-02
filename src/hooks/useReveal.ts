@@ -10,7 +10,8 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>() {
         entries.forEach((e) => {
           if (e.isIntersecting) {
             e.target.classList.add("in");
-            io.unobserve(e.target);
+          } else {
+            e.target.classList.remove("in");
           }
         });
       },
