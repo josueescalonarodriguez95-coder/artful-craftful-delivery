@@ -15,6 +15,7 @@ import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { RevealSection } from "@/components/site/RevealSection";
 import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
+import { ScrollToTop } from "@/components/site/ScrollToTop";
 
 const SEO = () => {
   const { lang } = useLang();
@@ -61,6 +62,7 @@ const Index = () => {
           </main>
           <Footer />
           <WhatsAppFloat />
+          <ScrollToTop />
         </div>
       </CartProvider>
     </LangProvider>

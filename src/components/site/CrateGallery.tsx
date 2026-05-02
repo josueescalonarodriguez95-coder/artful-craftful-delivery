@@ -34,7 +34,7 @@ export const CrateGallery = () => {
       <div className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium mb-4">
         {lang === "es" ? "Nuestro trabajo" : "Our work"}
       </div>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-center gap-3">
         <button
           onClick={prev}
           aria-label={lang === "es" ? "Anterior" : "Previous"}
@@ -43,25 +43,23 @@ export const CrateGallery = () => {
           <ChevronLeft className="h-4 w-4" />
         </button>
 
-        <div className="flex-1 overflow-hidden">
-          <div className="flex gap-3 justify-center">
-            {visible.map((i, pos) => (
-              <button
-                key={`${i}-${start}`}
-                onClick={() => setOpenIdx(i)}
-                style={{ animationDelay: `${pos * 120}ms` }}
-                className="relative shrink-0 w-24 h-24 md:w-28 md:h-28 rounded-md overflow-hidden border border-border shadow-soft hover:shadow-elegant transition-all duration-700 ease-out hover:scale-105 animate-fade-in"
-                aria-label={lang === "es" ? "Ver imagen" : "View image"}
-              >
-                <img
-                  src={images[i]}
-                  alt={`Crate work ${i + 1}`}
-                  loading="lazy"
-                  className="h-full w-full object-cover"
-                />
-              </button>
-            ))}
-          </div>
+        <div className="flex gap-3">
+          {visible.map((i, pos) => (
+            <button
+              key={`${i}-${start}`}
+              onClick={() => setOpenIdx(i)}
+              style={{ animationDelay: `${pos * 120}ms` }}
+              className="relative shrink-0 w-24 h-24 md:w-28 md:h-28 rounded-md overflow-hidden border border-border shadow-soft hover:shadow-elegant transition-all duration-700 ease-out hover:scale-105 animate-fade-in"
+              aria-label={lang === "es" ? "Ver imagen" : "View image"}
+            >
+              <img
+                src={images[i]}
+                alt={`Crate work ${i + 1}`}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </button>
+          ))}
         </div>
 
         <button
