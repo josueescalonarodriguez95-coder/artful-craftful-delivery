@@ -15,7 +15,7 @@ export const t = {
       en: "Expert hands for the art that matters.",
     },
     sub: {
-      es: "Delivery especializado, guacales a medida y restauración de pedestales — con la precisión que tu obra merece.",
+      es: "Delivery especializado, huacales a medida y restauración de pedestales — con la precisión que tu obra merece.",
       en: "Specialized delivery, custom crates and pedestal restoration — with the precision your work deserves.",
     },
     cta1: { es: "Cotizar ahora", en: "Get a quote" },
@@ -41,10 +41,10 @@ export const t = {
         },
       },
       {
-        tag: { es: "02 — Guacales", en: "02 — Crates" },
-        title: { es: "Guacales a medida", en: "Custom crates" },
+        tag: { es: "02 — Huacales", en: "02 — Crates" },
+        title: { es: "Huacales a medida", en: "Custom crates" },
         body: {
-          es: "Diseñamos y construimos guacales de madera para envíos locales e internacionales.",
+          es: "Diseñamos y construimos huacales de madera para envíos locales e internacionales.",
           en: "We design and build wooden crates for local and international shipping.",
         },
       },

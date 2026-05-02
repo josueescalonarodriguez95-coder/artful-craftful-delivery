@@ -5,12 +5,12 @@ import { Switch } from "@/components/ui/switch";
 
 const FRAGILE_PCT = 0.15;
 
-// Costos de materiales y mano de obra para guacales personalizados
+// Costos de materiales y mano de obra para huacales personalizados
 const PLYWOOD_SIZE_IN = 48 * 96; // 4608 in² por plywood (48×96)
 const PLYWOOD_COST = 40;          // $40 cada plywood
 const STAPLES_COST = 10;          // $10 presilla
 const GLUE_COST = 10;             // $10 cola
-const LABOR_COST = 25;            // $25/hora (≈1h por guacal)
+const LABOR_COST = 25;            // $25/hora (≈1h por huacal)
 const FOAM_COST = 34;             // $34 foam
 const MARKUP = 3;                 // multiplicador final ×3
 
@@ -30,7 +30,7 @@ export const DeliveryCalculator = () => {
 
   const calc = useMemo(() => {
     const volume = hNum * wNum * dNum;
-    // Área total de las 6 caras del guacal (in²)
+    // Área total de las 6 caras del huacal (in²)
     const surface = hasDims ? 2 * (hNum * wNum + hNum * dNum + wNum * dNum) : 0;
     const plywoods = hasDims ? Math.ceil(surface / PLYWOOD_SIZE_IN) : 0;
     const plywoodCost = plywoods * PLYWOOD_COST;
@@ -50,10 +50,10 @@ export const DeliveryCalculator = () => {
       <div className="container relative">
         <div ref={ref} className="reveal max-w-2xl mb-12 md:mb-16">
           <span className="text-xs uppercase tracking-[0.25em] text-clay font-medium">
-            {lang === "es" ? "Guacales a medida" : "Custom crates"}
+            {lang === "es" ? "Huacales a medida" : "Custom crates"}
           </span>
           <h2 className="mt-4 font-display text-4xl md:text-6xl text-ink leading-[1.05] text-balance">
-            {lang === "es" ? "Diseña tu guacal personalizado." : "Design your custom crate."}
+            {lang === "es" ? "Diseña tu huacal personalizado." : "Design your custom crate."}
           </h2>
           <p className="mt-5 text-ink/70 max-w-lg">
             {lang === "es"
@@ -69,7 +69,7 @@ export const DeliveryCalculator = () => {
               {/* Custom dimensions */}
               <div>
                 <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
-                  {lang === "es" ? "Medidas del guacal (in)" : "Crate dimensions (in)"}
+                  {lang === "es" ? "Medidas del huacal (in)" : "Crate dimensions (in)"}
                 </label>
                 <div className="mt-4 grid grid-cols-3 gap-3">
                   {[
@@ -102,7 +102,7 @@ export const DeliveryCalculator = () => {
               <div>
                 <div className="flex items-baseline justify-between">
                   <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
-                    {lang === "es" ? "Cantidad de guacales" : "Number of crates"}
+                    {lang === "es" ? "Cantidad de huacales" : "Number of crates"}
                   </label>
                   <span className="font-display text-3xl text-ink">{qty}</span>
                 </div>
@@ -149,7 +149,7 @@ export const DeliveryCalculator = () => {
               </div>
               <div className="mt-6 space-y-3 text-sm">
                 <Row
-                  label={`${lang === "es" ? "Guacal" : "Crate"} (${height}×${width}×${depth} in)`}
+                  label={`${lang === "es" ? "Huacal" : "Crate"} (${height}×${width}×${depth} in)`}
                   value={fmt(calc.unit)}
                 />
                 <Row label={lang === "es" ? "Cantidad" : "Quantity"} value={`× ${qty}`} />

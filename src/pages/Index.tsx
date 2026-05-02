@@ -14,11 +14,11 @@ const SEO = () => {
   const { lang } = useLang();
   useEffect(() => {
     document.title = lang === "es"
-      ? "Ramos Delivery Enterprise — Fine Art Delivery, Guacales y Pedestales"
+      ? "Ramos Delivery Enterprise — Fine Art Delivery, Huacales y Pedestales"
       : "Ramos Delivery Enterprise — Fine Art Delivery, Crates & Pedestals";
 
     const desc = lang === "es"
-      ? "Servicio especializado de fine art delivery, fabricación de guacales a medida y restauración de pedestales museísticos."
+      ? "Servicio especializado de fine art delivery, fabricación de huacales a medida y restauración de pedestales museísticos."
       : "Specialized fine art delivery, custom crate fabrication and museum-grade pedestal restoration.";
 
     let meta = document.querySelector('meta[name="description"]');
