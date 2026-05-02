@@ -1,8 +1,9 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, Archive, Hammer, Truck, Package, Instagram, Facebook } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck, Package, Instagram, Facebook, Sparkles, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
@@ -10,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import logoRamos from "@/assets/logo-ramos-clean.png";
 
@@ -19,6 +21,7 @@ export const Nav = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [restOpen, setRestOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -145,6 +148,26 @@ export const Nav = () => {
                   <Truck className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Transporte" : "Transport"}</span>
                 </a>
+                <Collapsible open={restOpen} onOpenChange={setRestOpen}>
+                  <CollapsibleTrigger className="w-full flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition">
+                    <Sparkles className="h-5 w-5 text-clay" />
+                    <span className="flex-1 text-left">{lang === "es" ? "Restauraciones" : "Restorations"}</span>
+                    <ChevronDown className={`h-4 w-4 transition-transform ${restOpen ? "rotate-180" : ""}`} />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+                    <div className="ml-10 mt-1 mb-2 flex flex-col gap-1 border-l border-border pl-3">
+                      <Link to="/restauraciones/marmol" onClick={closeMenu} className="px-3 py-2 rounded-md text-sm text-ink/80 hover:bg-ink/5 hover:text-ink transition">
+                        {lang === "es" ? "Mármol" : "Marble"}
+                      </Link>
+                      <Link to="/restauraciones/lienzo" onClick={closeMenu} className="px-3 py-2 rounded-md text-sm text-ink/80 hover:bg-ink/5 hover:text-ink transition">
+                        {lang === "es" ? "Lienzo" : "Canvas"}
+                      </Link>
+                      <Link to="/restauraciones/esculturas" onClick={closeMenu} className="px-3 py-2 rounded-md text-sm text-ink/80 hover:bg-ink/5 hover:text-ink transition">
+                        {lang === "es" ? "Esculturas" : "Sculptures"}
+                      </Link>
+                    </div>
+                  </CollapsibleContent>
+                </Collapsible>
               </nav>
               <div className="mt-8 pt-6 border-t border-border">
                 <p className="text-xs uppercase tracking-wider text-ink/60 mb-3 px-3">
