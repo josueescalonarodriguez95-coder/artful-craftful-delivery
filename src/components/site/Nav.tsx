@@ -63,6 +63,23 @@ export const Nav = () => {
           <a href="#services" className="story-link text-ink hover:text-clay transition">{T.services}</a>
           <a href="#delivery" className="story-link text-ink hover:text-clay transition">{T.delivery}</a>
           <a href="#pedestals" className="story-link text-ink hover:text-clay transition">{T.pedestals}</a>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="story-link text-ink hover:text-clay transition flex items-center gap-1 outline-none">
+              {T.restorations}
+              <ChevronDown className="h-3.5 w-3.5" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center" className="bg-cream border-border">
+              <DropdownMenuItem asChild>
+                <Link to="/restauraciones/marmol">{lang === "es" ? "Mármol" : "Marble"}</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/restauraciones/lienzo">{lang === "es" ? "Lienzo" : "Canvas"}</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link to="/restauraciones/esculturas">{lang === "es" ? "Esculturas" : "Sculptures"}</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <a href="#contact" className="story-link text-ink hover:text-clay transition">{T.contact}</a>
         </nav>
 
