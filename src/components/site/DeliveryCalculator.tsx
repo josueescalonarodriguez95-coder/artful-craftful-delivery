@@ -63,9 +63,9 @@ export const DeliveryCalculator = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-6 lg:gap-10 items-start">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
           {/* Controls */}
-          <div className="lg:col-span-3 bg-card rounded-md p-6 md:p-10 shadow-soft border border-border/60">
+          <div className="bg-card rounded-md p-6 md:p-10 shadow-soft border border-border/60">
             <div className="space-y-8">
               {/* Custom dimensions */}
               <div>
@@ -143,7 +143,7 @@ export const DeliveryCalculator = () => {
           </div>
 
           {/* Breakdown */}
-          <div className="lg:col-span-2 lg:sticky lg:top-24">
+          <div>
             <div className="bg-ink text-cream rounded-md p-6 md:p-8 shadow-elegant">
               <div className="text-xs uppercase tracking-[0.2em] text-cream/60 font-medium">
                 {lang === "es" ? "Desglose" : "Breakdown"}
@@ -175,10 +175,10 @@ export const DeliveryCalculator = () => {
                   : "* Estimated pricing. Final quote confirmed after assessing the item to be packed."}
               </p>
             </div>
+
+            <CrateGallery />
           </div>
         </div>
-
-        <CrateGallery />
       </div>
     </section>
   );
