@@ -65,8 +65,8 @@ export const DeliveryCalculator = () => {
 
         <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-start">
           {/* Controls */}
-          <div className="bg-card rounded-md p-6 md:p-10 shadow-soft border border-border/60">
-            <div className="space-y-8">
+          <div className="bg-card rounded-md p-6 md:p-10 pb-10 md:pb-14 shadow-soft border border-border/60 lg:min-h-[640px] flex flex-col">
+            <div className="space-y-8 flex-1">
               {/* Custom dimensions */}
               <div>
                 <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
@@ -143,8 +143,8 @@ export const DeliveryCalculator = () => {
           </div>
 
           {/* Breakdown */}
-          <div>
-            <div className="bg-ink text-cream rounded-md p-6 md:p-8 shadow-elegant">
+          <div className="lg:max-w-md lg:ml-auto w-full">
+            <div className="bg-ink text-cream rounded-md p-6 md:p-7 shadow-elegant">
               <div className="text-xs uppercase tracking-[0.2em] text-cream/60 font-medium">
                 {lang === "es" ? "Desglose" : "Breakdown"}
               </div>
