@@ -55,7 +55,11 @@ const Body = ({ slug }: { slug: Slug }) => {
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-sm text-ink/70 hover:text-clay transition mb-8"
+            aria-label={lang === "es" ? "Volver" : "Back"}
           >
+            <ArrowLeft className="h-4 w-4" />
+            {lang === "es" ? "Volver" : "Back"}
+          </Link>
             <ArrowLeft className="h-4 w-4" />
             {lang === "es" ? "Volver al inicio" : "Back to home"}
           </Link>
