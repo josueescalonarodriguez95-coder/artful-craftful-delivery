@@ -83,50 +83,10 @@ export const AboutPanel = ({ open, onOpenChange, placeId = RAMOS_PLACE_ID }: Pro
     setError(null);
     (async () => {
       try {
-        const { data: res, error: err } = await supabase.functions.invoke("google-reviews", {
-          body: null,
-          method: "GET" as any,
-        }).catch(async () => {
-          // Fallback: invoke with query string via direct fetch
-          const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/google-reviews?placeId=${encodeURIComponent(placeId)}`;
-          const r = await fetch(url, {
-            headers: { apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY },
-          });
-          const j = await r.json();
-          return { data: r.ok ? j : null, error: r.ok ? null : j };
-        });
-
-        if (cancelled) return;
-        if (err || !res) {
-          setError(typeof err === "string" ? err : (err as any)?.error || "Error");
-        } else {
-          setData(res as ReviewsData);
-        }
-      } catch (e) {
-        if (!cancelled) setError((e as Error).message);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [open, placeId, data]);
-
-  // Always do a clean GET with placeId via fetch to avoid invoke quirks
-  useEffect(() => {
-    if (!open || data) return;
-    let cancelled = false;
-    setLoading(true);
-    (async () => {
-      try {
         const base = import.meta.env.VITE_SUPABASE_URL;
         const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
         const r = await fetch(`${base}/functions/v1/google-reviews?placeId=${encodeURIComponent(placeId)}`, {
-          headers: {
-            apikey: key,
-            Authorization: `Bearer ${key}`,
-          },
+          headers: { apikey: key, Authorization: `Bearer ${key}` },
         });
         const j = await r.json();
         if (cancelled) return;
@@ -141,7 +101,7 @@ export const AboutPanel = ({ open, onOpenChange, placeId = RAMOS_PLACE_ID }: Pro
     return () => {
       cancelled = true;
     };
-  }, [open, placeId]);
+  }, [open, placeId, data]);
 
   const services = [
     { icon: Hammer, es: "Restauración", en: "Restoration" },
