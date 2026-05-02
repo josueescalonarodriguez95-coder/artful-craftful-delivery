@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sheet";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { AboutPanel } from "./AboutPanel";
 import logoRamos from "@/assets/logo-ramos-clean.png";
 
 export const Nav = () => {
@@ -20,6 +21,7 @@ export const Nav = () => {
   const { count, setOpen } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [restOpen, setRestOpen] = useState(false);
 
   useEffect(() => {
@@ -47,14 +49,15 @@ export const Nav = () => {
       }`}
     >
       <div className="container flex items-center justify-between h-16 md:h-20">
-        <Link
-          to="/"
+        <button
+          onClick={() => setAboutOpen(true)}
           className="flex items-baseline gap-2 group text-left"
+          aria-label={lang === "es" ? "Quiénes somos" : "About us"}
         >
           <span className="font-display text-2xl md:text-3xl tracking-tight text-ink">
             Ramos<span className="text-clay">·</span>Delivery<span className="text-ink/70"> Enterprise</span>
           </span>
-        </Link>
+        </button>
 
         <nav className="hidden md:flex items-center gap-8 text-sm">
           <a href="#services" className="story-link text-ink hover:text-clay transition">{T.services}</a>
