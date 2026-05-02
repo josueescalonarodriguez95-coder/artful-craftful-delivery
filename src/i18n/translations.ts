@@ -15,8 +15,8 @@ export const t = {
       en: "Expert hands for the art that matters.",
     },
     sub: {
-      es: "Delivery especializado, huacales a medida y construcción de pedestales — con la precisión que tu obra merece.",
-      en: "Specialized delivery, custom crates and pedestal construction — with the precision your work deserves.",
+      es: "Professional fine art handler — delivery especializado, huacales a medida y construcción de pedestales, con la precisión que tu obra merece.",
+      en: "Professional fine art handler — specialized delivery, custom crates and pedestal construction, with the precision your work deserves.",
     },
     cta1: { es: "Cotizar ahora", en: "Get a quote" },
     cta2: { es: "Ver servicios", en: "Our services" },
