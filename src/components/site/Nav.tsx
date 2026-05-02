@@ -10,8 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import logoEmpire from "@/assets/logo-empire.png";
-import logoRamos from "@/assets/logo-ramos.png";
+import logoRamos from "@/assets/logo-ramos-clean.png";
 
 export const Nav = () => {
   const { lang, setLang } = useLang();
