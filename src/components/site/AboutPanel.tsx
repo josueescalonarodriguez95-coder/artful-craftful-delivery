@@ -5,6 +5,7 @@ import { Star, Wrench, Truck, Archive, Hammer, MapPin, ExternalLink, Phone } fro
 import truckImg from "@/assets/about-truck.jpg";
 import logoRamosPacking from "@/assets/logo-ramos-packing.png";
 import logoEmpireArt from "@/assets/logo-empire-art.png";
+import usMap from "@/assets/us-map.png";
 
 const GOOGLE_REVIEWS_URL = "https://www.google.com/search?q=Ramos+Delivery+Enterprise+reviews";
 const RATING = 5.0;
@@ -55,36 +56,32 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
         side="right"
         className="w-full sm:max-w-3xl p-0 overflow-y-auto bg-cream border-l-0"
       >
-        {/* TOP — dark hero */}
+        {/* TOP — dark hero with full truck image */}
         <section className="relative bg-[hsl(0,0%,7%)] text-white">
-          <div className="grid md:grid-cols-2 gap-0">
-            <div className="relative p-8 md:p-12 pr-6">
-              <div className="absolute left-0 top-12 bottom-12 w-[3px] bg-[hsl(0,75%,50%)] rounded-r" />
-              <div className="pl-5">
-                <p className="text-[11px] tracking-[0.3em] text-[hsl(0,75%,55%)] font-semibold uppercase mb-4">
-                  {tr("¿Quiénes somos nosotros?", "Who we are")}
-                </p>
-                <h2 className="font-display text-3xl md:text-4xl leading-[1.1] tracking-tight">
-                  {tr("Somos más que transporte,", "More than transport,")}
-                  <br />
-                  <span className="italic text-white/85">{tr("somos confianza.", "we are trust.")}</span>
-                </h2>
-                <p className="mt-6 text-sm md:text-[15px] leading-relaxed text-white/70">
-                  {tr(
-                    "Somos una empresa radicada en el sur de la Florida con sucursales en Miami, West Palm Beach, New York, y en crecimiento en otros estados, dedicados a restaurar, transportar, almacenar e instalar arte con profesionalismo, precisión y cuidado. Contamos con excelentes reseñas en Google, donde puedes ver las opiniones reales de nuestros clientes.",
-                    "We are a South Florida–based company with branches in Miami, West Palm Beach, New York, and growing in other states. We restore, transport, store and install fine art with professionalism, precision and care."
-                  )}
-                </p>
-              </div>
-            </div>
-            <div className="relative min-h-[260px] md:min-h-full">
-              <img
-                src={truckImg}
-                alt="Ramos Delivery truck"
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-l from-transparent via-black/10 to-[hsl(0,0%,7%)]/60 md:bg-gradient-to-r md:from-[hsl(0,0%,7%)]/80 md:via-transparent md:to-transparent" />
+          <div className="relative w-full aspect-[16/9] bg-[hsl(0,0%,4%)]">
+            <img
+              src={truckImg}
+              alt="Ramos Delivery truck"
+              className="absolute inset-0 w-full h-full object-contain"
+            />
+          </div>
+          <div className="relative p-8 md:p-12">
+            <div className="absolute left-0 top-12 bottom-12 w-[3px] bg-[hsl(0,75%,50%)] rounded-r" />
+            <div className="pl-5">
+              <p className="text-[11px] tracking-[0.3em] text-[hsl(0,75%,55%)] font-semibold uppercase mb-4">
+                {tr("¿Quiénes somos nosotros?", "Who we are")}
+              </p>
+              <h2 className="font-display text-3xl md:text-4xl leading-[1.1] tracking-tight">
+                {tr("Somos más que transporte,", "More than transport,")}
+                <br />
+                <span className="italic text-white/85">{tr("somos confianza.", "we are trust.")}</span>
+              </h2>
+              <p className="mt-6 text-sm md:text-[15px] leading-relaxed text-white/70">
+                {tr(
+                  "Somos una empresa radicada en el sur de la Florida con sucursales en Miami, West Palm Beach, New York, y en crecimiento en otros estados, dedicados a restaurar, transportar, almacenar e instalar arte con profesionalismo, precisión y cuidado. Contamos con excelentes reseñas en Google, donde puedes ver las opiniones reales de nuestros clientes.",
+                  "We are a South Florida–based company with branches in Miami, West Palm Beach, New York, and growing in other states. We restore, transport, store and install fine art with professionalism, precision and care."
+                )}
+              </p>
             </div>
           </div>
         </section>
@@ -155,26 +152,26 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
                     {tr("En crecimiento en otros estados", "Growing in other states")}
                   </li>
                 </ul>
-                {/* Real US map (continental silhouette) with markers */}
+                {/* US map with red markers */}
                 <div className="relative aspect-[16/10] rounded-lg bg-cream border border-border overflow-hidden">
-                  <svg viewBox="0 0 959 593" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
-                    <image
-                      href="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Blank_US_Map_%28states_only%29.svg/1280px-Blank_US_Map_%28states_only%29.svg.png"
-                      x="0" y="0" width="959" height="593"
-                      style={{ filter: "grayscale(1) opacity(0.45) contrast(0.9)" }}
-                    />
-                    {/* markers — approximate coords on 959x593 US map */}
+                  <img
+                    src={usMap}
+                    alt="US map"
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
+                  <svg viewBox="0 0 1280 800" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
                     {[
-                      { x: 770, y: 510, label: "Miami" },
-                      { x: 763, y: 488, label: "WPB" },
-                      { x: 815, y: 200, label: "NY" },
+                      { x: 1015, y: 660, label: "Miami" },
+                      { x: 1005, y: 635, label: "WPB" },
+                      { x: 1085, y: 305, label: "NY" },
                     ].map((m) => (
                       <g key={m.label}>
-                        <circle cx={m.x} cy={m.y} r="14" fill="hsl(var(--clay))" opacity="0.18">
-                          <animate attributeName="r" values="10;18;10" dur="2.4s" repeatCount="indefinite" />
-                          <animate attributeName="opacity" values="0.25;0.05;0.25" dur="2.4s" repeatCount="indefinite" />
+                        <circle cx={m.x} cy={m.y} r="22" fill="#dc2626" opacity="0.25">
+                          <animate attributeName="r" values="16;28;16" dur="2.4s" repeatCount="indefinite" />
+                          <animate attributeName="opacity" values="0.35;0.05;0.35" dur="2.4s" repeatCount="indefinite" />
                         </circle>
-                        <circle cx={m.x} cy={m.y} r="6" fill="hsl(var(--clay))" stroke="white" strokeWidth="2" />
+                        <circle cx={m.x} cy={m.y} r="9" fill="#dc2626" stroke="white" strokeWidth="3" />
                       </g>
                     ))}
                   </svg>
