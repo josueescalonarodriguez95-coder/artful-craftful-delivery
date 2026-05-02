@@ -8,6 +8,8 @@ import { Marquee } from "@/components/site/Marquee";
 import { Services } from "@/components/site/Services";
 import { DeliveryCalculator } from "@/components/site/DeliveryCalculator";
 import { PedestalEstimator } from "@/components/site/PedestalEstimator";
+import { FineArtStorage } from "@/components/site/FineArtStorage";
+import { ArtInstallation } from "@/components/site/ArtInstallation";
 import { ShippingOptions } from "@/components/site/ShippingOptions";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
@@ -51,6 +53,8 @@ const Index = () => {
             <RevealSection><Services /></RevealSection>
             <RevealSection><DeliveryCalculator /></RevealSection>
             <RevealSection><PedestalEstimator /></RevealSection>
+            <RevealSection><FineArtStorage /></RevealSection>
+            <RevealSection><ArtInstallation /></RevealSection>
             <RevealSection><ShippingOptions /></RevealSection>
             <RevealSection><Contact /></RevealSection>
           </main>
