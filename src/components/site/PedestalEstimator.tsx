@@ -271,7 +271,7 @@ export const PedestalEstimator = () => {
           </div>
 
           {/* Estimate panel */}
-          <div className="lg:col-span-2 lg:sticky lg:top-24">
+          <div className="lg:col-span-3 lg:sticky lg:top-24">
             <div className="bg-clay text-cream rounded-md p-6 md:p-8 shadow-elegant">
               <div className="text-xs uppercase tracking-[0.2em] text-cream/70 font-medium">{t.pedestal.estimate[lang]}</div>
               <div className="mt-6 space-y-3 text-sm">
@@ -320,10 +320,23 @@ export const PedestalEstimator = () => {
                 </div>
               </div>
               <Button
-                onClick={() => toast.success(lang === "es" ? "Cotización enviada — te contactaremos." : "Quote sent — we'll be in touch.")}
-                className="mt-6 w-full bg-cream text-ink hover:bg-ink hover:text-cream rounded-full py-6"
+                onClick={() => {
+                  if (calc.total <= 0) return;
+                  const finishLabel = `${FINISH[finish][lang]}${finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}`;
+                  const details = `${h}×${w}×${d} in · ${MATERIAL[material][lang]} · ${finishLabel}${material === "acrylic" ? ` · ${ACRYLIC_THICKNESS[acrylicThickness][lang]}` : ""} · ${urgency === "rush" ? t.pedestal.rush[lang] : t.pedestal.standard[lang]}`;
+                  add({
+                    type: "pedestal",
+                    title: lang === "es" ? "Pedestal a medida" : "Custom pedestal",
+                    details,
+                    qty,
+                    unitPrice: calc.perUnit,
+                  });
+                }}
+                disabled={calc.total <= 0}
+                className="mt-6 w-full bg-cream text-ink hover:bg-ink hover:text-cream rounded-full py-6 inline-flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                {t.pedestal.request[lang]}
+                <ShoppingCart className="h-4 w-4" />
+                {lang === "es" ? "Agregar al carrito" : "Add to cart"}
               </Button>
             </div>
           </div>
