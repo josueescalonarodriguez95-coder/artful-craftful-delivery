@@ -4,7 +4,23 @@ import { t } from "@/i18n/translations";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+import { useCart } from "./CartContext";
+import { ShoppingCart } from "lucide-react";
+import plywoodShort from "@/assets/pedestal-plywood-short.jpg";
+import plywoodMedium from "@/assets/pedestal-plywood-medium.jpg";
+import plywoodTall from "@/assets/pedestal-plywood-tall.jpg";
+import acrylicShort from "@/assets/pedestal-acrylic-short.jpg";
+import acrylicMedium from "@/assets/pedestal-acrylic-medium.jpg";
+import acrylicTall from "@/assets/pedestal-acrylic-tall.jpg";
+import marbleShort from "@/assets/pedestal-marble-short.jpg";
+import marbleMedium from "@/assets/pedestal-marble-medium.jpg";
+import marbleTall from "@/assets/pedestal-marble-tall.jpg";
+
+const PEDESTAL_IMAGES: Record<"plywood" | "acrylic" | "marble", Record<"short" | "medium" | "tall", string>> = {
+  plywood: { short: plywoodShort, medium: plywoodMedium, tall: plywoodTall },
+  acrylic: { short: acrylicShort, medium: acrylicMedium, tall: acrylicTall },
+  marble: { short: marbleShort, medium: marbleMedium, tall: marbleTall },
+};
 
 type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "white" | "black" | "clear";
@@ -65,7 +81,16 @@ export const PedestalEstimator = () => {
   const [paintColor, setPaintColor] = useState<PaintColor>("white");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
+  const { add } = useCart();
   const ref = useReveal<HTMLDivElement>();
+
+  const shape: "short" | "medium" | "tall" =
+    h > 0 && h < 20
+      ? "short"
+      : h > 40 && h > w
+      ? "tall"
+      : "medium";
+  const previewImage = PEDESTAL_IMAGES[material][shape];
 
   const availableFinishes =
     material === "marble" ? MARBLE_FINISHES : material === "acrylic" ? ACRYLIC_FINISHES : DEFAULT_FINISHES;
@@ -125,8 +150,36 @@ export const PedestalEstimator = () => {
           <p className="mt-5 text-ink/70 max-w-lg">{t.pedestal.sub[lang]}</p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-6 lg:gap-10 items-start">
-          <div className="lg:col-span-3 bg-secondary/40 rounded-md p-6 md:p-10 border border-border/60">
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+          {/* Pedestal preview */}
+          <aside className="lg:col-span-4 lg:sticky lg:top-24">
+            <div className="bg-secondary/40 rounded-md border border-border/60 overflow-hidden">
+              <div className="aspect-[3/4] bg-cream relative">
+                <img
+                  key={`${material}-${shape}`}
+                  src={previewImage}
+                  alt={`${MATERIAL[material][lang]} ${lang === "es" ? "pedestal" : "pedestal"} ${shape}`}
+                  loading="lazy"
+                  width={768}
+                  height={1024}
+                  className="w-full h-full object-cover animate-fade-in"
+                />
+              </div>
+              <div className="p-4 border-t border-border/60">
+                <div className="text-[11px] uppercase tracking-[0.2em] text-ink/50 mb-1">
+                  {lang === "es" ? "Vista previa" : "Preview"}
+                </div>
+                <div className="font-display text-xl text-ink leading-tight">
+                  {MATERIAL[material][lang]}
+                </div>
+                <div className="text-xs text-ink/60 mt-1 tabular-nums">
+                  {h || "—"}×{w || "—"}×{d || "—"} in
+                </div>
+              </div>
+            </div>
+          </aside>
+
+          <div className="lg:col-span-5 bg-secondary/40 rounded-md p-6 md:p-10 border border-border/60">
             <div className="space-y-8">
               {/* Dimensions */}
               <Field label={lang === "es" ? "Dimensiones (pulgadas)" : "Dimensions (inches)"}>
@@ -218,7 +271,7 @@ export const PedestalEstimator = () => {
           </div>
 
           {/* Estimate panel */}
-          <div className="lg:col-span-2 lg:sticky lg:top-24">
+          <div className="lg:col-span-3 lg:sticky lg:top-24">
             <div className="bg-clay text-cream rounded-md p-6 md:p-8 shadow-elegant">
               <div className="text-xs uppercase tracking-[0.2em] text-cream/70 font-medium">{t.pedestal.estimate[lang]}</div>
               <div className="mt-6 space-y-3 text-sm">
@@ -267,10 +320,23 @@ export const PedestalEstimator = () => {
                 </div>
               </div>
               <Button
-                onClick={() => toast.success(lang === "es" ? "Cotización enviada — te contactaremos." : "Quote sent — we'll be in touch.")}
-                className="mt-6 w-full bg-cream text-ink hover:bg-ink hover:text-cream rounded-full py-6"
+                onClick={() => {
+                  if (calc.total <= 0) return;
+                  const finishLabel = `${FINISH[finish][lang]}${finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}`;
+                  const details = `${h}×${w}×${d} in · ${MATERIAL[material][lang]} · ${finishLabel}${material === "acrylic" ? ` · ${ACRYLIC_THICKNESS[acrylicThickness][lang]}` : ""} · ${urgency === "rush" ? t.pedestal.rush[lang] : t.pedestal.standard[lang]}`;
+                  add({
+                    type: "pedestal",
+                    title: lang === "es" ? "Pedestal a medida" : "Custom pedestal",
+                    details,
+                    qty,
+                    unitPrice: calc.perUnit,
+                  });
+                }}
+                disabled={calc.total <= 0}
+                className="mt-6 w-full bg-cream text-ink hover:bg-ink hover:text-cream rounded-full py-6 inline-flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                {t.pedestal.request[lang]}
+                <ShoppingCart className="h-4 w-4" />
+                {lang === "es" ? "Agregar al carrito" : "Add to cart"}
               </Button>
             </div>
           </div>

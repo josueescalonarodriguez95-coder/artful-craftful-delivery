@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { LangProvider, useLang } from "@/components/site/LangContext";
+import { CartProvider } from "@/components/site/CartContext";
+import { CartDrawer } from "@/components/site/CartDrawer";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
 import { Marquee } from "@/components/site/Marquee";
@@ -37,20 +39,23 @@ const SEO = () => {
 const Index = () => {
   return (
     <LangProvider>
-      <SEO />
-      <div className="min-h-screen bg-cream text-ink">
-        <Nav />
-        <main>
-          <Hero />
-          <Marquee />
-          <Services />
-          <DeliveryCalculator />
-          <PedestalEstimator />
-          <Contact />
-          <ShippingOptions />
-        </main>
-        <Footer />
-      </div>
+      <CartProvider>
+        <SEO />
+        <div className="min-h-screen bg-cream text-ink">
+          <Nav />
+          <CartDrawer />
+          <main>
+            <Hero />
+            <Marquee />
+            <Services />
+            <DeliveryCalculator />
+            <PedestalEstimator />
+            <Contact />
+            <ShippingOptions />
+          </main>
+          <Footer />
+        </div>
+      </CartProvider>
     </LangProvider>
   );
 };
