@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Switch } from "@/components/ui/switch";
+import { CrateGallery } from "./CrateGallery";
 
 const FRAGILE_PCT = 0.15;
 
@@ -176,6 +177,8 @@ export const DeliveryCalculator = () => {
             </div>
           </div>
         </div>
+
+        <CrateGallery />
       </div>
     </section>
   );
