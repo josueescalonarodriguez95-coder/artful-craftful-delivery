@@ -50,8 +50,8 @@ const Index = () => {
             <Services />
             <DeliveryCalculator />
             <PedestalEstimator />
-            <Contact />
             <ShippingOptions />
+            <Contact />
           </main>
           <Footer />
         </div>
