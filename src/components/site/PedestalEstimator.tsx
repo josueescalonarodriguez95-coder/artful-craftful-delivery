@@ -4,7 +4,23 @@ import { t } from "@/i18n/translations";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+import { useCart } from "./CartContext";
+import { ShoppingCart } from "lucide-react";
+import plywoodShort from "@/assets/pedestal-plywood-short.jpg";
+import plywoodMedium from "@/assets/pedestal-plywood-medium.jpg";
+import plywoodTall from "@/assets/pedestal-plywood-tall.jpg";
+import acrylicShort from "@/assets/pedestal-acrylic-short.jpg";
+import acrylicMedium from "@/assets/pedestal-acrylic-medium.jpg";
+import acrylicTall from "@/assets/pedestal-acrylic-tall.jpg";
+import marbleShort from "@/assets/pedestal-marble-short.jpg";
+import marbleMedium from "@/assets/pedestal-marble-medium.jpg";
+import marbleTall from "@/assets/pedestal-marble-tall.jpg";
+
+const PEDESTAL_IMAGES: Record<"plywood" | "acrylic" | "marble", Record<"short" | "medium" | "tall", string>> = {
+  plywood: { short: plywoodShort, medium: plywoodMedium, tall: plywoodTall },
+  acrylic: { short: acrylicShort, medium: acrylicMedium, tall: acrylicTall },
+  marble: { short: marbleShort, medium: marbleMedium, tall: marbleTall },
+};
 
 type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "white" | "black" | "clear";
