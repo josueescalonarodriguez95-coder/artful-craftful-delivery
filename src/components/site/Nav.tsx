@@ -29,16 +29,16 @@ export const Nav = () => {
     >
       <div className="container flex items-center justify-between h-16 md:h-20">
         <a href="#top" className="flex items-baseline gap-2 group">
-          <span className="font-display text-xl md:text-2xl tracking-tight text-ink">
-            Ramos<span className="text-clay">·</span>Delivery<span className="text-ink/50"> Enterprise</span>
+          <span className="font-display text-2xl md:text-3xl tracking-tight text-ink">
+            Ramos<span className="text-clay">·</span>Delivery<span className="text-ink/70"> Enterprise</span>
           </span>
         </a>
 
         <nav className="hidden md:flex items-center gap-8 text-sm">
-          <a href="#services" className="story-link text-ink/80 hover:text-ink transition">{T.services}</a>
-          <a href="#delivery" className="story-link text-ink/80 hover:text-ink transition">{T.delivery}</a>
-          <a href="#pedestals" className="story-link text-ink/80 hover:text-ink transition">{T.pedestals}</a>
-          <a href="#contact" className="story-link text-ink/80 hover:text-ink transition">{T.contact}</a>
+          <a href="#services" className="story-link text-ink hover:text-clay transition">{T.services}</a>
+          <a href="#delivery" className="story-link text-ink hover:text-clay transition">{T.delivery}</a>
+          <a href="#pedestals" className="story-link text-ink hover:text-clay transition">{T.pedestals}</a>
+          <a href="#contact" className="story-link text-ink hover:text-clay transition">{T.contact}</a>
         </nav>
 
         <div className="flex items-center gap-3">

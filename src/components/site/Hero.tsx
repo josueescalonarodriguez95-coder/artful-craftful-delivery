@@ -27,9 +27,6 @@ export const Hero = () => {
               {t.hero.eyebrow[lang]}
             </span>
           </div>
-          <h1 className="font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[1.02] text-ink text-balance animate-fade-up">
-            {t.hero.title[lang]}
-          </h1>
           <p className="mt-6 max-w-xl text-base md:text-lg text-ink/75 animate-fade-up [animation-delay:200ms]">
             {t.hero.sub[lang]}
           </p>
