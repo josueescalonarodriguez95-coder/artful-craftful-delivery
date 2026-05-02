@@ -1,9 +1,12 @@
 import { useLang } from "./LangContext";
+import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
+import { ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export const Nav = () => {
   const { lang, setLang } = useLang();
+  const { count, setOpen } = useCart();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -57,6 +60,18 @@ export const Nav = () => {
           <Button asChild size="sm" className="hidden sm:inline-flex bg-ink hover:bg-ink/90 text-cream rounded-full px-5">
             <a href="#delivery">{T.quote}</a>
           </Button>
+          <button
+            onClick={() => setOpen(true)}
+            aria-label={lang === "es" ? "Abrir carrito" : "Open cart"}
+            className="relative h-10 w-10 rounded-full border border-border bg-background hover:bg-ink hover:text-cream transition flex items-center justify-center text-ink"
+          >
+            <ShoppingCart className="h-4 w-4" />
+            {count > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-clay text-cream text-[10px] font-medium flex items-center justify-center tabular-nums">
+                {count}
+              </span>
+            )}
+          </button>
         </div>
       </div>
     </header>
