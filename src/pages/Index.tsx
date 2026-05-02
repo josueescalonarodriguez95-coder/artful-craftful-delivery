@@ -18,8 +18,8 @@ const SEO = () => {
       : "Ramos Delivery Enterprise — Fine Art Delivery, Crates & Pedestals";
 
     const desc = lang === "es"
-      ? "Servicio especializado de fine art delivery, fabricación de huacales a medida y restauración de pedestales museísticos."
-      : "Specialized fine art delivery, custom crate fabrication and museum-grade pedestal restoration.";
+      ? "Servicio especializado de fine art delivery, fabricación de huacales a medida y construcción de pedestales museísticos."
+      : "Specialized fine art delivery, custom crate fabrication and museum-grade pedestal construction.";
 
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) {
