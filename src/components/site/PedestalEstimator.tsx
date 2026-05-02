@@ -83,13 +83,32 @@ export const PedestalEstimator = () => {
   const { add } = useCart();
   const ref = useReveal<HTMLDivElement>();
 
-  const shape: "short" | "medium" | "tall" =
-    h > 0 && h < 20
-      ? "short"
-      : h > 40 && h > w
-      ? "tall"
-      : "medium";
-  const previewImage = PEDESTAL_IMAGES[material][shape];
+  // Choose preview image based on material + finish (+ color when applicable)
+  const previewImage = (() => {
+    if (material === "marble") {
+      return finish === "black" ? marbleBlack : marbleWhite;
+    }
+    if (material === "acrylic") {
+      if (finish === "black") return acrylicBlack;
+      if (finish === "white") return acrylicWhite;
+      return acrylicClear;
+    }
+    // plywood
+    if (finish === "raw") return plywoodNatural;
+    if (finish === "paint") {
+      if (paintColor === "black") return plywoodPaintBlack;
+      if (paintColor === "gray") return plywoodPaintGray;
+      return plywoodPaintWhite;
+    }
+    if (finish === "lacquer") {
+      if (lacquerColor === "white") return plywoodLacquerWhite;
+      if (lacquerColor === "gold") return plywoodLacquerGold;
+      if (lacquerColor === "silver") return plywoodLacquerSilver;
+      return plywoodLacquerBlack;
+    }
+    return plywoodNatural;
+  })();
+  const previewKey = `${material}-${finish}-${finish === "lacquer" ? lacquerColor : finish === "paint" ? paintColor : ""}`;
 
   const availableFinishes =
     material === "marble" ? MARBLE_FINISHES : material === "acrylic" ? ACRYLIC_FINISHES : DEFAULT_FINISHES;
