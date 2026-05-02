@@ -10,12 +10,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import logoRamos from "@/assets/logo-ramos-clean.png";
 
 export const Nav = () => {
   const { lang, setLang } = useLang();
   const { count, setOpen } = useCart();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -32,6 +35,8 @@ export const Nav = () => {
     quote: lang === "es" ? "Cotizar" : "Get a Quote",
   };
 
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
@@ -39,11 +44,15 @@ export const Nav = () => {
       }`}
     >
       <div className="container flex items-center justify-between h-16 md:h-20">
-        <a href="#top" className="flex items-baseline gap-2 group">
+        <button
+          onClick={() => setAboutOpen(true)}
+          className="flex items-baseline gap-2 group text-left"
+          aria-label={lang === "es" ? "Quiénes somos" : "About us"}
+        >
           <span className="font-display text-2xl md:text-3xl tracking-tight text-ink">
             Ramos<span className="text-clay">·</span>Delivery<span className="text-ink/70"> Enterprise</span>
           </span>
-        </a>
+        </button>
 
         <nav className="hidden md:flex items-center gap-8 text-sm">
           <a href="#services" className="story-link text-ink hover:text-clay transition">{T.services}</a>
@@ -80,7 +89,7 @@ export const Nav = () => {
               </span>
             )}
           </button>
-          <Sheet>
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
               <button
                 aria-label={lang === "es" ? "Más opciones" : "More options"}
@@ -106,6 +115,7 @@ export const Nav = () => {
               <nav className="mt-8 flex flex-col gap-1">
                 <a
                   href="#storage"
+                  onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Archive className="h-5 w-5 text-clay" />
@@ -113,6 +123,7 @@ export const Nav = () => {
                 </a>
                 <a
                   href="#services"
+                  onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Package className="h-5 w-5 text-clay" />
@@ -120,6 +131,7 @@ export const Nav = () => {
                 </a>
                 <a
                   href="#installation"
+                  onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Hammer className="h-5 w-5 text-clay" />
@@ -127,6 +139,7 @@ export const Nav = () => {
                 </a>
                 <a
                   href="#delivery"
+                  onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Truck className="h-5 w-5 text-clay" />
@@ -163,6 +176,21 @@ export const Nav = () => {
           </Sheet>
         </div>
       </div>
+
+      <Dialog open={aboutOpen} onOpenChange={setAboutOpen}>
+        <DialogContent className="max-w-lg bg-cream border-border">
+          <DialogHeader>
+            <DialogTitle className="font-display text-3xl text-ink">
+              {lang === "es" ? "Quiénes somos" : "About us"}
+            </DialogTitle>
+            <DialogDescription className="text-ink/75 leading-relaxed pt-3 text-base">
+              {lang === "es"
+                ? "Ramos Delivery Enterprise es una empresa especializada en el manejo, embalaje y transporte de arte y piezas delicadas. Con años de experiencia, ofrecemos huacales a medida, pedestales, almacenaje de obras de arte e instalación profesional. Nuestro compromiso es proteger cada pieza con la dedicación y cuidado que merece."
+                : "Ramos Delivery Enterprise specializes in handling, packing and transporting fine art and delicate pieces. With years of experience, we offer custom crates, pedestals, fine art storage and professional installation. Our commitment is to protect every piece with the dedication and care it deserves."}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };
