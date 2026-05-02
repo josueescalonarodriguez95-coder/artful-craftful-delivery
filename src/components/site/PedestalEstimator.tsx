@@ -5,22 +5,21 @@ import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "./CartContext";
-import { ShoppingCart } from "lucide-react";
-import plywoodShort from "@/assets/pedestal-plywood-short.jpg";
-import plywoodMedium from "@/assets/pedestal-plywood-medium.jpg";
-import plywoodTall from "@/assets/pedestal-plywood-tall.jpg";
-import acrylicShort from "@/assets/pedestal-acrylic-short.jpg";
-import acrylicMedium from "@/assets/pedestal-acrylic-medium.jpg";
-import acrylicTall from "@/assets/pedestal-acrylic-tall.jpg";
-import marbleShort from "@/assets/pedestal-marble-short.jpg";
-import marbleMedium from "@/assets/pedestal-marble-medium.jpg";
-import marbleTall from "@/assets/pedestal-marble-tall.jpg";
-
-const PEDESTAL_IMAGES: Record<"plywood" | "acrylic" | "marble", Record<"short" | "medium" | "tall", string>> = {
-  plywood: { short: plywoodShort, medium: plywoodMedium, tall: plywoodTall },
-  acrylic: { short: acrylicShort, medium: acrylicMedium, tall: acrylicTall },
-  marble: { short: marbleShort, medium: marbleMedium, tall: marbleTall },
-};
+import { ShoppingCart, ZoomIn } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import plywoodNatural from "@/assets/pedestal-plywood-natural.jpg";
+import plywoodPaintWhite from "@/assets/pedestal-plywood-paint-white.jpg";
+import plywoodPaintBlack from "@/assets/pedestal-plywood-paint-black.jpg";
+import plywoodPaintGray from "@/assets/pedestal-plywood-paint-gray.jpg";
+import plywoodLacquerBlack from "@/assets/pedestal-plywood-lacquer-black.jpg";
+import plywoodLacquerWhite from "@/assets/pedestal-plywood-lacquer-white.jpg";
+import plywoodLacquerGold from "@/assets/pedestal-plywood-lacquer-gold.jpg";
+import plywoodLacquerSilver from "@/assets/pedestal-plywood-lacquer-silver.jpg";
+import acrylicClear from "@/assets/pedestal-acrylic-clear.jpg";
+import acrylicBlack from "@/assets/pedestal-acrylic-black.jpg";
+import acrylicWhite from "@/assets/pedestal-acrylic-white.jpg";
+import marbleWhite from "@/assets/pedestal-marble-white.jpg";
+import marbleBlack from "@/assets/pedestal-marble-black.jpg";
 
 type Material = "plywood" | "acrylic" | "marble";
 type Finish = "raw" | "paint" | "lacquer" | "white" | "black" | "clear";
@@ -84,13 +83,32 @@ export const PedestalEstimator = () => {
   const { add } = useCart();
   const ref = useReveal<HTMLDivElement>();
 
-  const shape: "short" | "medium" | "tall" =
-    h > 0 && h < 20
-      ? "short"
-      : h > 40 && h > w
-      ? "tall"
-      : "medium";
-  const previewImage = PEDESTAL_IMAGES[material][shape];
+  // Choose preview image based on material + finish (+ color when applicable)
+  const previewImage = (() => {
+    if (material === "marble") {
+      return finish === "black" ? marbleBlack : marbleWhite;
+    }
+    if (material === "acrylic") {
+      if (finish === "black") return acrylicBlack;
+      if (finish === "white") return acrylicWhite;
+      return acrylicClear;
+    }
+    // plywood
+    if (finish === "raw") return plywoodNatural;
+    if (finish === "paint") {
+      if (paintColor === "black") return plywoodPaintBlack;
+      if (paintColor === "gray") return plywoodPaintGray;
+      return plywoodPaintWhite;
+    }
+    if (finish === "lacquer") {
+      if (lacquerColor === "white") return plywoodLacquerWhite;
+      if (lacquerColor === "gold") return plywoodLacquerGold;
+      if (lacquerColor === "silver") return plywoodLacquerSilver;
+      return plywoodLacquerBlack;
+    }
+    return plywoodNatural;
+  })();
+  const previewKey = `${material}-${finish}-${finish === "lacquer" ? lacquerColor : finish === "paint" ? paintColor : ""}`;
 
   const availableFinishes =
     material === "marble" ? MARBLE_FINISHES : material === "acrylic" ? ACRYLIC_FINISHES : DEFAULT_FINISHES;
@@ -154,23 +172,54 @@ export const PedestalEstimator = () => {
           {/* Pedestal preview */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24">
             <div className="bg-secondary/40 rounded-md border border-border/60 overflow-hidden">
-              <div className="aspect-[3/4] bg-cream relative">
-                <img
-                  key={`${material}-${shape}`}
-                  src={previewImage}
-                  alt={`${MATERIAL[material][lang]} ${lang === "es" ? "pedestal" : "pedestal"} ${shape}`}
-                  loading="lazy"
-                  width={768}
-                  height={1024}
-                  className="w-full h-full object-cover animate-fade-in"
-                />
-              </div>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label={lang === "es" ? "Ampliar vista previa" : "Zoom preview"}
+                    className="group relative block w-full aspect-square bg-cream overflow-hidden cursor-zoom-in"
+                  >
+                    <img
+                      key={previewKey}
+                      src={previewImage}
+                      alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                      loading="lazy"
+                      width={1024}
+                      height={1024}
+                      className="w-full h-full object-cover animate-fade-in transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                    <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-ink/80 text-cream text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ZoomIn className="h-3 w-3" />
+                      {lang === "es" ? "Ampliar" : "Zoom"}
+                    </span>
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="max-w-3xl p-0 bg-cream border-border/60">
+                  <DialogTitle className="sr-only">
+                    {`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                  </DialogTitle>
+                  <DialogDescription className="sr-only">
+                    {lang === "es" ? "Vista previa ampliada del pedestal" : "Enlarged pedestal preview"}
+                  </DialogDescription>
+                  <img
+                    src={previewImage}
+                    alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                    width={1024}
+                    height={1024}
+                    className="w-full h-auto object-contain rounded-md"
+                  />
+                </DialogContent>
+              </Dialog>
               <div className="p-4 border-t border-border/60">
                 <div className="text-[11px] uppercase tracking-[0.2em] text-ink/50 mb-1">
                   {lang === "es" ? "Vista previa" : "Preview"}
                 </div>
                 <div className="font-display text-xl text-ink leading-tight">
                   {MATERIAL[material][lang]}
+                </div>
+                <div className="text-xs text-ink/60 mt-1">
+                  {FINISH[finish][lang]}
+                  {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
                 </div>
                 <div className="text-xs text-ink/60 mt-1 tabular-nums">
                   {h || "—"}×{w || "—"}×{d || "—"} in
