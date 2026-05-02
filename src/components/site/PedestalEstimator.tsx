@@ -55,9 +55,9 @@ const SERVICE_BASE = { new: 120 };
 
 export const PedestalEstimator = () => {
   const { lang } = useLang();
-  const [h, setH] = useState(36);
-  const [w, setW] = useState(14);
-  const [d, setD] = useState(14);
+  const [h, setH] = useState<number>(0);
+  const [w, setW] = useState<number>(0);
+  const [d, setD] = useState<number>(0);
   const [material, setMaterial] = useState<Material>("plywood");
   const [finish, setFinish] = useState<Finish>("paint");
   const [acrylicThickness, setAcrylicThickness] = useState<AcrylicThickness>("1/4");
@@ -299,11 +299,14 @@ const Choice = ({ active, onClick, children }: { active: boolean; onClick: () =>
 );
 
 const Dim = ({ label, value, onChange }: { label: string; value: number; onChange: (n: number) => void }) => {
-  const [text, setText] = useState(String(value));
+  const [text, setText] = useState(value > 0 ? String(value) : "");
 
   // Keep local text in sync if parent value changes externally
   useEffect(() => {
-    setText((prev) => (Number(prev) === value ? prev : String(value)));
+    setText((prev) => {
+      const prevN = prev === "" ? 0 : Number(prev);
+      return prevN === value ? prev : value > 0 ? String(value) : "";
+    });
   }, [value]);
 
   return (
@@ -315,17 +318,26 @@ const Dim = ({ label, value, onChange }: { label: string; value: number; onChang
         value={text}
         min={1}
         max={120}
+        placeholder=""
         onChange={(e) => {
           const v = e.target.value;
           setText(v);
+          if (v === "") {
+            onChange(0);
+            return;
+          }
           const n = Number(v);
-          if (v !== "" && !Number.isNaN(n) && n >= 1 && n <= 120) {
+          if (!Number.isNaN(n) && n >= 0 && n <= 120) {
             onChange(n);
           }
         }}
         onBlur={() => {
-          const n = Math.max(1, Math.min(120, Number(text) || 1));
-          setText(String(n));
+          if (text === "") {
+            onChange(0);
+            return;
+          }
+          const n = Math.max(0, Math.min(120, Number(text) || 0));
+          setText(n > 0 ? String(n) : "");
           onChange(n);
         }}
         onFocus={(e) => e.target.select()}

@@ -49,8 +49,8 @@ export const Contact = () => {
                 <a href="tel:+17864262444" className="text-lg hairline">+1 (786) 426-2444</a>
               </div>
               <div>
-                <div className="text-xs uppercase tracking-[0.2em] text-cream/50">{lang === "es" ? "Estudio" : "Studio"}</div>
-                <p className="text-lg">Santo Domingo · DR</p>
+                <div className="text-xs uppercase tracking-[0.2em] text-cream/50">{lang === "es" ? "Localización" : "Location"}</div>
+                <p className="text-lg">Miami, Florida</p>
               </div>
             </div>
           </div>
