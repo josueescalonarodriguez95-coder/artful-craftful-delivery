@@ -1,7 +1,7 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, Archive, Hammer, Truck } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck, Package } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Sheet,
@@ -100,7 +100,14 @@ export const Nav = () => {
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Archive className="h-5 w-5 text-clay" />
-                  <span>{lang === "es" ? "Art Storage" : "Art Storage"}</span>
+                  <span>Fine Art Storage</span>
+                </a>
+                <a
+                  href="#services"
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
+                >
+                  <Package className="h-5 w-5 text-clay" />
+                  <span>Packing</span>
                 </a>
                 <a
                   href="#services"
