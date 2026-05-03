@@ -12,61 +12,121 @@ import img7 from "@/assets/crate-gallery-7.jpg";
 
 const images = [img1, img2, img3, img4, img5, img6, img7];
 
+// Premium horizontal carousel with snapping, drag/swipe + momentum, infinite loop.
 export const CrateGallery = () => {
   const { lang } = useLang();
-  // index is fractional during drag for fluid motion
-  const [index, setIndex] = useState(0);
-  const [drag, setDrag] = useState(0); // -1..1 fraction of slot width while dragging
+  const total = images.length;
+
+  // We render a tripled list [...images, ...images, ...images] and keep the
+  // logical index inside the middle copy to enable seamless infinite looping.
+  const [index, setIndex] = useState(total); // start in middle copy
+  const [drag, setDrag] = useState(0); // px while dragging
+  const [animate, setAnimate] = useState(true);
   const [openIdx, setOpenIdx] = useState<number | null>(null);
-  const pausedRef = useRef(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const slotRef = useRef(220); // px width per slot (image + gap)
   const draggingRef = useRef(false);
   const startXRef = useRef(0);
-  const slotWidthRef = useRef(160);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const total = images.length;
+  const lastXRef = useRef(0);
+  const lastTRef = useRef(0);
+  const velocityRef = useRef(0);
+  const pausedRef = useRef(false);
+
+  // Measure slot width responsively
+  useEffect(() => {
+    const measure = () => {
+      const w = containerRef.current?.clientWidth ?? 480;
+      // image is ~60% of container width on mobile, capped on desktop
+      const imgW = Math.min(260, Math.max(150, w * 0.55));
+      const gap = 24;
+      slotRef.current = imgW + gap;
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   useEffect(() => {
     pausedRef.current = openIdx !== null;
   }, [openIdx]);
 
+  // Autoplay
   useEffect(() => {
     const id = setInterval(() => {
-      if (!pausedRef.current && !draggingRef.current) setIndex((i) => i + 1);
-    }, 3500);
+      if (!pausedRef.current && !draggingRef.current) {
+        setAnimate(true);
+        setIndex((i) => i + 1);
+      }
+    }, 4000);
     return () => clearInterval(id);
   }, []);
 
-  const wrap = (i: number) => ((i % total) + total) % total;
-  const next = () => setIndex((i) => i + 1);
-  const prev = () => setIndex((i) => i - 1);
+  // Seamless loop: when we drift outside the middle copy, jump back without animation.
+  useEffect(() => {
+    if (draggingRef.current) return;
+    if (index < total || index >= total * 2) {
+      const id = setTimeout(() => {
+        setAnimate(false);
+        setIndex(((index % total) + total) % total + total);
+      }, 520); // after transition completes
+      return () => clearTimeout(id);
+    }
+  }, [index, total]);
 
-  // Pointer / touch handlers for swipe
+  // Re-enable animation after a non-animated jump
+  useEffect(() => {
+    if (!animate) {
+      const id = requestAnimationFrame(() => setAnimate(true));
+      return () => cancelAnimationFrame(id);
+    }
+  }, [animate]);
+
+  const goTo = (i: number) => {
+    setAnimate(true);
+    setIndex(i);
+  };
+  const next = () => goTo(index + 1);
+  const prev = () => goTo(index - 1);
+
+  // Pointer handlers — drag with momentum
   const onPointerDown = (e: React.PointerEvent) => {
     draggingRef.current = true;
     startXRef.current = e.clientX;
-    slotWidthRef.current = (containerRef.current?.clientWidth ?? 480) * 0.38;
+    lastXRef.current = e.clientX;
+    lastTRef.current = performance.now();
+    velocityRef.current = 0;
+    setAnimate(false);
     pausedRef.current = true;
     (e.target as Element).setPointerCapture?.(e.pointerId);
   };
   const onPointerMove = (e: React.PointerEvent) => {
     if (!draggingRef.current) return;
-    const dx = e.clientX - startXRef.current;
-    const frac = Math.max(-1.5, Math.min(1.5, dx / slotWidthRef.current));
-    setDrag(-frac); // dragging right -> previous (negative index shift)
+    const now = performance.now();
+    const dt = Math.max(1, now - lastTRef.current);
+    velocityRef.current = (e.clientX - lastXRef.current) / dt; // px/ms
+    lastXRef.current = e.clientX;
+    lastTRef.current = now;
+    setDrag(e.clientX - startXRef.current);
   };
   const endDrag = () => {
     if (!draggingRef.current) return;
     draggingRef.current = false;
-    if (Math.abs(drag) > 0.25) {
-      setIndex((i) => i + Math.round(drag));
-    }
+    const slot = slotRef.current;
+    // Project momentum to add inertia
+    const projected = drag + velocityRef.current * 180; // ms of inertia
+    const steps = Math.round(-projected / slot);
+    setAnimate(true);
+    setIndex((i) => i + steps);
     setDrag(0);
     pausedRef.current = openIdx !== null;
   };
 
-  // Render a window of 5 slides for smoother flow
-  const offsets = [-2, -1, 0, 1, 2];
-  const effective = index + drag;
+  const slot = slotRef.current;
+  const translatePx = -index * slot + drag;
+
+  // Active logical slide for dots
+  const activeDot = (((index % total) + total) % total);
 
   return (
     <div className="mt-10">
@@ -85,51 +145,69 @@ export const CrateGallery = () => {
 
         <div
           ref={containerRef}
-          className="relative flex-1 max-w-[560px] h-48 sm:h-60 md:h-72 flex items-center justify-center touch-pan-y select-none cursor-grab active:cursor-grabbing overflow-hidden"
-          style={{ perspective: "1400px" }}
+          className="relative flex-1 max-w-[640px] h-56 sm:h-64 md:h-72 overflow-hidden touch-pan-y select-none cursor-grab active:cursor-grabbing"
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={endDrag}
           onPointerCancel={endDrag}
           onPointerLeave={endDrag}
         >
-          {offsets.map((baseOff) => {
-            const i = wrap(Math.round(effective) + baseOff);
-            // off relative to the visual center (fractional)
-            const off = (Math.round(effective) + baseOff) - effective;
-            const abs = Math.abs(off);
-            const isCenter = abs < 0.5;
-            return (
-              <button
-                key={`${baseOff}-${i}`}
-                onClick={() => {
-                  if (Math.abs(drag) > 0.05) return;
-                  if (isCenter) setOpenIdx(i);
-                  else setIndex((idx) => idx + Math.round(off === 0 ? 0 : (off > 0 ? -1 : 1)) * 0 + (baseOff));
-                }}
-                aria-label={isCenter ? (lang === "es" ? "Ver imagen" : "View image") : undefined}
-                className="absolute top-1/2 left-1/2 will-change-transform"
-                style={{
-                  transform: `translate(-50%, -50%) translateX(${off * 42}%) rotateY(${off * -32}deg) scale(${Math.max(0.62, 1 - abs * 0.22)})`,
-                  zIndex: 20 - Math.round(abs * 10),
-                  opacity: Math.max(0.25, 1 - abs * 0.35),
-                  transformStyle: "preserve-3d",
-                  transition: draggingRef.current
-                    ? "none"
-                    : "transform 700ms cubic-bezier(0.22,1,0.36,1), opacity 500ms ease-out",
-                  filter: isCenter ? "none" : "blur(0.3px)",
-                }}
-              >
-                <img
-                  src={images[i]}
-                  alt={`Crate work ${i + 1}`}
-                  loading="lazy"
-                  draggable={false}
-                  className="w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 object-cover rounded-md shadow-elegant border border-border/60 pointer-events-none"
-                />
-              </button>
-            );
-          })}
+          {/* Track */}
+          <div
+            className="absolute top-1/2 left-1/2 flex items-center"
+            style={{
+              transform: `translate3d(calc(-50% + ${translatePx}px + ${slot / 2}px), -50%, 0)`,
+              transition: animate
+                ? "transform 480ms cubic-bezier(0.22, 1, 0.36, 1)"
+                : "none",
+              willChange: "transform",
+              gap: 0,
+            }}
+          >
+            {Array.from({ length: total * 3 }).map((_, i) => {
+              const distance = (i * slot) - (index * slot - drag);
+              const norm = slot ? distance / slot : 0; // 0 at center
+              const abs = Math.min(2, Math.abs(norm));
+              const isActive = abs < 0.5;
+              const scale = 1 - abs * 0.08; // 1 .. ~0.84
+              const opacity = 1 - abs * 0.35; // 1 .. ~0.3
+              const blur = isActive ? 0 : Math.min(1.5, abs * 0.8);
+              const logical = i % total;
+              return (
+                <div
+                  key={i}
+                  className="shrink-0 flex items-center justify-center"
+                  style={{ width: slot }}
+                >
+                  <button
+                    onClick={() => {
+                      if (Math.abs(drag) > 4) return;
+                      if (isActive) setOpenIdx(logical);
+                      else goTo(i);
+                    }}
+                    className="block will-change-transform"
+                    style={{
+                      transform: `scale(${scale})`,
+                      opacity,
+                      filter: blur ? `blur(${blur}px)` : "none",
+                      transition: animate
+                        ? "transform 480ms ease-in-out, opacity 480ms ease-in-out, filter 480ms ease-in-out"
+                        : "none",
+                    }}
+                    aria-label={isActive ? (lang === "es" ? "Ver imagen" : "View image") : undefined}
+                  >
+                    <img
+                      src={images[logical]}
+                      alt={`Crate work ${logical + 1}`}
+                      loading="lazy"
+                      draggable={false}
+                      className="w-40 h-40 sm:w-52 sm:h-52 md:w-60 md:h-60 object-cover rounded-md shadow-elegant border border-border/60 pointer-events-none"
+                    />
+                  </button>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         <button
@@ -139,6 +217,23 @@ export const CrateGallery = () => {
         >
           <ChevronRight className="h-4 w-4" />
         </button>
+      </div>
+
+      {/* Pagination dots */}
+      <div className="mt-5 flex items-center justify-center gap-1.5">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => {
+              const base = Math.floor(index / total) * total;
+              goTo(base + i);
+            }}
+            aria-label={`${lang === "es" ? "Ir a" : "Go to"} ${i + 1}`}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              i === activeDot ? "w-6 bg-ink/70" : "w-1.5 bg-ink/25 hover:bg-ink/40"
+            }`}
+          />
+        ))}
       </div>
 
       <Dialog open={openIdx !== null} onOpenChange={(o) => !o && setOpenIdx(null)}>
