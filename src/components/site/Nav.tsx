@@ -59,12 +59,12 @@ export const Nav = () => {
           </span>
         </button>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm">
-          <a href="#services" className="story-link text-ink hover:text-clay transition">{T.services}</a>
-          <a href="#delivery" className="story-link text-ink hover:text-clay transition">{T.delivery}</a>
-          <a href="#pedestals" className="story-link text-ink hover:text-clay transition">{T.pedestals}</a>
+        <nav className="hidden md:flex items-center gap-2 text-sm">
+          <a href="#services" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.services}</a>
+          <a href="#delivery" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.delivery}</a>
+          <a href="#pedestals" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.pedestals}</a>
           <DropdownMenu>
-            <DropdownMenuTrigger className="story-link text-ink hover:text-clay transition outline-none p-0 bg-transparent border-0 font-normal text-sm leading-none">
+            <DropdownMenuTrigger className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm outline-none text-sm leading-none">
               {T.restorations}
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" className="bg-cream border-border">
@@ -79,7 +79,7 @@ export const Nav = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <a href="#contact" className="story-link text-ink hover:text-clay transition">{T.contact}</a>
+          <a href="#contact" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.contact}</a>
         </nav>
 
         <div className="flex items-center gap-3">
