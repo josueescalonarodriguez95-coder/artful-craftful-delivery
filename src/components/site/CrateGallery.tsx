@@ -245,11 +245,17 @@ export const CrateGallery = () => {
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
-              <img
-                src={images[openIdx]}
-                alt={`Crate work ${openIdx + 1}`}
-                className="flex-1 min-w-0 h-auto max-h-[85vh] object-contain rounded-md"
-              />
+              <div className="flex-1 min-w-0 max-h-[85vh] overflow-auto rounded-md">
+                <img
+                  src={images[openIdx]}
+                  alt={`Crate work ${openIdx + 1}`}
+                  onClick={(e) => {
+                    const el = e.currentTarget;
+                    el.classList.toggle("scale-[2]");
+                  }}
+                  className="w-full h-auto max-h-[85vh] object-contain transition-transform duration-300 ease-in-out cursor-zoom-in origin-center"
+                />
+              </div>
               <button
                 onClick={() => setOpenIdx((i) => (i === null ? i : (i + 1) % images.length))}
                 aria-label={lang === "es" ? "Siguiente" : "Next"}
