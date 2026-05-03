@@ -19,15 +19,15 @@ export const Hero = () => {
         <div className="absolute inset-0 bg-gradient-overlay opacity-40" />
       </div>
 
-      <div className="relative container pb-16 md:pb-24 pt-32 md:pl-2 lg:pl-0 -ml-2 md:-ml-6">
+      <div className="relative container pb-16 md:pb-24 pt-32">
         <div className="max-w-3xl">
           <div className="flex items-center gap-3 mb-6 animate-fade-in">
             <span className="h-px w-10 bg-clay origin-left animate-draw-line" />
-            <span className="text-sm uppercase tracking-[0.25em] text-ink font-bold">
+            <span className="text-xs uppercase tracking-[0.25em] text-ink/70 font-medium">
               {t.hero.eyebrow[lang]}
             </span>
           </div>
-          <p className="mt-6 max-w-xl text-lg md:text-xl text-ink font-semibold animate-fade-up [animation-delay:200ms]">
+          <p className="mt-6 max-w-xl text-base md:text-lg text-ink/75 animate-fade-up [animation-delay:200ms]">
             {t.hero.sub[lang]}
           </p>
           <div className="mt-10 flex flex-wrap gap-3 animate-fade-up [animation-delay:400ms]">
