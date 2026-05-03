@@ -1,7 +1,5 @@
 import { useLang } from "./LangContext";
-import { t } from "@/i18n/translations";
 import heroImg from "@/assets/hero-truck.jpg";
-import { ArrowRight } from "lucide-react";
 
 export const Hero = () => {
   const { lang } = useLang();
