@@ -1,12 +1,15 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
 import img1 from "@/assets/installation-1.jpg";
 import img2 from "@/assets/installation-2.jpg";
 import img3 from "@/assets/installation-3.jpg";
 import img4 from "@/assets/installation-4.jpg";
+import album1 from "@/assets/album-1.jpg";
+import album2 from "@/assets/album-2.jpg";
+import album3 from "@/assets/album-3.jpg";
+import album4 from "@/assets/album-4.jpg";
 
 type MediaType = "image" | "video";
 type Photo = { src: string; es: string; en: string; type: MediaType };
@@ -16,6 +19,15 @@ const initialPhotos: Photo[] = [
   { src: img2, type: "image", es: "Instalación de tapiz contemporáneo en comedor", en: "Contemporary tapestry installation in dining room" },
   { src: img3, type: "image", es: "Mural abstracto instalado en escalera", en: "Abstract mural installed on staircase wall" },
   { src: img4, type: "image", es: "Fotografía de ola enmarcada en sala", en: "Framed wave photograph in living room" },
+];
+
+const albumExtras: Photo[] = [
+  { src: album1, type: "image", es: "Instalación de obra de gran formato con nivel láser", en: "Large-format artwork installation with laser level" },
+  { src: album2, type: "image", es: "Fotografía de ola enmarcada en pared blanca", en: "Framed wave photograph on white wall" },
+  { src: album3, type: "image", es: "Obra abstracta sobre consola en sala", en: "Abstract artwork above console in living room" },
+  { src: album4, type: "image", es: "Obra contemporánea instalada sobre sofá", en: "Contemporary artwork installed above sofa" },
+  { src: "/album-video-1.mov", type: "video", es: "Video de instalación", en: "Installation video" },
+  { src: "/album-video-2.mov", type: "video", es: "Video de instalación", en: "Installation video" },
 ];
 
 export const ArtInstallation = () => {
