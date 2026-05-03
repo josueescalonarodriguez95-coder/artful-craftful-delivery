@@ -3,7 +3,7 @@ import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Menu, Archive, Hammer, Truck, Package, Instagram, Facebook, Sparkles, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
@@ -23,9 +23,6 @@ export const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [restOpen, setRestOpen] = useState(false);
-  const location = useLocation();
-  const isHome = location.pathname === "/";
-  const hashHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -70,9 +67,9 @@ export const Nav = () => {
         </button>
 
         <nav className="hidden md:flex items-center gap-2 text-sm">
-          <a href={hashHref("services")} className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.services}</a>
-          <a href={hashHref("delivery")} className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.delivery}</a>
-          <a href={hashHref("pedestals")} className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.pedestals}</a>
+          <a href="#services" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.services}</a>
+          <a href="#delivery" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.delivery}</a>
+          <a href="#pedestals" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.pedestals}</a>
           <DropdownMenu>
             <DropdownMenuTrigger className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm outline-none text-sm leading-none">
               {T.restorations}
@@ -89,7 +86,7 @@ export const Nav = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <a href={hashHref("contact")} className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.contact}</a>
+          <a href="#contact" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.contact}</a>
         </nav>
 
         <div className="flex items-center gap-3">
@@ -106,7 +103,7 @@ export const Nav = () => {
             >EN</button>
           </div>
           <Button asChild size="sm" className="hidden sm:inline-flex bg-ink hover:bg-ink/90 text-cream rounded-full px-5">
-            <a href={hashHref("delivery")}>{T.quote}</a>
+            <a href="#delivery">{T.quote}</a>
           </Button>
           <button
             onClick={() => setOpen(true)}
@@ -145,7 +142,7 @@ export const Nav = () => {
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-1">
                 <a
-                  href={hashHref("storage")}
+                  href="#storage"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
@@ -153,7 +150,7 @@ export const Nav = () => {
                   <span>Fine Art Storage</span>
                 </a>
                 <a
-                  href={hashHref("services")}
+                  href="#services"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
@@ -161,7 +158,7 @@ export const Nav = () => {
                   <span>Packing</span>
                 </a>
                 <a
-                  href={hashHref("installation")}
+                  href="#installation"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
@@ -169,7 +166,7 @@ export const Nav = () => {
                   <span>{lang === "es" ? "Art Installation" : "Art Installation"}</span>
                 </a>
                 <a
-                  href={hashHref("delivery")}
+                  href="#delivery"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >

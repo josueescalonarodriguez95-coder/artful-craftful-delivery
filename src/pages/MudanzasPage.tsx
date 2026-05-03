@@ -112,7 +112,7 @@ const Body = () => {
               </h3>
             </div>
             <Button asChild size="lg" className="bg-clay hover:bg-clay/90 text-cream rounded-full px-7">
-              <a href="/#contact">{lang === "es" ? "Solicitar cotización" : "Request a quote"}</a>
+              <Link to="/#contact">{lang === "es" ? "Solicitar cotización" : "Request a quote"}</Link>
             </Button>
           </div>
         </div>
