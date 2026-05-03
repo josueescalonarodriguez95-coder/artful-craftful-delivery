@@ -75,15 +75,15 @@ export const USRouteMap = ({ tagline }: { tagline: string }) => {
             const fill = isHover
               ? "#dc2626"
               : isHighlighted
-              ? "#fde2e2"
-              : "#e5e7eb";
+              ? "#fca5a5"
+              : "#cbd5e1";
             return (
               <path
                 key={i}
                 d={pathGen(feature) ?? ""}
                 fill={fill}
                 stroke="#ffffff"
-                strokeWidth={1}
+                strokeWidth={1.2}
                 style={{ transition: "fill 220ms ease" }}
               />
             );
