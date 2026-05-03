@@ -13,22 +13,22 @@ const TOTAL_REVIEWS = 47;
 
 const reviews = [
   {
-    name: "María González",
-    when: "hace 2 semanas",
+    name: "Jennifer Whitman",
+    when: "hace 3 semanas",
     stars: 5,
-    text: "Servicio impecable. Transportaron una escultura delicada desde Miami a New York con un cuidado excepcional. Profesionales, puntuales y muy atentos.",
+    text: "Ramos handled the move of a large oil painting from Miami to our gallery in NY. Custom crate, white-glove service and arrived in perfect condition. Highly recommended for fine art.",
   },
   {
-    name: "Carlos Rivera",
+    name: "Luis Hernández",
     when: "hace 1 mes",
     stars: 5,
-    text: "El equipo de Ramos restauró una pieza de mármol de mi colección. El resultado superó mis expectativas. Verdaderos artesanos.",
+    text: "Excelente trabajo construyendo un crate a medida para una escultura muy delicada. El equipo es profesional, puntual y cuida cada detalle. Volveré a contratarlos sin dudarlo.",
   },
   {
-    name: "Andrea Pérez",
+    name: "Sarah Klein",
     when: "hace 2 meses",
     stars: 5,
-    text: "La instalación de las obras en mi galería fue precisa y elegante. Excelente comunicación de principio a fin. Muy recomendados.",
+    text: "We've used Ramos Delivery for several gallery installations in South Florida. Always on time, always careful, and great communication throughout. True specialists in art logistics.",
   },
 ];
 
@@ -153,25 +153,26 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
                   </li>
                 </ul>
                 {/* US map with red markers */}
-                <div className="relative aspect-[16/10] rounded-lg bg-cream border border-border overflow-hidden">
+                <div className="relative aspect-[4/3] rounded-lg bg-white border border-border overflow-hidden">
                   <img
                     src={usMap}
                     alt="US map"
                     loading="lazy"
-                    className="absolute inset-0 w-full h-full object-contain"
+                    className="absolute inset-0 w-full h-full object-contain p-2"
                   />
                   <svg viewBox="0 0 1280 800" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
                     {[
-                      { x: 1015, y: 660, label: "Miami" },
-                      { x: 1005, y: 635, label: "WPB" },
-                      { x: 1085, y: 305, label: "NY" },
+                      { x: 990, y: 590, label: "Miami" },
+                      { x: 980, y: 560, label: "WPB" },
+                      { x: 1058, y: 268, label: "NY" },
                     ].map((m) => (
                       <g key={m.label}>
-                        <circle cx={m.x} cy={m.y} r="22" fill="#dc2626" opacity="0.25">
-                          <animate attributeName="r" values="16;28;16" dur="2.4s" repeatCount="indefinite" />
+                        <circle cx={m.x} cy={m.y} r="26" fill="#dc2626" opacity="0.22">
+                          <animate attributeName="r" values="18;32;18" dur="2.4s" repeatCount="indefinite" />
                           <animate attributeName="opacity" values="0.35;0.05;0.35" dur="2.4s" repeatCount="indefinite" />
                         </circle>
-                        <circle cx={m.x} cy={m.y} r="9" fill="#dc2626" stroke="white" strokeWidth="3" />
+                        <circle cx={m.x} cy={m.y} r="11" fill="#dc2626" stroke="white" strokeWidth="3" />
+                        <text x={m.x + 16} y={m.y + 5} fontSize="22" fontWeight="700" fill="#111">{m.label}</text>
                       </g>
                     ))}
                   </svg>
