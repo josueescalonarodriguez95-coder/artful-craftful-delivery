@@ -13,7 +13,7 @@ import img8 from "@/assets/crate-gallery-8.jpg";
 import img9 from "@/assets/crate-gallery-9.jpg";
 import img10 from "@/assets/crate-gallery-10.jpg";
 
-const images = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10];
+const images = [img1, img2, img3, img4, img5, img6];
 
 // Premium horizontal carousel with snapping, drag/swipe + momentum, infinite loop.
 export const CrateGallery = () => {
@@ -139,7 +139,7 @@ export const CrateGallery = () => {
             style={{
               transform: `translate3d(calc(-50% + ${translatePx}px + ${slot / 2}px), -50%, 0)`,
               transition: animate
-                ? "transform 480ms cubic-bezier(0.22, 1, 0.36, 1)"
+                ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1)"
                 : "none",
               willChange: "transform",
               gap: 0,
@@ -169,7 +169,7 @@ export const CrateGallery = () => {
                       transform: `scale(${scale})`,
                       opacity,
                       transition: animate
-                        ? "transform 480ms ease-in-out, opacity 480ms ease-in-out"
+                        ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1), opacity 800ms ease-in-out"
                         : "none",
                     }}
                     aria-label={isActive ? (lang === "es" ? "Ver imagen" : "View image") : undefined}
