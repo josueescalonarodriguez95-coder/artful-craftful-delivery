@@ -117,15 +117,32 @@ export const ArtInstallation = () => {
             {albumPhotos.map((p, i) => (
               <button
                 key={i}
-                onClick={() => setOpen(p.src)}
+                onClick={() => setOpen(p)}
                 className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
               >
-                <img
-                  src={p.src}
-                  alt={lang === "es" ? p.es : p.en}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                {p.type === "video" ? (
+                  <>
+                    <video
+                      src={p.src}
+                      muted
+                      playsInline
+                      preload="metadata"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <span className="absolute inset-0 flex items-center justify-center bg-ink/20">
+                      <span className="w-12 h-12 rounded-full bg-cream/90 flex items-center justify-center">
+                        <span className="w-0 h-0 border-y-[8px] border-y-transparent border-l-[12px] border-l-ink ml-1" />
+                      </span>
+                    </span>
+                  </>
+                ) : (
+                  <img
+                    src={p.src}
+                    alt={lang === "es" ? p.es : p.en}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                )}
               </button>
             ))}
             <button
@@ -140,7 +157,7 @@ export const ArtInstallation = () => {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept="image/*,video/*"
               multiple
               onChange={handleAdd}
               className="hidden"
