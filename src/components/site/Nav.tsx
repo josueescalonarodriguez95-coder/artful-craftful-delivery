@@ -1,7 +1,7 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, Archive, Hammer, Truck, Package, Instagram, Facebook, Sparkles, ChevronDown, Info } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck, Package, Instagram, Facebook, Sparkles, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -51,15 +51,11 @@ export const Nav = () => {
       <div className="container flex items-center justify-between h-16 md:h-20">
         <button
           onClick={() => setAboutOpen(true)}
-          className="relative flex items-center gap-2 group text-left"
+          className="flex items-baseline gap-2 group text-left"
           aria-label={lang === "es" ? "Quiénes somos" : "About us"}
         >
-          <span className="font-display text-2xl md:text-3xl tracking-tight text-ink group-hover:text-clay transition-colors">
+          <span className="font-display text-2xl md:text-3xl tracking-tight text-ink">
             Ramos<span className="text-clay">·</span>Delivery<span className="text-ink/70"> Enterprise</span>
-          </span>
-          <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-clay/15 text-clay text-[10px] font-medium uppercase tracking-wider animate-pulse group-hover:bg-clay group-hover:text-cream transition-colors">
-            <Info className="h-3 w-3" />
-            {lang === "es" ? "Conócenos" : "About"}
           </span>
         </button>
 
