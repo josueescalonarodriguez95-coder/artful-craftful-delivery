@@ -16,7 +16,7 @@ export const Services = () => {
     { img: crates, ...t.services.items[1], href: "#delivery", external: false },
     { img: pedestals, ...t.services.items[2], href: "#pedestals", external: false },
     {
-      img: crates,
+      img: moving,
       tag: { es: "04 — Mudanzas", en: "04 — Moving" },
       title: { es: "Mudanzas", en: "Moving services" },
       body: {
