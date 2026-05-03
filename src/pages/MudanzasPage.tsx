@@ -16,11 +16,6 @@ import { Button } from "@/components/ui/button";
 
 const Body = () => {
   const { lang } = useLang();
-  const title = lang === "es" ? "Mudanzas" : "Moving Services";
-  const desc =
-    lang === "es"
-const Body = () => {
-  const { lang } = useLang();
   const [open, setOpen] = useState(false);
   const title = lang === "es" ? "Mudanzas" : "Moving Services";
   const desc =
