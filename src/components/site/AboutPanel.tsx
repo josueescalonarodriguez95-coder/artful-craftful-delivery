@@ -41,9 +41,9 @@ const services = [
 
 const locations = [
   "Miami, FL",
-  "South Florida",
   "West Palm Beach, FL",
   "New York, NY",
+  "Los Angeles, CA",
 ];
 
 export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) => {
@@ -105,7 +105,7 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
             />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 gap-10">
             <div>
               <h3 className="text-[11px] tracking-[0.3em] font-bold text-clay uppercase mb-5">
                 {tr("Lo que hacemos", "What we do")}
@@ -152,30 +152,96 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
                     {tr("En crecimiento en otros estados", "Growing in other states")}
                   </li>
                 </ul>
-                {/* US map with red markers */}
-                <div className="relative aspect-[4/3] rounded-lg bg-white border border-border overflow-hidden">
-                  <img
-                    src={usMap}
-                    alt="US map"
-                    loading="lazy"
-                    className="absolute inset-0 w-full h-full object-contain p-2"
-                  />
-                  <svg viewBox="0 0 1280 800" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
-                    {[
-                      { x: 990, y: 590, label: "Miami" },
-                      { x: 980, y: 560, label: "WPB" },
-                      { x: 1058, y: 268, label: "NY" },
-                    ].map((m) => (
-                      <g key={m.label}>
-                        <circle cx={m.x} cy={m.y} r="26" fill="#dc2626" opacity="0.22">
-                          <animate attributeName="r" values="18;32;18" dur="2.4s" repeatCount="indefinite" />
-                          <animate attributeName="opacity" values="0.35;0.05;0.35" dur="2.4s" repeatCount="indefinite" />
-                        </circle>
-                        <circle cx={m.x} cy={m.y} r="11" fill="#dc2626" stroke="white" strokeWidth="3" />
-                        <text x={m.x + 16} y={m.y + 5} fontSize="22" fontWeight="700" fill="#111">{m.label}</text>
-                      </g>
-                    ))}
-                  </svg>
+                {/* US map — coast-to-coast route */}
+                <div className="relative w-full rounded-xl bg-white border border-border overflow-hidden shadow-soft">
+                  <div className="relative aspect-[16/11]">
+                    <img
+                      src={usMap}
+                      alt="Mapa de Estados Unidos"
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-contain p-3"
+                    />
+                    <svg
+                      viewBox="0 0 1280 800"
+                      className="absolute inset-0 w-full h-full"
+                      preserveAspectRatio="xMidYMid meet"
+                    >
+                      {(() => {
+                        const cities = [
+                          { x: 290, y: 430, label: "Los Angeles", ox: 16, oy: 6 },
+                          { x: 1010, y: 595, label: "Miami", ox: 16, oy: 8 },
+                          { x: 1005, y: 568, label: "West Palm Beach", ox: 16, oy: -4 },
+                          { x: 1070, y: 290, label: "New York", ox: 16, oy: 6 },
+                        ];
+                        const route = [cities[0], cities[1], cities[2], cities[3]];
+                        const path = route
+                          .map((c, i) => {
+                            if (i === 0) return `M ${c.x} ${c.y}`;
+                            const p = route[i - 1];
+                            const mx = (p.x + c.x) / 2;
+                            const my = Math.min(p.y, c.y) - Math.abs(c.x - p.x) * 0.12;
+                            return `Q ${mx} ${my} ${c.x} ${c.y}`;
+                          })
+                          .join(" ");
+                        return (
+                          <>
+                            <path
+                              d={path}
+                              fill="none"
+                              stroke="#dc2626"
+                              strokeWidth="3.5"
+                              strokeLinecap="round"
+                              strokeDasharray="2 10"
+                              opacity="0.9"
+                            >
+                              <animate
+                                attributeName="stroke-dashoffset"
+                                values="0;-120"
+                                dur="6s"
+                                repeatCount="indefinite"
+                              />
+                            </path>
+                            {cities.map((c) => (
+                              <g key={c.label}>
+                                <circle cx={c.x} cy={c.y} r="30" fill="#dc2626" opacity="0.18">
+                                  <animate attributeName="r" values="22;36;22" dur="2.4s" repeatCount="indefinite" />
+                                  <animate attributeName="opacity" values="0.32;0.04;0.32" dur="2.4s" repeatCount="indefinite" />
+                                </circle>
+                                <circle cx={c.x} cy={c.y} r="12" fill="#dc2626" stroke="white" strokeWidth="3" />
+                                <g transform={`translate(${c.x + c.ox}, ${c.y + c.oy})`}>
+                                  <rect
+                                    x="-2"
+                                    y="-16"
+                                    rx="4"
+                                    ry="4"
+                                    width={c.label.length * 8.5 + 14}
+                                    height="22"
+                                    fill="white"
+                                    stroke="#dc2626"
+                                    strokeWidth="1.5"
+                                  />
+                                  <text
+                                    x="6"
+                                    y="0"
+                                    fontSize="14"
+                                    fontWeight="700"
+                                    fill="#111"
+                                    fontFamily="ui-sans-serif, system-ui"
+                                  >
+                                    {c.label}
+                                  </text>
+                                </g>
+                              </g>
+                            ))}
+                          </>
+                        );
+                      })()}
+                    </svg>
+                  </div>
+                  <div className="px-4 py-2.5 border-t border-border flex items-center gap-2 text-[11px] tracking-[0.18em] uppercase text-ink/60 font-semibold">
+                    <span className="inline-block h-[2px] w-6 bg-[#dc2626] rounded" />
+                    {tr("Ruta de servicio coast-to-coast", "Coast-to-coast service route")}
+                  </div>
                 </div>
               </div>
             </div>
