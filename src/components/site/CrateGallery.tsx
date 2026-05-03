@@ -14,9 +14,15 @@ const images = [img1, img2, img3, img4, img5, img6, img7];
 
 export const CrateGallery = () => {
   const { lang } = useLang();
+  // index is fractional during drag for fluid motion
   const [index, setIndex] = useState(0);
+  const [drag, setDrag] = useState(0); // -1..1 fraction of slot width while dragging
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const pausedRef = useRef(false);
+  const draggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const slotWidthRef = useRef(160);
+  const containerRef = useRef<HTMLDivElement>(null);
   const total = images.length;
 
   useEffect(() => {
@@ -25,14 +31,42 @@ export const CrateGallery = () => {
 
   useEffect(() => {
     const id = setInterval(() => {
-      if (!pausedRef.current) setIndex((i) => i + 1);
+      if (!pausedRef.current && !draggingRef.current) setIndex((i) => i + 1);
     }, 3500);
     return () => clearInterval(id);
   }, []);
 
+  const wrap = (i: number) => ((i % total) + total) % total;
   const next = () => setIndex((i) => i + 1);
   const prev = () => setIndex((i) => i - 1);
-  const wrap = (i: number) => ((i % total) + total) % total;
+
+  // Pointer / touch handlers for swipe
+  const onPointerDown = (e: React.PointerEvent) => {
+    draggingRef.current = true;
+    startXRef.current = e.clientX;
+    slotWidthRef.current = (containerRef.current?.clientWidth ?? 480) * 0.38;
+    pausedRef.current = true;
+    (e.target as Element).setPointerCapture?.(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!draggingRef.current) return;
+    const dx = e.clientX - startXRef.current;
+    const frac = Math.max(-1.5, Math.min(1.5, dx / slotWidthRef.current));
+    setDrag(-frac); // dragging right -> previous (negative index shift)
+  };
+  const endDrag = () => {
+    if (!draggingRef.current) return;
+    draggingRef.current = false;
+    if (Math.abs(drag) > 0.25) {
+      setIndex((i) => i + Math.round(drag));
+    }
+    setDrag(0);
+    pausedRef.current = openIdx !== null;
+  };
+
+  // Render a window of 5 slides for smoother flow
+  const offsets = [-2, -1, 0, 1, 2];
+  const effective = index + drag;
 
   return (
     <div className="mt-10">
@@ -50,30 +84,48 @@ export const CrateGallery = () => {
         </button>
 
         <div
-          className="relative flex-1 max-w-[520px] h-44 sm:h-56 md:h-64 flex items-center justify-center"
-          style={{ perspective: "1200px" }}
+          ref={containerRef}
+          className="relative flex-1 max-w-[560px] h-48 sm:h-60 md:h-72 flex items-center justify-center touch-pan-y select-none cursor-grab active:cursor-grabbing overflow-hidden"
+          style={{ perspective: "1400px" }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onPointerLeave={endDrag}
         >
-          {[-1, 0, 1].map((off) => {
-            const i = wrap(index + off);
-            const isCenter = off === 0;
+          {offsets.map((baseOff) => {
+            const i = wrap(Math.round(effective) + baseOff);
+            // off relative to the visual center (fractional)
+            const off = (Math.round(effective) + baseOff) - effective;
+            const abs = Math.abs(off);
+            const isCenter = abs < 0.5;
             return (
               <button
-                key={off}
-                onClick={() => (isCenter ? setOpenIdx(i) : setIndex(index + off))}
+                key={`${baseOff}-${i}`}
+                onClick={() => {
+                  if (Math.abs(drag) > 0.05) return;
+                  if (isCenter) setOpenIdx(i);
+                  else setIndex((idx) => idx + Math.round(off === 0 ? 0 : (off > 0 ? -1 : 1)) * 0 + (baseOff));
+                }}
                 aria-label={isCenter ? (lang === "es" ? "Ver imagen" : "View image") : undefined}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out"
+                className="absolute top-1/2 left-1/2 will-change-transform"
                 style={{
-                  transform: `translate(-50%, -50%) translateX(${off * 38}%) rotateY(${off * -38}deg) scale(${isCenter ? 1 : 0.78})`,
-                  zIndex: isCenter ? 10 : 5,
-                  opacity: isCenter ? 1 : 0.55,
+                  transform: `translate(-50%, -50%) translateX(${off * 42}%) rotateY(${off * -32}deg) scale(${Math.max(0.62, 1 - abs * 0.22)})`,
+                  zIndex: 20 - Math.round(abs * 10),
+                  opacity: Math.max(0.25, 1 - abs * 0.35),
                   transformStyle: "preserve-3d",
+                  transition: draggingRef.current
+                    ? "none"
+                    : "transform 700ms cubic-bezier(0.22,1,0.36,1), opacity 500ms ease-out",
+                  filter: isCenter ? "none" : "blur(0.3px)",
                 }}
               >
                 <img
                   src={images[i]}
                   alt={`Crate work ${i + 1}`}
                   loading="lazy"
-                  className="w-32 h-32 sm:w-44 sm:h-44 md:w-52 md:h-52 object-cover rounded-md shadow-elegant border border-border/60"
+                  draggable={false}
+                  className="w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 object-cover rounded-md shadow-elegant border border-border/60 pointer-events-none"
                 />
               </button>
             );
