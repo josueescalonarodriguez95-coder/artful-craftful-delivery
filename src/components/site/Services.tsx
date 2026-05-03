@@ -5,6 +5,7 @@ import { useReveal } from "@/hooks/useReveal";
 import crates from "@/assets/service-crates.jpg";
 import pedestals from "@/assets/service-pedestals.jpg";
 import restoration from "@/assets/service-restoration.jpg";
+import moving from "@/assets/service-moving.jpg";
 
 export const Services = () => {
   const { lang } = useLang();
@@ -15,7 +16,7 @@ export const Services = () => {
     { img: crates, ...t.services.items[1], href: "#delivery", external: false },
     { img: pedestals, ...t.services.items[2], href: "#pedestals", external: false },
     {
-      img: crates,
+      img: moving,
       tag: { es: "04 — Mudanzas", en: "04 — Moving" },
       title: { es: "Mudanzas", en: "Moving services" },
       body: {
