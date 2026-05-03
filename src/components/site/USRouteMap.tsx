@@ -1,18 +1,19 @@
 import { useMemo, useState } from "react";
 import { geoAlbersUsa, geoPath } from "d3-geo";
-import statesData from "@/assets/us-states.json";
+import { feature } from "topojson-client";
+import statesTopo from "us-atlas/states-10m.json";
 
 type City = {
   name: string;
-  state: string; // matches GeoJSON properties.name
-  coords: [number, number]; // [lon, lat]
+  state: string;
+  coords: [number, number];
   labelDx?: number;
   labelDy?: number;
   anchor?: "start" | "end" | "middle";
 };
 
 const CITIES: City[] = [
-  { name: "Los Angeles", state: "California", coords: [-118.2437, 34.0522], labelDx: 0, labelDy: 22, anchor: "middle" },
+  { name: "Los Angeles", state: "California", coords: [-118.2437, 34.0522], labelDx: 0, labelDy: 24, anchor: "middle" },
   { name: "Miami", state: "Florida", coords: [-80.1918, 25.7617], labelDx: 14, labelDy: 16, anchor: "start" },
   { name: "West Palm Beach", state: "Florida", coords: [-80.0534, 26.7153], labelDx: 14, labelDy: -8, anchor: "start" },
   { name: "New York", state: "New York", coords: [-74.006, 40.7128], labelDx: 14, labelDy: -8, anchor: "start" },
@@ -20,15 +21,16 @@ const CITIES: City[] = [
 
 const ROUTE_ORDER = ["Los Angeles", "Miami", "West Palm Beach", "New York"];
 
-// SVG viewBox dimensions (drives map size). Bigger numbers = bigger map inside container.
 const W = 1100;
 const H = 680;
+
+const statesGeo: any = feature(statesTopo as any, (statesTopo as any).objects.states);
 
 export const USRouteMap = ({ tagline }: { tagline: string }) => {
   const [hoverState, setHoverState] = useState<string | null>(null);
 
   const projection = useMemo(
-    () => geoAlbersUsa().fitExtent([[20, 20], [W - 20, H - 20]], statesData as any),
+    () => geoAlbersUsa().fitExtent([[18, 18], [W - 18, H - 18]], statesGeo),
     []
   );
   const pathGen = useMemo(() => geoPath(projection), [projection]);
@@ -68,8 +70,8 @@ export const USRouteMap = ({ tagline }: { tagline: string }) => {
       >
         {/* States */}
         <g>
-          {(statesData as any).features.map((feature: any, i: number) => {
-            const stateName = feature.properties.name;
+          {statesGeo.features.map((feat: any, i: number) => {
+            const stateName = feat.properties.name;
             const isHover = hoverState === stateName;
             const isHighlighted = highlightStates.has(stateName);
             const fill = isHover
