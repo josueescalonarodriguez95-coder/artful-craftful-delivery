@@ -8,19 +8,20 @@ import img2 from "@/assets/installation-2.jpg";
 import img3 from "@/assets/installation-3.jpg";
 import img4 from "@/assets/installation-4.jpg";
 
-type Photo = { src: string; es: string; en: string };
+type MediaType = "image" | "video";
+type Photo = { src: string; es: string; en: string; type: MediaType };
 
 const initialPhotos: Photo[] = [
-  { src: img1, es: "Dos fotografías de gran formato instaladas en pared", en: "Two large-format photographs installed on wall" },
-  { src: img2, es: "Instalación de tapiz contemporáneo en comedor", en: "Contemporary tapestry installation in dining room" },
-  { src: img3, es: "Mural abstracto instalado en escalera", en: "Abstract mural installed on staircase wall" },
-  { src: img4, es: "Fotografía de ola enmarcada en sala", en: "Framed wave photograph in living room" },
+  { src: img1, type: "image", es: "Dos fotografías de gran formato instaladas en pared", en: "Two large-format photographs installed on wall" },
+  { src: img2, type: "image", es: "Instalación de tapiz contemporáneo en comedor", en: "Contemporary tapestry installation in dining room" },
+  { src: img3, type: "image", es: "Mural abstracto instalado en escalera", en: "Abstract mural installed on staircase wall" },
+  { src: img4, type: "image", es: "Fotografía de ola enmarcada en sala", en: "Framed wave photograph in living room" },
 ];
 
 export const ArtInstallation = () => {
   const { lang } = useLang();
   const ref = useReveal<HTMLDivElement>();
-  const [open, setOpen] = useState<string | null>(null);
+  const [open, setOpen] = useState<Photo | null>(null);
   const [albumOpen, setAlbumOpen] = useState(false);
   const [albumPhotos, setAlbumPhotos] = useState<Photo[]>(initialPhotos);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -32,6 +33,7 @@ export const ArtInstallation = () => {
       src: URL.createObjectURL(f),
       es: f.name,
       en: f.name,
+      type: f.type.startsWith("video/") ? "video" : "image",
     }));
     setAlbumPhotos((prev) => [...prev, ...newPhotos]);
     e.target.value = "";
@@ -59,7 +61,7 @@ export const ArtInstallation = () => {
             {initialPhotos.map((p, i) => (
               <button
                 key={i}
-                onClick={() => setOpen(p.src)}
+                onClick={() => setOpen(p)}
                 className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
               >
                 <img
@@ -84,13 +86,20 @@ export const ArtInstallation = () => {
 
       <Dialog open={!!open} onOpenChange={(v) => !v && setOpen(null)}>
         <DialogContent className="max-w-5xl p-2 bg-cream">
-          {open && (
+          {open && (open.type === "video" ? (
+            <video
+              src={open.src}
+              controls
+              autoPlay
+              className="w-full h-auto rounded max-h-[80vh]"
+            />
+          ) : (
             <img
-              src={open}
+              src={open.src}
               alt={lang === "es" ? "Vista previa de instalación" : "Installation preview"}
               className="w-full h-auto rounded"
             />
-          )}
+          ))}
         </DialogContent>
       </Dialog>
 
@@ -108,15 +117,32 @@ export const ArtInstallation = () => {
             {albumPhotos.map((p, i) => (
               <button
                 key={i}
-                onClick={() => setOpen(p.src)}
+                onClick={() => setOpen(p)}
                 className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
               >
-                <img
-                  src={p.src}
-                  alt={lang === "es" ? p.es : p.en}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+                {p.type === "video" ? (
+                  <>
+                    <video
+                      src={p.src}
+                      muted
+                      playsInline
+                      preload="metadata"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <span className="absolute inset-0 flex items-center justify-center bg-ink/20">
+                      <span className="w-12 h-12 rounded-full bg-cream/90 flex items-center justify-center">
+                        <span className="w-0 h-0 border-y-[8px] border-y-transparent border-l-[12px] border-l-ink ml-1" />
+                      </span>
+                    </span>
+                  </>
+                ) : (
+                  <img
+                    src={p.src}
+                    alt={lang === "es" ? p.es : p.en}
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                )}
               </button>
             ))}
             <button
@@ -131,7 +157,7 @@ export const ArtInstallation = () => {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept="image/*,video/*"
               multiple
               onChange={handleAdd}
               className="hidden"
