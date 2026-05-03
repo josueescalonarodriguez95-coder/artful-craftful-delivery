@@ -105,7 +105,7 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
             />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 gap-10">
             <div>
               <h3 className="text-[11px] tracking-[0.3em] font-bold text-clay uppercase mb-5">
                 {tr("Lo que hacemos", "What we do")}
