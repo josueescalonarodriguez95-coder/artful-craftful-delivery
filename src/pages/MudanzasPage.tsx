@@ -116,10 +116,52 @@ const Body = () => {
                   : "Get a quote for your move."}
               </h3>
             </div>
-            <Button asChild size="lg" className="bg-clay hover:bg-clay/90 text-cream rounded-full px-7">
-              <Link to="/#contact">{lang === "es" ? "Solicitar cotización" : "Request a quote"}</Link>
+            <Button
+              size="lg"
+              onClick={() => setOpen(true)}
+              className="bg-clay hover:bg-clay/90 text-cream rounded-full px-7"
+            >
+              {lang === "es" ? "Cotizar" : "Get a quote"}
             </Button>
           </div>
+
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent className="bg-cream">
+              <DialogHeader>
+                <DialogTitle className="font-display text-2xl text-ink">
+                  {lang === "es" ? "Contáctanos" : "Contact us"}
+                </DialogTitle>
+                <DialogDescription className="text-ink/70">
+                  {lang === "es"
+                    ? "Elige cómo prefieres cotizar tu mudanza."
+                    : "Choose how you'd like to request your moving quote."}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-3 mt-2">
+                <a
+                  href={`tel:${PHONE_TEL}`}
+                  className="flex items-center gap-3 px-4 py-3 rounded border border-border bg-background hover:border-ink/40 hover:bg-ink hover:text-cream transition-all duration-300 text-sm"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span>{lang === "es" ? "Llamada" : "Call"} · {PHONE_DISPLAY}</span>
+                </a>
+                <a
+                  href={`sms:${PHONE_TEL}?body=${encodeURIComponent(body)}`}
+                  className="flex items-center gap-3 px-4 py-3 rounded border border-border bg-background hover:border-ink/40 hover:bg-ink hover:text-cream transition-all duration-300 text-sm"
+                >
+                  <MessageSquare className="h-4 w-4" />
+                  <span>{lang === "es" ? "Mensaje de texto" : "Text message"}</span>
+                </a>
+                <a
+                  href={`mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`}
+                  className="flex items-center gap-3 px-4 py-3 rounded border border-border bg-background hover:border-ink/40 hover:bg-ink hover:text-cream transition-all duration-300 text-sm"
+                >
+                  <Mail className="h-4 w-4" />
+                  <span>{lang === "es" ? "Correo electrónico" : "Email"} · {EMAIL}</span>
+                </a>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </main>
       <Footer />
