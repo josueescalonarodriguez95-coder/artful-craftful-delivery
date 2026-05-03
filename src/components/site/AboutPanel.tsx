@@ -9,26 +9,26 @@ import usMap from "@/assets/us-map.png";
 
 const GOOGLE_REVIEWS_URL = "https://www.google.com/search?q=Ramos+Delivery+Enterprise+reviews";
 const RATING = 5.0;
-const TOTAL_REVIEWS = 47;
+const TOTAL_REVIEWS = 118;
 
 const reviews = [
   {
-    name: "Jennifer Whitman",
-    when: "hace 3 semanas",
-    stars: 5,
-    text: "Ramos handled the move of a large oil painting from Miami to our gallery in NY. Custom crate, white-glove service and arrived in perfect condition. Highly recommended for fine art.",
-  },
-  {
-    name: "Luis Hernández",
+    name: "german andres paez",
     when: "hace 1 mes",
     stars: 5,
-    text: "Excelente trabajo construyendo un crate a medida para una escultura muy delicada. El equipo es profesional, puntual y cuida cada detalle. Volveré a contratarlos sin dudarlo.",
+    text: "Excellent professionals in art handling. The installation and service were perfect, and their founder is an exceptional person. Thanks to the great team who helped us not only with the transportation but also with the installation of the artworks. 🎨👏",
   },
   {
-    name: "Sarah Klein",
-    when: "hace 2 meses",
+    name: "Le Kev",
+    when: "hace 6 meses",
     stars: 5,
-    text: "We've used Ramos Delivery for several gallery installations in South Florida. Always on time, always careful, and great communication throughout. True specialists in art logistics.",
+    text: "I am extremely grateful for the truly excellent job Danilo did for me. His service was outstanding, professional, and went above and beyond my expectations as a customer. Thank you, Danilo, for your exceptional efforts!",
+  },
+  {
+    name: "Avi Sab",
+    when: "hace 3 meses",
+    stars: 5,
+    text: "Ramos Delivery is a professional fine art transportation company that has consistently handled my art shipments. They are highly punctual, manage artworks with exceptional care, and demonstrate extensive experience in fine art logistics. I highly recommend their services.",
   },
 ];
 
@@ -168,10 +168,10 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
                     >
                       {(() => {
                         const cities = [
-                          { x: 290, y: 430, label: "Los Angeles", ox: 16, oy: 6 },
-                          { x: 1010, y: 595, label: "Miami", ox: 16, oy: 8 },
-                          { x: 1005, y: 568, label: "West Palm Beach", ox: 16, oy: -4 },
-                          { x: 1070, y: 290, label: "New York", ox: 16, oy: 6 },
+                          { x: 260, y: 395, label: "Los Angeles", ox: -135, oy: -22 },
+                          { x: 985, y: 575, label: "Miami", ox: -85, oy: 28 },
+                          { x: 975, y: 552, label: "West Palm Beach", ox: -210, oy: -2 },
+                          { x: 1050, y: 275, label: "New York", ox: -115, oy: -18 },
                         ];
                         const route = [cities[0], cities[1], cities[2], cities[3]];
                         const path = route
