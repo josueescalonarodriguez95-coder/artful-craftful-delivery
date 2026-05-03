@@ -169,9 +169,8 @@ export const CrateGallery = () => {
               const norm = slot ? distance / slot : 0; // 0 at center
               const abs = Math.min(2, Math.abs(norm));
               const isActive = abs < 0.5;
-              const scale = 1 - abs * 0.08; // 1 .. ~0.84
-              const opacity = 1 - abs * 0.35; // 1 .. ~0.3
-              const blur = isActive ? 0 : Math.min(1.5, abs * 0.8);
+              const scale = 1 - abs * 0.06; // subtle scale, keep crisp
+              const opacity = Math.max(0.85, 1 - abs * 0.08); // keep all bright
               const logical = i % total;
               return (
                 <div
@@ -189,9 +188,8 @@ export const CrateGallery = () => {
                     style={{
                       transform: `scale(${scale})`,
                       opacity,
-                      filter: blur ? `blur(${blur}px)` : "none",
                       transition: animate
-                        ? "transform 480ms ease-in-out, opacity 480ms ease-in-out, filter 480ms ease-in-out"
+                        ? "transform 480ms ease-in-out, opacity 480ms ease-in-out"
                         : "none",
                     }}
                     aria-label={isActive ? (lang === "es" ? "Ver imagen" : "View image") : undefined}
@@ -247,11 +245,17 @@ export const CrateGallery = () => {
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
-              <img
-                src={images[openIdx]}
-                alt={`Crate work ${openIdx + 1}`}
-                className="flex-1 min-w-0 h-auto max-h-[85vh] object-contain rounded-md"
-              />
+              <div className="flex-1 min-w-0 max-h-[85vh] overflow-auto rounded-md">
+                <img
+                  src={images[openIdx]}
+                  alt={`Crate work ${openIdx + 1}`}
+                  onClick={(e) => {
+                    const el = e.currentTarget;
+                    el.classList.toggle("scale-[2]");
+                  }}
+                  className="w-full h-auto max-h-[85vh] object-contain transition-transform duration-300 ease-in-out cursor-zoom-in origin-center"
+                />
+              </div>
               <button
                 onClick={() => setOpenIdx((i) => (i === null ? i : (i + 1) % images.length))}
                 aria-label={lang === "es" ? "Siguiente" : "Next"}
