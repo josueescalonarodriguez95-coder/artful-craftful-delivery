@@ -202,10 +202,7 @@ export const CrateGallery = () => {
         {images.map((_, i) => (
           <button
             key={i}
-            onClick={() => {
-              const base = Math.floor(index / total) * total;
-              goTo(base + i);
-            }}
+            onClick={() => goTo(i)}
             aria-label={`${lang === "es" ? "Ir a" : "Go to"} ${i + 1}`}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               i === activeDot ? "w-6 bg-ink/70" : "w-1.5 bg-ink/25 hover:bg-ink/40"
