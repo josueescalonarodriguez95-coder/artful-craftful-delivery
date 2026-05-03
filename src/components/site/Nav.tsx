@@ -64,10 +64,6 @@ export const Nav = () => {
             <span aria-hidden className="pointer-events-none absolute inset-0 animate-shine bg-[linear-gradient(110deg,transparent_40%,hsl(var(--clay)/0.35)_50%,transparent_60%)] bg-[length:250%_100%] mix-blend-overlay rounded" />
             <span aria-hidden className="absolute -bottom-1 left-0 h-[2px] w-0 bg-clay transition-all duration-500 group-hover:w-full" />
           </span>
-          <span className="hidden sm:inline-flex items-center gap-1 ml-1 text-[10px] uppercase tracking-[0.18em] text-clay font-medium animate-hint-bounce">
-            <span className="h-1.5 w-1.5 rounded-full bg-clay animate-ping" />
-            {lang === "es" ? "Tócame" : "Tap me"}
-          </span>
         </button>
 
         <nav className="hidden md:flex items-center gap-2 text-sm">
