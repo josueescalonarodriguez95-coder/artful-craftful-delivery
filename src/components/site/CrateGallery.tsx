@@ -188,9 +188,8 @@ export const CrateGallery = () => {
                     style={{
                       transform: `scale(${scale})`,
                       opacity,
-                      filter: blur ? `blur(${blur}px)` : "none",
                       transition: animate
-                        ? "transform 480ms ease-in-out, opacity 480ms ease-in-out, filter 480ms ease-in-out"
+                        ? "transform 480ms ease-in-out, opacity 480ms ease-in-out"
                         : "none",
                     }}
                     aria-label={isActive ? (lang === "es" ? "Ver imagen" : "View image") : undefined}
