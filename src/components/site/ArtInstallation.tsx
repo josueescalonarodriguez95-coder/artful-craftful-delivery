@@ -18,6 +18,9 @@ export const ArtInstallation = () => {
   const { lang } = useLang();
   const ref = useReveal<HTMLDivElement>();
   const [open, setOpen] = useState<string | null>(null);
+  const [albumOpen, setAlbumOpen] = useState(false);
+
+  const album = [...photos, ...photos, ...photos];
 
   return (
     <section id="installation" className="relative py-24 md:py-36 bg-cream">
@@ -36,23 +39,40 @@ export const ArtInstallation = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {photos.map((p, i) => (
-            <button
-              key={i}
-              onClick={() => setOpen(p.src)}
-              className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
-            >
-              <img
-                src={p.src}
-                alt={lang === "es" ? p.es : p.en}
-                loading="lazy"
-                width={1024}
-                height={1024}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </button>
-          ))}
+        <div className="flex items-center gap-4 md:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 flex-1">
+            {photos.map((p, i) => (
+              <button
+                key={i}
+                onClick={() => setOpen(p.src)}
+                className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
+              >
+                <img
+                  src={p.src}
+                  alt={lang === "es" ? p.es : p.en}
+                  loading="lazy"
+                  width={1024}
+                  height={1024}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => setAlbumOpen(true)}
+            className="hidden md:flex shrink-0 self-stretch items-center justify-center px-5 rounded-md border border-ink/20 bg-cream hover:bg-ink hover:text-cream transition-colors text-sm uppercase tracking-[0.2em] font-medium"
+            aria-label={lang === "es" ? "Ver más instalaciones" : "See more installations"}
+          >
+            {lang === "es" ? "Más →" : "More →"}
+          </button>
+        </div>
+        <div className="mt-4 md:hidden">
+          <button
+            onClick={() => setAlbumOpen(true)}
+            className="w-full px-5 py-3 rounded-md border border-ink/20 bg-cream hover:bg-ink hover:text-cream transition-colors text-sm uppercase tracking-[0.2em] font-medium"
+          >
+            {lang === "es" ? "Más →" : "More →"}
+          </button>
         </div>
       </div>
 
