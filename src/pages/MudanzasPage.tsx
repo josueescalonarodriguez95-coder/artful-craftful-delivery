@@ -1,6 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles, Mail, Phone, MessageSquare } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+
+const EMAIL = "ramosdeliverye@gmail.com";
+const PHONE_TEL = "+17864262444";
+const PHONE_DISPLAY = "+1 (786) 426-2444";
 import { LangProvider, useLang } from "@/components/site/LangContext";
 import { CartProvider } from "@/components/site/CartContext";
 import { Nav } from "@/components/site/Nav";
