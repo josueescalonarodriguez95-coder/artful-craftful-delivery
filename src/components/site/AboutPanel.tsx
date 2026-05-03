@@ -1,7 +1,7 @@
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
-import { Star, Wrench, Truck, Archive, Hammer, MapPin, ExternalLink, Phone, ChevronRight } from "lucide-react";
+import { Star, Wrench, Truck, Archive, Hammer, MapPin, ExternalLink, Phone } from "lucide-react";
 import truckImg from "@/assets/about-truck.jpg";
 import logoRamosPacking from "@/assets/logo-ramos-packing.png";
 import logoEmpireArt from "@/assets/logo-empire-art.png";
@@ -64,20 +64,6 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
               alt="Ramos Delivery truck"
               className="absolute inset-0 w-full h-full object-contain"
             />
-          </div>
-
-          {/* Brand banner: name on left, 3 chevron arrows on right (black-red-black) */}
-          <div className="flex items-center justify-between gap-6 px-8 md:px-12 py-6 bg-white">
-            <div className="font-display leading-[0.95] tracking-tight">
-              <div className="text-3xl md:text-4xl font-bold text-[hsl(0,0%,7%)]">Ramos</div>
-              <div className="text-3xl md:text-4xl font-bold text-[hsl(0,75%,50%)]">Delivery</div>
-              <div className="text-3xl md:text-4xl font-bold text-[hsl(0,0%,7%)]">Packing</div>
-            </div>
-            <div className="flex items-center -space-x-2 md:-space-x-3">
-              <ChevronRight className="h-10 w-10 md:h-14 md:w-14 text-[hsl(0,0%,7%)] stroke-[3]" />
-              <ChevronRight className="h-12 w-12 md:h-16 md:w-16 text-[hsl(0,75%,50%)] stroke-[3]" />
-              <ChevronRight className="h-10 w-10 md:h-14 md:w-14 text-[hsl(0,0%,7%)] stroke-[3]" />
-            </div>
           </div>
           <div className="relative p-8 md:p-12">
             <div className="absolute left-0 top-12 bottom-12 w-[3px] bg-[hsl(0,75%,50%)] rounded-r" />
