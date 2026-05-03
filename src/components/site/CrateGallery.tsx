@@ -101,11 +101,27 @@ export const CrateGallery = () => {
       <Dialog open={openIdx !== null} onOpenChange={(o) => !o && setOpenIdx(null)}>
         <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-none">
           {openIdx !== null && (
-            <img
-              src={images[openIdx]}
-              alt={`Crate work ${openIdx + 1}`}
-              className="w-full h-auto max-h-[85vh] object-contain rounded-md"
-            />
+            <div className="relative">
+              <img
+                src={images[openIdx]}
+                alt={`Crate work ${openIdx + 1}`}
+                className="w-full h-auto max-h-[85vh] object-contain rounded-md"
+              />
+              <button
+                onClick={() => setOpenIdx((i) => (i === null ? i : (i - 1 + images.length) % images.length))}
+                aria-label={lang === "es" ? "Anterior" : "Previous"}
+                className="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-cream/90 hover:bg-cream text-ink flex items-center justify-center shadow-soft"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => setOpenIdx((i) => (i === null ? i : (i + 1) % images.length))}
+                aria-label={lang === "es" ? "Siguiente" : "Next"}
+                className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-cream/90 hover:bg-cream text-ink flex items-center justify-center shadow-soft"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
           )}
         </DialogContent>
       </Dialog>

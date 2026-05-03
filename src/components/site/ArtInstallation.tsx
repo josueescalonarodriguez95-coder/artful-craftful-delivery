@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -33,9 +34,13 @@ const albumExtras: Photo[] = [
 export const ArtInstallation = () => {
   const { lang } = useLang();
   const ref = useReveal<HTMLDivElement>();
-  const [open, setOpen] = useState<Photo | null>(null);
+  const [open, setOpen] = useState<{ list: Photo[]; index: number } | null>(null);
   const [albumOpen, setAlbumOpen] = useState(false);
   const albumPhotos: Photo[] = [...initialPhotos, ...albumExtras];
+
+  const current = open ? open.list[open.index] : null;
+  const prev = () => open && setOpen({ ...open, index: (open.index - 1 + open.list.length) % open.list.length });
+  const next = () => open && setOpen({ ...open, index: (open.index + 1) % open.list.length });
 
   return (
     <section id="installation" className="relative py-24 md:py-36 bg-cream">
@@ -59,7 +64,7 @@ export const ArtInstallation = () => {
             {initialPhotos.map((p, i) => (
               <button
                 key={i}
-                onClick={() => setOpen(p)}
+                onClick={() => setOpen({ list: initialPhotos, index: i })}
                 className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
               >
                 <img
@@ -84,20 +89,42 @@ export const ArtInstallation = () => {
 
       <Dialog open={!!open} onOpenChange={(v) => !v && setOpen(null)}>
         <DialogContent className="max-w-5xl p-2 bg-cream">
-          {open && (open.type === "video" ? (
-            <video
-              src={open.src}
-              controls
-              autoPlay
-              className="w-full h-auto rounded max-h-[80vh]"
-            />
-          ) : (
-            <img
-              src={open.src}
-              alt={lang === "es" ? "Vista previa de instalación" : "Installation preview"}
-              className="w-full h-auto rounded"
-            />
-          ))}
+          {current && (
+            <div className="relative">
+              {current.type === "video" ? (
+                <video
+                  src={current.src}
+                  controls
+                  autoPlay
+                  className="w-full h-auto rounded max-h-[80vh]"
+                />
+              ) : (
+                <img
+                  src={current.src}
+                  alt={lang === "es" ? "Vista previa de instalación" : "Installation preview"}
+                  className="w-full h-auto rounded"
+                />
+              )}
+              {open && open.list.length > 1 && (
+                <>
+                  <button
+                    onClick={prev}
+                    aria-label={lang === "es" ? "Anterior" : "Previous"}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-cream/90 hover:bg-cream text-ink flex items-center justify-center shadow-soft"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={next}
+                    aria-label={lang === "es" ? "Siguiente" : "Next"}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-cream/90 hover:bg-cream text-ink flex items-center justify-center shadow-soft"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </>
+              )}
+            </div>
+          )}
         </DialogContent>
       </Dialog>
 
@@ -115,7 +142,7 @@ export const ArtInstallation = () => {
             {albumPhotos.map((p, i) => (
               <button
                 key={i}
-                onClick={() => setOpen(p)}
+                onClick={() => setOpen({ list: albumPhotos, index: i })}
                 className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
               >
                 {p.type === "video" ? (
