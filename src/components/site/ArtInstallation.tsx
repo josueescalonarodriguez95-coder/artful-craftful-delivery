@@ -87,6 +87,35 @@ export const ArtInstallation = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      <Dialog open={albumOpen} onOpenChange={setAlbumOpen}>
+        <DialogContent className="max-w-6xl bg-cream max-h-[90vh] overflow-y-auto">
+          <div className="mb-4">
+            <span className="text-xs uppercase tracking-[0.25em] text-clay font-medium">
+              {lang === "es" ? "Álbum" : "Album"}
+            </span>
+            <h3 className="mt-2 font-display text-3xl md:text-4xl text-ink">
+              {lang === "es" ? "Instalaciones realizadas" : "Past installations"}
+            </h3>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+            {album.map((p, i) => (
+              <button
+                key={i}
+                onClick={() => setOpen(p.src)}
+                className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
+              >
+                <img
+                  src={p.src}
+                  alt={lang === "es" ? p.es : p.en}
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
