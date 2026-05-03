@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Plus } from "lucide-react";
 import img1 from "@/assets/installation-1.jpg";
 import img2 from "@/assets/installation-2.jpg";
 import img3 from "@/assets/installation-3.jpg";
 import img4 from "@/assets/installation-4.jpg";
 
-const photos = [
+type Photo = { src: string; es: string; en: string };
+
+const initialPhotos: Photo[] = [
   { src: img1, es: "Dos fotografías de gran formato instaladas en pared", en: "Two large-format photographs installed on wall" },
   { src: img2, es: "Instalación de tapiz contemporáneo en comedor", en: "Contemporary tapestry installation in dining room" },
   { src: img3, es: "Mural abstracto instalado en escalera", en: "Abstract mural installed on staircase wall" },
@@ -19,8 +22,20 @@ export const ArtInstallation = () => {
   const ref = useReveal<HTMLDivElement>();
   const [open, setOpen] = useState<string | null>(null);
   const [albumOpen, setAlbumOpen] = useState(false);
+  const [albumPhotos, setAlbumPhotos] = useState<Photo[]>(initialPhotos);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const album = [...photos, ...photos, ...photos];
+  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files) return;
+    const newPhotos: Photo[] = Array.from(files).map((f) => ({
+      src: URL.createObjectURL(f),
+      es: f.name,
+      en: f.name,
+    }));
+    setAlbumPhotos((prev) => [...prev, ...newPhotos]);
+    e.target.value = "";
+  };
 
   return (
     <section id="installation" className="relative py-24 md:py-36 bg-cream">
@@ -41,7 +56,7 @@ export const ArtInstallation = () => {
 
         <div className="flex items-center gap-4 md:gap-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 flex-1">
-            {photos.map((p, i) => (
+            {initialPhotos.map((p, i) => (
               <button
                 key={i}
                 onClick={() => setOpen(p.src)}
@@ -60,18 +75,9 @@ export const ArtInstallation = () => {
           </div>
           <button
             onClick={() => setAlbumOpen(true)}
-            className="hidden md:flex shrink-0 self-stretch items-center justify-center px-5 rounded-md border border-ink/20 bg-cream hover:bg-ink hover:text-cream transition-colors text-sm uppercase tracking-[0.2em] font-medium"
-            aria-label={lang === "es" ? "Ver más instalaciones" : "See more installations"}
+            className="shrink-0 self-center text-xs uppercase tracking-[0.2em] text-ink/70 hover:text-ink underline underline-offset-4 decoration-ink/40 hover:decoration-ink transition-colors"
           >
-            {lang === "es" ? "Más →" : "More →"}
-          </button>
-        </div>
-        <div className="mt-4 md:hidden">
-          <button
-            onClick={() => setAlbumOpen(true)}
-            className="w-full px-5 py-3 rounded-md border border-ink/20 bg-cream hover:bg-ink hover:text-cream transition-colors text-sm uppercase tracking-[0.2em] font-medium"
-          >
-            {lang === "es" ? "Más →" : "More →"}
+            {lang === "es" ? "más" : "more"}
           </button>
         </div>
       </div>
@@ -99,7 +105,7 @@ export const ArtInstallation = () => {
             </h3>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-            {album.map((p, i) => (
+            {albumPhotos.map((p, i) => (
               <button
                 key={i}
                 onClick={() => setOpen(p.src)}
@@ -113,6 +119,23 @@ export const ArtInstallation = () => {
                 />
               </button>
             ))}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="aspect-square rounded-md border-2 border-dashed border-ink/30 bg-cream/50 hover:border-ink hover:bg-ink/5 transition-colors flex flex-col items-center justify-center gap-2 text-ink/70 hover:text-ink"
+            >
+              <Plus className="w-8 h-8" />
+              <span className="text-xs uppercase tracking-[0.2em] font-medium">
+                {lang === "es" ? "Agregar" : "Add"}
+              </span>
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleAdd}
+              className="hidden"
+            />
           </div>
         </DialogContent>
       </Dialog>
