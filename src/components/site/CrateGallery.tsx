@@ -59,35 +59,15 @@ export const CrateGallery = () => {
     const id = setInterval(() => {
       if (!pausedRef.current && !draggingRef.current) {
         setAnimate(true);
-        setIndex((i) => i + 1);
+        setIndex((i) => (i + 1) % total);
       }
     }, 4000);
     return () => clearInterval(id);
-  }, []);
-
-  // Seamless loop: when we drift outside the middle copy, jump back without animation.
-  useEffect(() => {
-    if (draggingRef.current) return;
-    if (index < total || index >= total * 2) {
-      const id = setTimeout(() => {
-        setAnimate(false);
-        setIndex(((index % total) + total) % total + total);
-      }, 520); // after transition completes
-      return () => clearTimeout(id);
-    }
-  }, [index, total]);
-
-  // Re-enable animation after a non-animated jump
-  useEffect(() => {
-    if (!animate) {
-      const id = requestAnimationFrame(() => setAnimate(true));
-      return () => cancelAnimationFrame(id);
-    }
-  }, [animate]);
+  }, [total]);
 
   const goTo = (i: number) => {
     setAnimate(true);
-    setIndex(i);
+    setIndex(((i % total) + total) % total);
   };
   const next = () => goTo(index + 1);
   const prev = () => goTo(index - 1);
@@ -116,11 +96,10 @@ export const CrateGallery = () => {
     if (!draggingRef.current) return;
     draggingRef.current = false;
     const slot = slotRef.current;
-    // Project momentum to add inertia
-    const projected = drag + velocityRef.current * 180; // ms of inertia
+    const projected = drag + velocityRef.current * 180;
     const steps = Math.round(-projected / slot);
     setAnimate(true);
-    setIndex((i) => i + steps);
+    setIndex((i) => (((i + steps) % total) + total) % total);
     setDrag(0);
     pausedRef.current = openIdx !== null;
   };
@@ -128,8 +107,7 @@ export const CrateGallery = () => {
   const slot = slotRef.current;
   const translatePx = -index * slot + drag;
 
-  // Active logical slide for dots
-  const activeDot = (((index % total) + total) % total);
+  const activeDot = index;
 
   return (
     <div className="mt-10">
