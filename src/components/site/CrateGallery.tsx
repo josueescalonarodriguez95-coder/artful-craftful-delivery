@@ -145,7 +145,7 @@ export const CrateGallery = () => {
               gap: 0,
             }}
           >
-            {Array.from({ length: total * 3 }).map((_, i) => {
+            {Array.from({ length: total }).map((_, i) => {
               const distance = (i * slot) - (index * slot - drag);
               const norm = slot ? distance / slot : 0; // 0 at center
               const abs = Math.min(2, Math.abs(norm));
