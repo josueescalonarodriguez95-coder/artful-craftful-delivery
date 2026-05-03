@@ -21,7 +21,7 @@ const initialPhotos: Photo[] = [
 export const ArtInstallation = () => {
   const { lang } = useLang();
   const ref = useReveal<HTMLDivElement>();
-  const [open, setOpen] = useState<string | null>(null);
+  const [open, setOpen] = useState<Photo | null>(null);
   const [albumOpen, setAlbumOpen] = useState(false);
   const [albumPhotos, setAlbumPhotos] = useState<Photo[]>(initialPhotos);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -33,6 +33,7 @@ export const ArtInstallation = () => {
       src: URL.createObjectURL(f),
       es: f.name,
       en: f.name,
+      type: f.type.startsWith("video/") ? "video" : "image",
     }));
     setAlbumPhotos((prev) => [...prev, ...newPhotos]);
     e.target.value = "";
@@ -60,7 +61,7 @@ export const ArtInstallation = () => {
             {initialPhotos.map((p, i) => (
               <button
                 key={i}
-                onClick={() => setOpen(p.src)}
+                onClick={() => setOpen(p)}
                 className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
               >
                 <img
@@ -85,13 +86,20 @@ export const ArtInstallation = () => {
 
       <Dialog open={!!open} onOpenChange={(v) => !v && setOpen(null)}>
         <DialogContent className="max-w-5xl p-2 bg-cream">
-          {open && (
+          {open && (open.type === "video" ? (
+            <video
+              src={open.src}
+              controls
+              autoPlay
+              className="w-full h-auto rounded max-h-[80vh]"
+            />
+          ) : (
             <img
-              src={open}
+              src={open.src}
               alt={lang === "es" ? "Vista previa de instalación" : "Installation preview"}
               className="w-full h-auto rounded"
             />
-          )}
+          ))}
         </DialogContent>
       </Dialog>
 
