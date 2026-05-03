@@ -19,12 +19,17 @@ const Body = () => {
   const title = lang === "es" ? "Mudanzas" : "Moving Services";
   const desc =
     lang === "es"
+const Body = () => {
+  const { lang } = useLang();
+  const [open, setOpen] = useState(false);
+  const title = lang === "es" ? "Mudanzas" : "Moving Services";
+  const desc =
+    lang === "es"
       ? "Servicio profesional de mudanzas — desde artículos de alto valor (obras de arte, antigüedades, piezas delicadas) hasta mudanzas residenciales y comerciales tradicionales."
       : "Professional moving service — from high-value items (artwork, antiques, delicate pieces) to traditional residential and commercial moves.";
 
-  useEffect(() => {
-    document.title = `${title} — Ramos Delivery Enterprise`;
-  }, [title]);
+  const subject = lang === "es" ? "Cotización de mudanza" : "Moving quote";
+  const body = lang === "es" ? "Hola, quiero cotizar una mudanza. Detalles:" : "Hi, I'd like a moving quote. Details:";
 
   const tiers = [
     {
