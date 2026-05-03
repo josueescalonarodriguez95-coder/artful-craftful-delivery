@@ -169,9 +169,8 @@ export const CrateGallery = () => {
               const norm = slot ? distance / slot : 0; // 0 at center
               const abs = Math.min(2, Math.abs(norm));
               const isActive = abs < 0.5;
-              const scale = 1 - abs * 0.08; // 1 .. ~0.84
-              const opacity = 1 - abs * 0.35; // 1 .. ~0.3
-              const blur = isActive ? 0 : Math.min(1.5, abs * 0.8);
+              const scale = 1 - abs * 0.06; // subtle scale, keep crisp
+              const opacity = Math.max(0.85, 1 - abs * 0.08); // keep all bright
               const logical = i % total;
               return (
                 <div
