@@ -153,25 +153,26 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
                   </li>
                 </ul>
                 {/* US map with red markers */}
-                <div className="relative aspect-[16/10] rounded-lg bg-cream border border-border overflow-hidden">
+                <div className="relative aspect-[4/3] rounded-lg bg-white border border-border overflow-hidden">
                   <img
                     src={usMap}
                     alt="US map"
                     loading="lazy"
-                    className="absolute inset-0 w-full h-full object-contain"
+                    className="absolute inset-0 w-full h-full object-contain p-2"
                   />
                   <svg viewBox="0 0 1280 800" className="absolute inset-0 w-full h-full" preserveAspectRatio="xMidYMid meet">
                     {[
-                      { x: 1015, y: 660, label: "Miami" },
-                      { x: 1005, y: 635, label: "WPB" },
-                      { x: 1085, y: 305, label: "NY" },
+                      { x: 990, y: 590, label: "Miami" },
+                      { x: 980, y: 560, label: "WPB" },
+                      { x: 1058, y: 268, label: "NY" },
                     ].map((m) => (
                       <g key={m.label}>
-                        <circle cx={m.x} cy={m.y} r="22" fill="#dc2626" opacity="0.25">
-                          <animate attributeName="r" values="16;28;16" dur="2.4s" repeatCount="indefinite" />
+                        <circle cx={m.x} cy={m.y} r="26" fill="#dc2626" opacity="0.22">
+                          <animate attributeName="r" values="18;32;18" dur="2.4s" repeatCount="indefinite" />
                           <animate attributeName="opacity" values="0.35;0.05;0.35" dur="2.4s" repeatCount="indefinite" />
                         </circle>
-                        <circle cx={m.x} cy={m.y} r="9" fill="#dc2626" stroke="white" strokeWidth="3" />
+                        <circle cx={m.x} cy={m.y} r="11" fill="#dc2626" stroke="white" strokeWidth="3" />
+                        <text x={m.x + 16} y={m.y + 5} fontSize="22" fontWeight="700" fill="#111">{m.label}</text>
                       </g>
                     ))}
                   </svg>
