@@ -34,9 +34,13 @@ const albumExtras: Photo[] = [
 export const ArtInstallation = () => {
   const { lang } = useLang();
   const ref = useReveal<HTMLDivElement>();
-  const [open, setOpen] = useState<Photo | null>(null);
+  const [open, setOpen] = useState<{ list: Photo[]; index: number } | null>(null);
   const [albumOpen, setAlbumOpen] = useState(false);
   const albumPhotos: Photo[] = [...initialPhotos, ...albumExtras];
+
+  const current = open ? open.list[open.index] : null;
+  const prev = () => open && setOpen({ ...open, index: (open.index - 1 + open.list.length) % open.list.length });
+  const next = () => open && setOpen({ ...open, index: (open.index + 1) % open.list.length });
 
   return (
     <section id="installation" className="relative py-24 md:py-36 bg-cream">
