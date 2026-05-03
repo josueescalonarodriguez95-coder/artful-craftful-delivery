@@ -2,6 +2,9 @@ import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart } from "lucide-react";
+import { useCart } from "./CartContext";
 import { CrateGallery } from "./CrateGallery";
 
 const FRAGILE_PCT = 0.15;
@@ -17,6 +20,7 @@ const MARKUP = 3;                 // multiplicador final ×3
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
+  const { add } = useCart();
   const [height, setHeight] = useState<string>("");
   const [width, setWidth] = useState<string>("");
   const [depth, setDepth] = useState<string>("");
@@ -174,6 +178,24 @@ export const DeliveryCalculator = () => {
                   ? "* Precios estimados. La cotización final se confirma tras evaluar la pieza a empacar."
                   : "* Estimated pricing. Final quote confirmed after assessing the item to be packed."}
               </p>
+              <Button
+                onClick={() => {
+                  if (!hasDims || calc.total <= 0) return;
+                  const dims = `${hNum}×${wNum}×${dNum} in`;
+                  add({
+                    type: "crate",
+                    title: lang === "es" ? `Huacal a medida (${dims})` : `Custom crate (${dims})`,
+                    details: `${qty}u${fragile ? (lang === "es" ? " · frágil" : " · fragile") : ""}`,
+                    qty,
+                    unitPrice: calc.total / qty,
+                  });
+                }}
+                disabled={!hasDims}
+                className="mt-5 w-full bg-clay hover:bg-clay/90 text-cream rounded-full"
+              >
+                <ShoppingCart className="h-4 w-4 mr-2" />
+                {lang === "es" ? "Agregar al carrito" : "Add to cart"}
+              </Button>
             </div>
 
             <CrateGallery />
