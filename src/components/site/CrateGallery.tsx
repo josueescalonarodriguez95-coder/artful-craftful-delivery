@@ -20,9 +20,9 @@ export const CrateGallery = () => {
   const { lang } = useLang();
   const total = images.length;
 
-  // We render a tripled list [...images, ...images, ...images] and keep the
-  // logical index inside the middle copy to enable seamless infinite looping.
-  const [index, setIndex] = useState(total); // start in middle copy
+  // Single logical list. When we reach the last item, the next step wraps
+  // back to the first one (no empty slots beyond the available images).
+  const [index, setIndex] = useState(0);
   const [drag, setDrag] = useState(0); // px while dragging
   const [animate, setAnimate] = useState(true);
   const [openIdx, setOpenIdx] = useState<number | null>(null);
@@ -59,35 +59,15 @@ export const CrateGallery = () => {
     const id = setInterval(() => {
       if (!pausedRef.current && !draggingRef.current) {
         setAnimate(true);
-        setIndex((i) => i + 1);
+        setIndex((i) => (i + 1) % total);
       }
     }, 4000);
     return () => clearInterval(id);
-  }, []);
-
-  // Seamless loop: when we drift outside the middle copy, jump back without animation.
-  useEffect(() => {
-    if (draggingRef.current) return;
-    if (index < total || index >= total * 2) {
-      const id = setTimeout(() => {
-        setAnimate(false);
-        setIndex(((index % total) + total) % total + total);
-      }, 520); // after transition completes
-      return () => clearTimeout(id);
-    }
-  }, [index, total]);
-
-  // Re-enable animation after a non-animated jump
-  useEffect(() => {
-    if (!animate) {
-      const id = requestAnimationFrame(() => setAnimate(true));
-      return () => cancelAnimationFrame(id);
-    }
-  }, [animate]);
+  }, [total]);
 
   const goTo = (i: number) => {
     setAnimate(true);
-    setIndex(i);
+    setIndex(((i % total) + total) % total);
   };
   const next = () => goTo(index + 1);
   const prev = () => goTo(index - 1);
@@ -116,11 +96,10 @@ export const CrateGallery = () => {
     if (!draggingRef.current) return;
     draggingRef.current = false;
     const slot = slotRef.current;
-    // Project momentum to add inertia
-    const projected = drag + velocityRef.current * 180; // ms of inertia
+    const projected = drag + velocityRef.current * 180;
     const steps = Math.round(-projected / slot);
     setAnimate(true);
-    setIndex((i) => i + steps);
+    setIndex((i) => (((i + steps) % total) + total) % total);
     setDrag(0);
     pausedRef.current = openIdx !== null;
   };
@@ -128,8 +107,7 @@ export const CrateGallery = () => {
   const slot = slotRef.current;
   const translatePx = -index * slot + drag;
 
-  // Active logical slide for dots
-  const activeDot = (((index % total) + total) % total);
+  const activeDot = index;
 
   return (
     <div className="mt-10">
@@ -167,7 +145,7 @@ export const CrateGallery = () => {
               gap: 0,
             }}
           >
-            {Array.from({ length: total * 3 }).map((_, i) => {
+            {Array.from({ length: total }).map((_, i) => {
               const distance = (i * slot) - (index * slot - drag);
               const norm = slot ? distance / slot : 0; // 0 at center
               const abs = Math.min(2, Math.abs(norm));
@@ -224,10 +202,7 @@ export const CrateGallery = () => {
         {images.map((_, i) => (
           <button
             key={i}
-            onClick={() => {
-              const base = Math.floor(index / total) * total;
-              goTo(base + i);
-            }}
+            onClick={() => goTo(i)}
             aria-label={`${lang === "es" ? "Ir a" : "Go to"} ${i + 1}`}
             className={`h-1.5 rounded-full transition-all duration-300 ${
               i === activeDot ? "w-6 bg-ink/70" : "w-1.5 bg-ink/25 hover:bg-ink/40"
