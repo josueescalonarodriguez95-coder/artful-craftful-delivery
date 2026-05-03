@@ -142,7 +142,7 @@ export const ArtInstallation = () => {
             {albumPhotos.map((p, i) => (
               <button
                 key={i}
-                onClick={() => setOpen(p)}
+                onClick={() => setOpen({ list: albumPhotos, index: i })}
                 className="group relative aspect-square overflow-hidden rounded-md border border-border/70 bg-card shadow-soft focus:outline-none focus:ring-2 focus:ring-ink/40"
               >
                 {p.type === "video" ? (
