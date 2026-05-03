@@ -59,12 +59,12 @@ export const Nav = () => {
           </span>
         </button>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm">
+        <nav className="hidden md:flex items-center gap-8 text-sm font-semibold">
           <a href="#services" className="story-link text-ink hover:text-clay transition">{T.services}</a>
           <a href="#delivery" className="story-link text-ink hover:text-clay transition">{T.delivery}</a>
           <a href="#pedestals" className="story-link text-ink hover:text-clay transition">{T.pedestals}</a>
           <DropdownMenu>
-            <DropdownMenuTrigger className="story-link text-ink hover:text-clay transition outline-none p-0 bg-transparent border-0 font-normal text-sm leading-none">
+            <DropdownMenuTrigger className="story-link text-ink hover:text-clay transition outline-none p-0 bg-transparent border-0 font-semibold text-sm leading-none">
               {T.restorations}
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" className="bg-cream border-border">
