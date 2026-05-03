@@ -35,21 +35,7 @@ export const ArtInstallation = () => {
   const ref = useReveal<HTMLDivElement>();
   const [open, setOpen] = useState<Photo | null>(null);
   const [albumOpen, setAlbumOpen] = useState(false);
-  const [albumPhotos, setAlbumPhotos] = useState<Photo[]>(initialPhotos);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files) return;
-    const newPhotos: Photo[] = Array.from(files).map((f) => ({
-      src: URL.createObjectURL(f),
-      es: f.name,
-      en: f.name,
-      type: f.type.startsWith("video/") ? "video" : "image",
-    }));
-    setAlbumPhotos((prev) => [...prev, ...newPhotos]);
-    e.target.value = "";
-  };
+  const albumPhotos: Photo[] = [...initialPhotos, ...albumExtras];
 
   return (
     <section id="installation" className="relative py-24 md:py-36 bg-cream">
