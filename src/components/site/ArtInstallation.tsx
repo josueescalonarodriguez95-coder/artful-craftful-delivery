@@ -143,23 +143,6 @@ export const ArtInstallation = () => {
                 )}
               </button>
             ))}
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="aspect-square rounded-md border-2 border-dashed border-ink/30 bg-cream/50 hover:border-ink hover:bg-ink/5 transition-colors flex flex-col items-center justify-center gap-2 text-ink/70 hover:text-ink"
-            >
-              <Plus className="w-8 h-8" />
-              <span className="text-xs uppercase tracking-[0.2em] font-medium">
-                {lang === "es" ? "Agregar" : "Add"}
-              </span>
-            </button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*,video/*"
-              multiple
-              onChange={handleAdd}
-              className="hidden"
-            />
           </div>
         </DialogContent>
       </Dialog>
