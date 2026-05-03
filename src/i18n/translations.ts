@@ -28,8 +28,8 @@ export const t = {
   services: {
     eyebrow: { es: "Lo que hacemos", en: "What we do" },
     title: {
-      es: "Tres servicios. Una sola obsesión: cuidar tu obra.",
-      en: "Three services. One obsession: caring for your work.",
+      es: "Una sola obsesión: cuidar tu obra.",
+      en: "One obsession: caring for your work.",
     },
     items: [
       {
