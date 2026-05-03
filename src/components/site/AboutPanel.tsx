@@ -168,10 +168,10 @@ export const AboutPanel = ({ open, onOpenChange }: { open: boolean; onOpenChange
                     >
                       {(() => {
                         const cities = [
-                          { x: 250, y: 395, label: "Los Angeles", ox: -130, oy: -22 },
-                          { x: 968, y: 552, label: "Miami", ox: -90, oy: 26 },
-                          { x: 962, y: 528, label: "West Palm Beach", ox: -200, oy: -2 },
-                          { x: 1020, y: 270, label: "New York", ox: -110, oy: -18 },
+                          { x: 260, y: 395, label: "Los Angeles", ox: -135, oy: -22 },
+                          { x: 985, y: 575, label: "Miami", ox: -85, oy: 28 },
+                          { x: 975, y: 552, label: "West Palm Beach", ox: -210, oy: -2 },
+                          { x: 1050, y: 275, label: "New York", ox: -115, oy: -18 },
                         ];
                         const route = [cities[0], cities[1], cities[2], cities[3]];
                         const path = route
