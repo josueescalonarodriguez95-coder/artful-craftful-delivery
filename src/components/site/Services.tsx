@@ -5,6 +5,7 @@ import { useReveal } from "@/hooks/useReveal";
 import crates from "@/assets/service-crates.jpg";
 import pedestals from "@/assets/service-pedestals.jpg";
 import restoration from "@/assets/service-restoration.jpg";
+import moving from "@/assets/service-moving.jpg";
 
 export const Services = () => {
   const { lang } = useLang();
