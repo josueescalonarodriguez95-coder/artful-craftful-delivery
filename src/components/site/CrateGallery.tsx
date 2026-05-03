@@ -181,8 +181,7 @@ export const CrateGallery = () => {
                   <button
                     onClick={() => {
                       if (Math.abs(drag) > 4) return;
-                      if (isActive) setOpenIdx(logical);
-                      else goTo(i);
+                      setOpenIdx(logical);
                     }}
                     className="block will-change-transform"
                     style={{
