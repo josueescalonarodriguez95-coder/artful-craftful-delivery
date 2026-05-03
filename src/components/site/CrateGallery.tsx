@@ -11,16 +11,13 @@ import img6 from "@/assets/crate-gallery-6.jpg";
 import img7 from "@/assets/crate-gallery-7.jpg";
 
 const images = [img1, img2, img3, img4, img5, img6, img7];
-const VISIBLE = 3;
-const THUMB = 112; // px (w-28)
-const GAP = 12; // gap-3
-const STEP = THUMB + GAP;
 
 export const CrateGallery = () => {
   const { lang } = useLang();
   const [index, setIndex] = useState(0);
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const pausedRef = useRef(false);
+  const total = images.length;
 
   useEffect(() => {
     pausedRef.current = openIdx !== null;
@@ -29,95 +26,89 @@ export const CrateGallery = () => {
   useEffect(() => {
     const id = setInterval(() => {
       if (!pausedRef.current) setIndex((i) => i + 1);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(id);
   }, []);
 
   const next = () => setIndex((i) => i + 1);
   const prev = () => setIndex((i) => i - 1);
-
-  // Build a long extended list so the strip can slide smoothly with a carousel feel.
-  // We render images.length * 3 copies and keep index in middle range visually.
-  const total = images.length;
-  const extended = Array.from({ length: total * 5 }, (_, i) => i % total);
-  const offsetBase = total * 2; // start in the middle
-
-  const translate = -(index + offsetBase) * STEP;
+  const wrap = (i: number) => ((i % total) + total) % total;
 
   return (
     <div className="mt-10">
-      <div className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium mb-4">
+      <div className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium mb-4 text-center sm:text-left">
         {lang === "es" ? "Nuestro trabajo" : "Our work"}
       </div>
-      <div className="flex items-center justify-center gap-3">
+
+      <div className="flex items-center justify-center gap-2 sm:gap-4">
         <button
           onClick={prev}
           aria-label={lang === "es" ? "Anterior" : "Previous"}
-          className="shrink-0 h-9 w-9 rounded-full border border-border bg-background hover:bg-ink hover:text-cream transition flex items-center justify-center text-ink"
+          className="shrink-0 h-9 w-9 rounded-full bg-ink/5 hover:bg-ink/15 backdrop-blur-sm text-ink/70 hover:text-ink transition flex items-center justify-center"
         >
           <ChevronLeft className="h-4 w-4" />
         </button>
 
         <div
-          className="overflow-hidden"
-          style={{ width: VISIBLE * THUMB + (VISIBLE - 1) * GAP }}
+          className="relative flex-1 max-w-[520px] h-44 sm:h-56 md:h-64 flex items-center justify-center"
+          style={{ perspective: "1200px" }}
         >
-          <div
-            className="flex"
-            style={{
-              gap: `${GAP}px`,
-              transform: `translateX(${translate}px)`,
-              transition: "transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1)",
-            }}
-          >
-            {extended.map((i, pos) => (
+          {[-1, 0, 1].map((off) => {
+            const i = wrap(index + off);
+            const isCenter = off === 0;
+            return (
               <button
-                key={pos}
-                onClick={() => setOpenIdx(i)}
-                className="relative shrink-0 w-28 h-28 rounded-md overflow-hidden border border-border shadow-soft hover:shadow-elegant hover:scale-105 transition-transform duration-300"
-                style={{ width: THUMB, height: THUMB }}
-                aria-label={lang === "es" ? "Ver imagen" : "View image"}
+                key={off}
+                onClick={() => (isCenter ? setOpenIdx(i) : setIndex(index + off))}
+                aria-label={isCenter ? (lang === "es" ? "Ver imagen" : "View image") : undefined}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out"
+                style={{
+                  transform: `translate(-50%, -50%) translateX(${off * 38}%) rotateY(${off * -38}deg) scale(${isCenter ? 1 : 0.78})`,
+                  zIndex: isCenter ? 10 : 5,
+                  opacity: isCenter ? 1 : 0.55,
+                  transformStyle: "preserve-3d",
+                }}
               >
                 <img
                   src={images[i]}
                   alt={`Crate work ${i + 1}`}
                   loading="lazy"
-                  className="h-full w-full object-cover"
+                  className="w-32 h-32 sm:w-44 sm:h-44 md:w-52 md:h-52 object-cover rounded-md shadow-elegant border border-border/60"
                 />
               </button>
-            ))}
-          </div>
+            );
+          })}
         </div>
 
         <button
           onClick={next}
           aria-label={lang === "es" ? "Siguiente" : "Next"}
-          className="shrink-0 h-9 w-9 rounded-full border border-border bg-background hover:bg-ink hover:text-cream transition flex items-center justify-center text-ink"
+          className="shrink-0 h-9 w-9 rounded-full bg-ink/5 hover:bg-ink/15 backdrop-blur-sm text-ink/70 hover:text-ink transition flex items-center justify-center"
         >
           <ChevronRight className="h-4 w-4" />
         </button>
       </div>
 
       <Dialog open={openIdx !== null} onOpenChange={(o) => !o && setOpenIdx(null)}>
-        <DialogContent className="max-w-4xl p-0 bg-transparent border-0 shadow-none">
+        <DialogContent className="max-w-5xl p-0 bg-transparent border-0 shadow-none">
           {openIdx !== null && (
-            <div className="relative">
-              <img
-                src={images[openIdx]}
-                alt={`Crate work ${openIdx + 1}`}
-                className="w-full h-auto max-h-[85vh] object-contain rounded-md"
-              />
+            <div className="flex items-center gap-2 sm:gap-4">
               <button
                 onClick={() => setOpenIdx((i) => (i === null ? i : (i - 1 + images.length) % images.length))}
                 aria-label={lang === "es" ? "Anterior" : "Previous"}
-                className="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-cream/90 hover:bg-cream text-ink flex items-center justify-center shadow-soft"
+                className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-cream/20 hover:bg-cream/40 backdrop-blur-sm text-cream flex items-center justify-center transition"
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
+              <img
+                src={images[openIdx]}
+                alt={`Crate work ${openIdx + 1}`}
+                className="flex-1 min-w-0 h-auto max-h-[85vh] object-contain rounded-md"
+              />
               <button
                 onClick={() => setOpenIdx((i) => (i === null ? i : (i + 1) % images.length))}
                 aria-label={lang === "es" ? "Siguiente" : "Next"}
-                className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-cream/90 hover:bg-cream text-ink flex items-center justify-center shadow-soft"
+                className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-cream/20 hover:bg-cream/40 backdrop-blur-sm text-cream flex items-center justify-center transition"
               >
                 <ChevronRight className="h-5 w-5" />
               </button>

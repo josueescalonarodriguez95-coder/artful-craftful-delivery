@@ -88,40 +88,40 @@ export const ArtInstallation = () => {
       </div>
 
       <Dialog open={!!open} onOpenChange={(v) => !v && setOpen(null)}>
-        <DialogContent className="max-w-5xl p-2 bg-cream">
+        <DialogContent className="max-w-5xl p-0 bg-transparent border-0 shadow-none">
           {current && (
-            <div className="relative">
+            <div className="flex items-center gap-2 sm:gap-4">
+              {open && open.list.length > 1 && (
+                <button
+                  onClick={prev}
+                  aria-label={lang === "es" ? "Anterior" : "Previous"}
+                  className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-cream/20 hover:bg-cream/40 backdrop-blur-sm text-cream flex items-center justify-center transition"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+              )}
               {current.type === "video" ? (
                 <video
                   src={current.src}
                   controls
                   autoPlay
-                  className="w-full h-auto rounded max-h-[80vh]"
+                  className="flex-1 min-w-0 h-auto rounded max-h-[80vh]"
                 />
               ) : (
                 <img
                   src={current.src}
                   alt={lang === "es" ? "Vista previa de instalación" : "Installation preview"}
-                  className="w-full h-auto rounded"
+                  className="flex-1 min-w-0 h-auto max-h-[85vh] object-contain rounded"
                 />
               )}
               {open && open.list.length > 1 && (
-                <>
-                  <button
-                    onClick={prev}
-                    aria-label={lang === "es" ? "Anterior" : "Previous"}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-cream/90 hover:bg-cream text-ink flex items-center justify-center shadow-soft"
-                  >
-                    <ChevronLeft className="h-5 w-5" />
-                  </button>
-                  <button
-                    onClick={next}
-                    aria-label={lang === "es" ? "Siguiente" : "Next"}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-cream/90 hover:bg-cream text-ink flex items-center justify-center shadow-soft"
-                  >
-                    <ChevronRight className="h-5 w-5" />
-                  </button>
-                </>
+                <button
+                  onClick={next}
+                  aria-label={lang === "es" ? "Siguiente" : "Next"}
+                  className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-cream/20 hover:bg-cream/40 backdrop-blur-sm text-cream flex items-center justify-center transition"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
               )}
             </div>
           )}
