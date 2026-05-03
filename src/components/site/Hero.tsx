@@ -15,8 +15,6 @@ export const Hero = () => {
           width={1600}
           height={1024}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-cream/30 via-cream/10 to-cream" />
-        <div className="absolute inset-0 bg-gradient-overlay opacity-40" />
       </div>
 
       <div className="relative container pb-16 md:pb-24 pt-32">
