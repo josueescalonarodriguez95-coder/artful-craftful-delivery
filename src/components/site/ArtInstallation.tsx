@@ -8,13 +8,14 @@ import img2 from "@/assets/installation-2.jpg";
 import img3 from "@/assets/installation-3.jpg";
 import img4 from "@/assets/installation-4.jpg";
 
-type Photo = { src: string; es: string; en: string };
+type MediaType = "image" | "video";
+type Photo = { src: string; es: string; en: string; type: MediaType };
 
 const initialPhotos: Photo[] = [
-  { src: img1, es: "Dos fotografías de gran formato instaladas en pared", en: "Two large-format photographs installed on wall" },
-  { src: img2, es: "Instalación de tapiz contemporáneo en comedor", en: "Contemporary tapestry installation in dining room" },
-  { src: img3, es: "Mural abstracto instalado en escalera", en: "Abstract mural installed on staircase wall" },
-  { src: img4, es: "Fotografía de ola enmarcada en sala", en: "Framed wave photograph in living room" },
+  { src: img1, type: "image", es: "Dos fotografías de gran formato instaladas en pared", en: "Two large-format photographs installed on wall" },
+  { src: img2, type: "image", es: "Instalación de tapiz contemporáneo en comedor", en: "Contemporary tapestry installation in dining room" },
+  { src: img3, type: "image", es: "Mural abstracto instalado en escalera", en: "Abstract mural installed on staircase wall" },
+  { src: img4, type: "image", es: "Fotografía de ola enmarcada en sala", en: "Framed wave photograph in living room" },
 ];
 
 export const ArtInstallation = () => {
