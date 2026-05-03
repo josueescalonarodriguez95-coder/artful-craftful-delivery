@@ -51,11 +51,22 @@ export const Nav = () => {
       <div className="container flex items-center justify-between h-16 md:h-20">
         <button
           onClick={() => setAboutOpen(true)}
-          className="flex items-baseline gap-2 group text-left"
+          className="relative flex items-center gap-2 group text-left"
           aria-label={lang === "es" ? "Quiénes somos" : "About us"}
         >
-          <span className="font-display text-2xl md:text-3xl tracking-tight text-ink">
-            Ramos<span className="text-clay">·</span>Delivery<span className="text-ink/70"> Enterprise</span>
+          <span className="relative font-display text-2xl md:text-3xl tracking-tight text-ink inline-block animate-brand-pulse origin-left">
+            <span
+              className="bg-[linear-gradient(110deg,transparent_0%,transparent_40%,hsl(var(--clay)/0.45)_50%,transparent_60%,transparent_100%)] bg-[length:250%_100%] bg-clip-text"
+              style={{ WebkitBackgroundClip: "text" }}
+            >
+              <span className="text-ink">Ramos</span><span className="text-clay">·</span><span className="text-ink">Delivery</span><span className="text-ink/70"> Enterprise</span>
+            </span>
+            <span aria-hidden className="pointer-events-none absolute inset-0 animate-shine bg-[linear-gradient(110deg,transparent_40%,hsl(var(--clay)/0.35)_50%,transparent_60%)] bg-[length:250%_100%] mix-blend-overlay rounded" />
+            <span aria-hidden className="absolute -bottom-1 left-0 h-[2px] w-0 bg-clay transition-all duration-500 group-hover:w-full" />
+          </span>
+          <span className="hidden sm:inline-flex items-center gap-1 ml-1 text-[10px] uppercase tracking-[0.18em] text-clay font-medium animate-hint-bounce">
+            <span className="h-1.5 w-1.5 rounded-full bg-clay animate-ping" />
+            {lang === "es" ? "Tócame" : "Tap me"}
           </span>
         </button>
 
