@@ -169,7 +169,7 @@ export const CrateGallery = () => {
                       transform: `scale(${scale})`,
                       opacity,
                       transition: animate
-                        ? "transform 480ms ease-in-out, opacity 480ms ease-in-out"
+                        ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1), opacity 800ms ease-in-out"
                         : "none",
                     }}
                     aria-label={isActive ? (lang === "es" ? "Ver imagen" : "View image") : undefined}
