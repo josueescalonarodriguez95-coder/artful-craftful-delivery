@@ -139,7 +139,7 @@ export const CrateGallery = () => {
             style={{
               transform: `translate3d(calc(-50% + ${translatePx}px + ${slot / 2}px), -50%, 0)`,
               transition: animate
-                ? "transform 480ms cubic-bezier(0.22, 1, 0.36, 1)"
+                ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1)"
                 : "none",
               willChange: "transform",
               gap: 0,
