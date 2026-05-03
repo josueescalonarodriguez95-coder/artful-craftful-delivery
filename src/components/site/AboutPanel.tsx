@@ -13,22 +13,22 @@ const TOTAL_REVIEWS = 47;
 
 const reviews = [
   {
-    name: "María González",
-    when: "hace 2 semanas",
+    name: "Jennifer Whitman",
+    when: "hace 3 semanas",
     stars: 5,
-    text: "Servicio impecable. Transportaron una escultura delicada desde Miami a New York con un cuidado excepcional. Profesionales, puntuales y muy atentos.",
+    text: "Ramos handled the move of a large oil painting from Miami to our gallery in NY. Custom crate, white-glove service and arrived in perfect condition. Highly recommended for fine art.",
   },
   {
-    name: "Carlos Rivera",
+    name: "Luis Hernández",
     when: "hace 1 mes",
     stars: 5,
-    text: "El equipo de Ramos restauró una pieza de mármol de mi colección. El resultado superó mis expectativas. Verdaderos artesanos.",
+    text: "Excelente trabajo construyendo un crate a medida para una escultura muy delicada. El equipo es profesional, puntual y cuida cada detalle. Volveré a contratarlos sin dudarlo.",
   },
   {
-    name: "Andrea Pérez",
+    name: "Sarah Klein",
     when: "hace 2 meses",
     stars: 5,
-    text: "La instalación de las obras en mi galería fue precisa y elegante. Excelente comunicación de principio a fin. Muy recomendados.",
+    text: "We've used Ramos Delivery for several gallery installations in South Florida. Always on time, always careful, and great communication throughout. True specialists in art logistics.",
   },
 ];
 
