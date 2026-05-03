@@ -82,7 +82,7 @@ export const USRouteMap = ({ tagline }: { tagline: string }) => {
             return (
               <path
                 key={i}
-                d={pathGen(feature) ?? ""}
+                d={pathGen(feat) ?? ""}
                 fill={fill}
                 stroke="#ffffff"
                 strokeWidth={1.2}
