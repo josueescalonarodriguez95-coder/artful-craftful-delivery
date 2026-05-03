@@ -20,9 +20,9 @@ export const CrateGallery = () => {
   const { lang } = useLang();
   const total = images.length;
 
-  // We render a tripled list [...images, ...images, ...images] and keep the
-  // logical index inside the middle copy to enable seamless infinite looping.
-  const [index, setIndex] = useState(total); // start in middle copy
+  // Single logical list. When we reach the last item, the next step wraps
+  // back to the first one (no empty slots beyond the available images).
+  const [index, setIndex] = useState(0);
   const [drag, setDrag] = useState(0); // px while dragging
   const [animate, setAnimate] = useState(true);
   const [openIdx, setOpenIdx] = useState<number | null>(null);
