@@ -335,6 +335,17 @@ export const PedestalEstimator = () => {
                         depth={d || 14}
                         color={viewerColor}
                         finish={viewerFinish}
+                        variant={
+                          material === "marble"
+                            ? finish
+                            : material === "acrylic"
+                            ? finish
+                            : finish === "lacquer"
+                            ? lacquerColor
+                            : finish === "paint"
+                            ? paintColor
+                            : undefined
+                        }
                       />
                       <p className="mt-3 text-center text-xs text-ink/60">
                         {lang === "es"
