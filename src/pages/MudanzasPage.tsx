@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles, Mail, Phone, MessageSquare } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles, Mail, Phone, MessageSquare, Construction } from "lucide-react";
+import spiderCrane from "@/assets/service-spider-crane.jpg";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const EMAIL = "ramosdeliverye@gmail.com";
@@ -52,6 +53,19 @@ const Body = () => {
         lang === "es"
           ? ["Carga y descarga", "Mantas, plástico y cinta", "Desarmado y armado", "Local e interestatal"]
           : ["Loading & unloading", "Blankets, plastic & tape", "Disassembly & reassembly", "Local & interstate"],
+    {
+      icon: Construction,
+      tag: lang === "es" ? "Grúa especializada" : "Specialized crane",
+      name: lang === "es" ? "Servicio de grúa para trabajos pesados" : "Crane service for heavy-duty jobs",
+      body:
+        lang === "es"
+          ? "Mini grúa araña (compact crawler crane) para izajes especiales en espacios reducidos — ideal para esculturas monumentales, mármol pesado y piezas de gran formato."
+          : "Spider mini crane (compact crawler crane) for specialized lifts in tight spaces — ideal for monumental sculptures, heavy marble and large-format pieces.",
+      points:
+        lang === "es"
+          ? ["Acceso a espacios reducidos", "Capacidad para cargas pesadas", "Operadores certificados", "Plan de izaje a medida"]
+          : ["Access to tight spaces", "Heavy-load capacity", "Certified operators", "Custom lift plan"],
+      image: spiderCrane,
     },
   ];
 
