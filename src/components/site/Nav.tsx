@@ -68,7 +68,7 @@ export const Nav = () => {
 
         <nav className="hidden md:flex items-center gap-2 text-sm">
           <a href="#services" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.services}</a>
-          <a href="#delivery" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.delivery}</a>
+          <Link to="/delivery" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.delivery}</Link>
           <a href="#pedestals" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.pedestals}</a>
           <Link to="/restauraciones" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.restorations}</Link>
           <a href="#contact" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.contact}</a>
