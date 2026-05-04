@@ -46,6 +46,10 @@ export const CartDrawer = () => {
   };
 
   const choose = (m: (typeof methods)[number]) => {
+    if (m.id === "venmo") {
+      window.open(VENMO_URL, "_blank", "noopener,noreferrer");
+      return;
+    }
     toast.success(
       lang === "es"
         ? `Pedido enviado — coordinaremos el pago vía ${m.es}.`
