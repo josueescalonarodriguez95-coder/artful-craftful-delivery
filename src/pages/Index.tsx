@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useLang } from "@/components/site/LangContext";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
@@ -40,6 +41,15 @@ const SEO = () => {
 };
 
 const Index = () => {
+  const { hash } = useLocation();
+  useEffect(() => {
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+      }
+    }
+  }, [hash]);
   return (
     <>
       <SEO />
