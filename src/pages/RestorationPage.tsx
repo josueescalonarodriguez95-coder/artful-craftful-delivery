@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Gem, Palette, Hammer, Image as ImageIcon, Video } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { LangProvider, useLang } from "@/components/site/LangContext";
 import { CartProvider } from "@/components/site/CartContext";
 import { Nav } from "@/components/site/Nav";
@@ -59,6 +60,42 @@ const SECTIONS = [
   },
 ];
 
+const ThumbCard = ({ kind }: { kind: "photo" | "video" }) => {
+  const { lang } = useLang();
+  const [open, setOpen] = useState(false);
+  const Icon = kind === "video" ? Video : ImageIcon;
+  const label =
+    kind === "video"
+      ? lang === "es" ? "Video" : "Video"
+      : lang === "es" ? "Foto" : "Photo";
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="group bg-secondary/40 rounded-md border border-border/60 overflow-hidden cursor-zoom-in"
+        aria-label={label}
+      >
+        <div className="relative block w-full aspect-square bg-cream overflow-hidden flex flex-col items-center justify-center text-ink/40 gap-1 transition group-hover:bg-cream/80">
+          <Icon className="h-5 w-5" />
+          <span className="text-[10px] uppercase tracking-[0.15em]">{label}</span>
+        </div>
+      </button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-3xl bg-cream">
+          <DialogTitle className="sr-only">{label}</DialogTitle>
+          <div className="aspect-video w-full rounded-md bg-secondary/40 border border-border/60 flex flex-col items-center justify-center text-ink/40 gap-2">
+            <Icon className="h-8 w-8" />
+            <span className="text-xs uppercase tracking-[0.2em]">
+              {lang === "es" ? "Próximamente" : "Coming soon"}
+            </span>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
 const Body = () => {
   const { lang } = useLang();
 
@@ -104,23 +141,13 @@ const Body = () => {
                   <h2 className="font-display text-3xl md:text-4xl text-ink leading-tight">{copy.title}</h2>
                   <p className="mt-4 text-ink/70 leading-relaxed max-w-3xl">{copy.summary}</p>
 
-                  {/* Photos */}
-                  <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {[0, 1, 2].map((i) => (
-                      <div
-                        key={i}
-                        className="aspect-[4/3] rounded-md border border-border/70 bg-card/60 shadow-soft flex flex-col items-center justify-center text-ink/40 text-xs gap-2"
-                      >
-                        <ImageIcon className="h-6 w-6" />
-                        <span>{lang === "es" ? "Foto próximamente" : "Photo coming soon"}</span>
-                      </div>
+                  {/* Media thumbnails — same look as pedestal preview */}
+                  <div className="mt-8 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 max-w-3xl">
+                    {[0, 1, 2, 3].map((i) => (
+                      <ThumbCard key={`p-${i}`} kind="photo" />
                     ))}
-                  </div>
-
-                  {/* Video */}
-                  <div className="mt-4 aspect-video rounded-md border border-border/70 bg-card/60 shadow-soft flex flex-col items-center justify-center text-ink/40 text-xs gap-2">
-                    <Video className="h-6 w-6" />
-                    <span>{lang === "es" ? "Video próximamente" : "Video coming soon"}</span>
+                    <ThumbCard kind="video" />
+                    <ThumbCard kind="video" />
                   </div>
                 </section>
               );
