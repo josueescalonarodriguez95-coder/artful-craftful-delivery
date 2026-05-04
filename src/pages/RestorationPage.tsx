@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Gem, Palette, Hammer, Image as ImageIcon, Video } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { LangProvider, useLang } from "@/components/site/LangContext";
 import { CartProvider } from "@/components/site/CartContext";
 import { Nav } from "@/components/site/Nav";
@@ -104,23 +105,13 @@ const Body = () => {
                   <h2 className="font-display text-3xl md:text-4xl text-ink leading-tight">{copy.title}</h2>
                   <p className="mt-4 text-ink/70 leading-relaxed max-w-3xl">{copy.summary}</p>
 
-                  {/* Photos */}
-                  <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {[0, 1, 2].map((i) => (
-                      <div
-                        key={i}
-                        className="aspect-[4/3] rounded-md border border-border/70 bg-card/60 shadow-soft flex flex-col items-center justify-center text-ink/40 text-xs gap-2"
-                      >
-                        <ImageIcon className="h-6 w-6" />
-                        <span>{lang === "es" ? "Foto próximamente" : "Photo coming soon"}</span>
-                      </div>
+                  {/* Media thumbnails — same look as pedestal preview */}
+                  <div className="mt-8 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 max-w-3xl">
+                    {[0, 1, 2, 3].map((i) => (
+                      <ThumbCard key={`p-${i}`} kind="photo" />
                     ))}
-                  </div>
-
-                  {/* Video */}
-                  <div className="mt-4 aspect-video rounded-md border border-border/70 bg-card/60 shadow-soft flex flex-col items-center justify-center text-ink/40 text-xs gap-2">
-                    <Video className="h-6 w-6" />
-                    <span>{lang === "es" ? "Video próximamente" : "Video coming soon"}</span>
+                    <ThumbCard kind="video" />
+                    <ThumbCard kind="video" />
                   </div>
                 </section>
               );
