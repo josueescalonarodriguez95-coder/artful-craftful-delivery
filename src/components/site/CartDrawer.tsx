@@ -4,8 +4,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { useCart } from "./CartContext";
 import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
-import { Trash2, CreditCard, Wallet, Banknote, Building2, Smartphone, Apple } from "lucide-react";
+import { Trash2, CreditCard, Wallet, Building2, Smartphone, DollarSign, Mail, Copy } from "lucide-react";
 import { toast } from "sonner";
+
+const CONTACT_EMAIL = "rafebt86@gmail.com";
+const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
 
 export const CartDrawer = () => {
   const { items, remove, total, open, setOpen, clear } = useCart();
@@ -26,15 +29,27 @@ export const CartDrawer = () => {
   };
 
   const methods = [
-    { id: "applepay", icon: Apple, es: "Apple Pay", en: "Apple Pay" },
     { id: "card", icon: CreditCard, es: "Tarjeta de crédito / débito", en: "Credit / Debit card" },
     { id: "paypal", icon: Wallet, es: "PayPal", en: "PayPal" },
+    { id: "venmo", icon: DollarSign, es: "Venmo", en: "Venmo" },
     { id: "zelle", icon: Smartphone, es: "Zelle", en: "Zelle" },
     { id: "transfer", icon: Building2, es: "Transferencia bancaria", en: "Bank transfer" },
-    { id: "cash", icon: Banknote, es: "Efectivo a la entrega", en: "Cash on delivery" },
   ];
 
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      toast.success(lang === "es" ? "Correo copiado" : "Email copied");
+    } catch {
+      toast.error(lang === "es" ? "No se pudo copiar" : "Could not copy");
+    }
+  };
+
   const choose = (m: (typeof methods)[number]) => {
+    if (m.id === "venmo") {
+      window.open(VENMO_URL, "_blank", "noopener,noreferrer");
+      return;
+    }
     toast.success(
       lang === "es"
         ? `Pedido enviado — coordinaremos el pago vía ${m.es}.`
@@ -120,6 +135,29 @@ export const CartDrawer = () => {
                 </button>
               );
             })}
+          </div>
+
+          <div className="mt-4 border border-border/70 rounded-md p-3 bg-background">
+            <div className="text-xs uppercase tracking-[0.2em] text-ink/60 mb-2">
+              {lang === "es" ? "Contacto" : "Contact"}
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="h-4 w-4 shrink-0 text-ink/70" />
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="text-sm text-ink underline-offset-4 hover:underline truncate"
+              >
+                {CONTACT_EMAIL}
+              </a>
+              <button
+                onClick={copyEmail}
+                className="ml-auto inline-flex items-center gap-1 text-xs px-2 py-1 rounded border border-border/70 hover:bg-ink hover:text-cream transition"
+                aria-label={lang === "es" ? "Copiar correo" : "Copy email"}
+              >
+                <Copy className="h-3.5 w-3.5" />
+                {lang === "es" ? "Copiar" : "Copy"}
+              </button>
+            </div>
           </div>
           <div className="mt-2 flex items-baseline justify-between text-xs text-ink/60">
             <span className="uppercase tracking-[0.2em]">{T.total}</span>
