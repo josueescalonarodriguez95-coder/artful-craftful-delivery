@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { useCart } from "./CartContext";
 import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
-import { Trash2, CreditCard, Wallet, Banknote, Building2, Smartphone } from "lucide-react";
+import { Trash2, CreditCard, Wallet, Banknote, Building2, Smartphone, Apple } from "lucide-react";
 import { toast } from "sonner";
 
 export const CartDrawer = () => {
@@ -26,6 +26,7 @@ export const CartDrawer = () => {
   };
 
   const methods = [
+    { id: "applepay", icon: Apple, es: "Apple Pay", en: "Apple Pay" },
     { id: "card", icon: CreditCard, es: "Tarjeta de crédito / débito", en: "Credit / Debit card" },
     { id: "paypal", icon: Wallet, es: "PayPal", en: "PayPal" },
     { id: "zelle", icon: Smartphone, es: "Zelle", en: "Zelle" },
