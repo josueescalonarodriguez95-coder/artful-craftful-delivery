@@ -6,9 +6,12 @@ import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
 import { Trash2, CreditCard, Wallet, Building2, Smartphone, DollarSign, Mail, Copy } from "lucide-react";
 import { toast } from "sonner";
+import venmoQR from "@/assets/venmo-qr.jpeg";
+import cashappQR from "@/assets/cashapp-qr.jpeg";
 
 const CONTACT_EMAIL = "rafebt86@gmail.com";
 const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
+const CASHAPP_URL = "https://cash.app/$ramosdelivery";
 
 export const CartDrawer = () => {
   const { items, remove, total, open, setOpen, clear } = useCart();
@@ -32,6 +35,7 @@ export const CartDrawer = () => {
     { id: "card", icon: CreditCard, es: "Tarjeta de crédito / débito", en: "Credit / Debit card" },
     { id: "paypal", icon: Wallet, es: "PayPal", en: "PayPal" },
     { id: "venmo", icon: DollarSign, es: "Venmo", en: "Venmo" },
+    { id: "cashapp", icon: DollarSign, es: "Cash App", en: "Cash App" },
     { id: "zelle", icon: Smartphone, es: "Zelle", en: "Zelle" },
     { id: "transfer", icon: Building2, es: "Transferencia bancaria", en: "Bank transfer" },
   ];
@@ -48,6 +52,10 @@ export const CartDrawer = () => {
   const choose = (m: (typeof methods)[number]) => {
     if (m.id === "venmo") {
       window.open(VENMO_URL, "_blank", "noopener,noreferrer");
+      return;
+    }
+    if (m.id === "cashapp") {
+      window.open(CASHAPP_URL, "_blank", "noopener,noreferrer");
       return;
     }
     toast.success(
@@ -124,15 +132,30 @@ export const CartDrawer = () => {
           <div className="mt-2 space-y-2">
             {methods.map((m) => {
               const Icon = m.icon;
+              const qr = m.id === "venmo" ? venmoQR : m.id === "cashapp" ? cashappQR : null;
               return (
-                <button
-                  key={m.id}
-                  onClick={() => choose(m)}
-                  className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
-                >
-                  <Icon className="h-5 w-5 shrink-0" />
-                  <span className="text-sm">{lang === "es" ? m.es : m.en}</span>
-                </button>
+                <div key={m.id} className="space-y-2">
+                  <button
+                    onClick={() => choose(m)}
+                    className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
+                  >
+                    <Icon className="h-5 w-5 shrink-0" />
+                    <span className="text-sm">{lang === "es" ? m.es : m.en}</span>
+                  </button>
+                  {qr && (
+                    <div className="flex flex-col items-center border border-border/70 rounded-md p-3 bg-background">
+                      <img
+                        src={qr}
+                        alt={`${m.en} QR`}
+                        className="w-40 h-40 object-contain"
+                        loading="lazy"
+                      />
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-ink/60 mt-2">
+                        {lang === "es" ? "Escanea para pagar" : "Scan to pay"}
+                      </span>
+                    </div>
+                  )}
+                </div>
               );
             })}
           </div>
