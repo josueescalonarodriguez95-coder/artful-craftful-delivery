@@ -1,7 +1,5 @@
 import { useEffect } from "react";
-import { LangProvider, useLang } from "@/components/site/LangContext";
-import { CartProvider } from "@/components/site/CartContext";
-import { CartDrawer } from "@/components/site/CartDrawer";
+import { useLang } from "@/components/site/LangContext";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
 import { Marquee } from "@/components/site/Marquee";
@@ -43,29 +41,26 @@ const SEO = () => {
 
 const Index = () => {
   return (
-    <LangProvider>
-      <CartProvider>
-        <SEO />
-        <div className="min-h-screen bg-cream text-ink">
-          <Nav />
-          <CartDrawer />
-          <main>
-            <Hero />
-            <RevealSection><Marquee /></RevealSection>
-            <RevealSection><Services /></RevealSection>
-            <RevealSection><DeliveryCalculator /></RevealSection>
-            <RevealSection><PedestalEstimator /></RevealSection>
-            <RevealSection><FineArtStorage /></RevealSection>
-            <RevealSection><ArtInstallation /></RevealSection>
-            <RevealSection><ShippingOptions /></RevealSection>
-            <RevealSection><Contact /></RevealSection>
-          </main>
-          <Footer />
-          <WhatsAppFloat />
-          <ScrollToTop />
-        </div>
-      </CartProvider>
-    </LangProvider>
+    <>
+      <SEO />
+      <div className="min-h-screen bg-cream text-ink">
+        <Nav />
+        <main>
+          <Hero />
+          <RevealSection><Marquee /></RevealSection>
+          <RevealSection><Services /></RevealSection>
+          <RevealSection><DeliveryCalculator /></RevealSection>
+          <RevealSection><PedestalEstimator /></RevealSection>
+          <RevealSection><FineArtStorage /></RevealSection>
+          <RevealSection><ArtInstallation /></RevealSection>
+          <RevealSection><ShippingOptions /></RevealSection>
+          <RevealSection><Contact /></RevealSection>
+        </main>
+        <Footer />
+        <WhatsAppFloat />
+        <ScrollToTop />
+      </div>
+    </>
   );
 };
 
