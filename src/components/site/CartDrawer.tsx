@@ -135,59 +135,52 @@ export const CartDrawer = () => {
           <div className="mt-2 space-y-2">
             {methods.map((m) => {
               const Icon = m.icon;
-              const qr = m.id === "venmo" ? venmoQR : m.id === "cashapp" ? cashappQR : null;
               return (
-                <div key={m.id} className="space-y-2">
-                  <button
-                    onClick={() => choose(m)}
-                    className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
-                  >
-                    <Icon className="h-5 w-5 shrink-0" />
-                    <span className="text-sm">{lang === "es" ? m.es : m.en}</span>
-                  </button>
-                  {qr && (
-                    <div className="flex flex-col items-center border border-border/70 rounded-md p-3 bg-background">
-                      <img
-                        src={qr}
-                        alt={`${m.en} QR`}
-                        className="w-40 h-40 object-contain"
-                        loading="lazy"
-                      />
-                      <span className="text-[10px] uppercase tracking-[0.2em] text-ink/60 mt-2">
-                        {lang === "es" ? "Escanea para pagar" : "Scan to pay"}
-                      </span>
-                    </div>
-                  )}
-                </div>
+                <button
+                  key={m.id}
+                  onClick={() => choose(m)}
+                  className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
+                >
+                  <Icon className="h-5 w-5 shrink-0" />
+                  <span className="text-sm">{lang === "es" ? m.es : m.en}</span>
+                </button>
               );
             })}
           </div>
 
-          <div className="mt-4 border border-border/70 rounded-md p-3 bg-background">
-            <div className="text-xs uppercase tracking-[0.2em] text-ink/60 mb-2">
-              {lang === "es" ? "Contacto" : "Contact"}
-            </div>
-            <div className="flex items-center gap-2">
-              <Mail className="h-4 w-4 shrink-0 text-ink/70" />
-              <a
-                href={`mailto:${CONTACT_EMAIL}`}
-                className="text-sm text-ink underline-offset-4 hover:underline truncate"
-              >
-                {CONTACT_EMAIL}
-              </a>
-              <button
-                onClick={copyEmail}
-                className="ml-auto inline-flex items-center gap-1 text-xs px-2 py-1 rounded border border-border/70 hover:bg-ink hover:text-cream transition"
-                aria-label={lang === "es" ? "Copiar correo" : "Copy email"}
-              >
-                <Copy className="h-3.5 w-3.5" />
-                {lang === "es" ? "Copiar" : "Copy"}
-              </button>
-            </div>
-          </div>
           <div className="mt-2 flex items-baseline justify-between text-xs text-ink/60">
             <span className="uppercase tracking-[0.2em]">{T.total}</span>
             <span className="font-display text-xl text-ink tabular-nums">${total.toFixed(0)}</span>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={zelleOpen} onOpenChange={setZelleOpen}>
+        <DialogContent className="bg-cream max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl text-ink">Zelle</DialogTitle>
+            <DialogDescription className="text-ink/60">
+              {lang === "es"
+                ? "Envía el pago a este correo:"
+                : "Send the payment to this email:"}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-2 border border-border/70 rounded-md p-3 bg-background flex items-center gap-2">
+            <Mail className="h-4 w-4 shrink-0 text-ink/70" />
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="text-sm text-ink underline-offset-4 hover:underline truncate"
+            >
+              {CONTACT_EMAIL}
+            </a>
+            <button
+              onClick={copyEmail}
+              className="ml-auto inline-flex items-center gap-1 text-xs px-2 py-1 rounded border border-border/70 hover:bg-ink hover:text-cream transition"
+              aria-label={lang === "es" ? "Copiar correo" : "Copy email"}
+            >
+              <Copy className="h-3.5 w-3.5" />
+              {lang === "es" ? "Copiar" : "Copy"}
+            </button>
           </div>
         </DialogContent>
       </Dialog>
