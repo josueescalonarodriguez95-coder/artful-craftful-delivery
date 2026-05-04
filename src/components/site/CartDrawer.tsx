@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2, CreditCard, Wallet, Building2, Smartphone, DollarSign, Mail, Copy } from "lucide-react";
 import { toast } from "sonner";
 
-const CONTACT_EMAIL = "rafebt86@gmail.com";
+const CONTACT_EMAIL = "radent86@gmail.com";
 const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
 const CASHAPP_URL = "https://cash.app/$ramosdelivery";
 
