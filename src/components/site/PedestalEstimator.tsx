@@ -5,8 +5,7 @@ import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "./CartContext";
-import { ShoppingCart, ZoomIn, ZoomOut } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { ShoppingCart } from "lucide-react";
 import plywoodNatural from "@/assets/pedestal-plywood-natural.jpg";
 import plywoodPaintWhite from "@/assets/pedestal-plywood-paint-white.jpg";
 import plywoodPaintBlack from "@/assets/pedestal-plywood-paint-black.jpg";
@@ -80,7 +79,7 @@ export const PedestalEstimator = () => {
   const [paintColor, setPaintColor] = useState<PaintColor>("white");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
-  const [zoomed, setZoomed] = useState(false);
+  
   const { add } = useCart();
   const ref = useReveal<HTMLDivElement>();
 
@@ -173,75 +172,18 @@ export const PedestalEstimator = () => {
         <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           {/* Pedestal preview */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24">
-            <div className="bg-secondary/40 rounded-md border border-border/60 overflow-hidden">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <button
-                    type="button"
-                    aria-label={lang === "es" ? "Ampliar vista previa" : "Zoom preview"}
-                    className="group relative block w-full aspect-square bg-cream overflow-hidden cursor-zoom-in"
-                  >
-                    <img
-                      key={previewKey}
-                      src={previewImage}
-                      alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
-                      loading="lazy"
-                      width={1024}
-                      height={1024}
-                      className="w-full h-full object-cover animate-fade-in transition-transform duration-500 group-hover:scale-[1.03]"
-                    />
-                    <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-ink/80 text-cream text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ZoomIn className="h-3 w-3" />
-                      {lang === "es" ? "Ampliar" : "Zoom"}
-                    </span>
-                  </button>
-                </DialogTrigger>
-                <DialogContent
-                  className="max-w-4xl p-0 bg-cream border-border/60"
-                  onOpenAutoFocus={() => setZoomed(false)}
-                >
-                  <DialogTitle className="sr-only">
-                    {`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
-                  </DialogTitle>
-                  <DialogDescription className="sr-only">
-                    {lang === "es"
-                      ? "Vista previa ampliada del pedestal"
-                      : "Enlarged pedestal preview"}
-                  </DialogDescription>
-
-                  <div className="flex items-center justify-between gap-4 px-5 pt-5 pr-12">
-                    <button
-                      type="button"
-                      onClick={() => setZoomed((z) => !z)}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-cream px-3 py-1.5 text-[11px] uppercase tracking-[0.2em] text-ink/80 hover:bg-ink hover:text-cream hover:border-ink transition"
-                    >
-                      {zoomed ? <ZoomOut className="h-3.5 w-3.5" /> : <ZoomIn className="h-3.5 w-3.5" />}
-                      {zoomed
-                        ? lang === "es" ? "Recoger" : "Zoom out"
-                        : lang === "es" ? "Ampliar" : "Zoom in"}
-                    </button>
-                    <div className="text-[11px] uppercase tracking-[0.2em] text-ink/60 text-right">
-                      {MATERIAL[material][lang]} · {FINISH[finish][lang]}
-                      {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
-                    </div>
-                  </div>
-
-                  <div className="p-4 pt-3 overflow-auto max-h-[80vh]">
-                    <img
-                      src={previewImage}
-                      alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
-                      width={1024}
-                      height={1024}
-                      onClick={() => setZoomed((z) => !z)}
-                      className={
-                        zoomed
-                          ? "w-auto max-w-none h-auto rounded-md cursor-zoom-out"
-                          : "w-full h-auto object-contain rounded-md cursor-zoom-in"
-                      }
-                    />
-                  </div>
-                </DialogContent>
-              </Dialog>
+            <div className="bg-secondary/40 rounded-md border border-border/60 overflow-hidden mx-auto max-w-[280px] sm:max-w-sm lg:max-w-none">
+              <div className="relative block w-full aspect-square bg-cream overflow-hidden">
+                <img
+                  key={previewKey}
+                  src={previewImage}
+                  alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                  loading="lazy"
+                  width={1024}
+                  height={1024}
+                  className="w-full h-full object-cover animate-fade-in"
+                />
+              </div>
               <div className="p-4 border-t border-border/60">
                 <div className="text-[11px] uppercase tracking-[0.2em] text-ink/50 mb-1">
                   {lang === "es" ? "Vista previa" : "Preview"}
