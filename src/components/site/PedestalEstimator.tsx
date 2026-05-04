@@ -244,12 +244,12 @@ export const PedestalEstimator = () => {
                   </DialogDescription>
 
                   {/* Header */}
-                  <div className="flex items-center justify-between gap-4 px-5 pt-5">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 px-5 pt-5 pr-12">
                     {previewMode !== "select" ? (
                       <button
                         type="button"
                         onClick={() => setPreviewMode("select")}
-                        className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-ink/70 hover:text-ink transition"
+                        className="inline-flex items-center gap-1.5 self-start rounded-full border border-ink/20 bg-cream px-3 py-1.5 text-[11px] uppercase tracking-[0.2em] text-ink/80 hover:bg-ink hover:text-cream hover:border-ink transition"
                       >
                         <ArrowLeft className="h-3.5 w-3.5" />
                         {lang === "es" ? "Volver a opciones" : "Back to options"}
@@ -259,7 +259,7 @@ export const PedestalEstimator = () => {
                         {lang === "es" ? "Cómo quieres verlo" : "How to view it"}
                       </div>
                     )}
-                    <div className="text-xs uppercase tracking-[0.2em] text-ink/60 text-right">
+                    <div className="text-[11px] uppercase tracking-[0.2em] text-ink/60 sm:text-right">
                       {MATERIAL[material][lang]} · {FINISH[finish][lang]}
                       {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
                     </div>
@@ -335,7 +335,6 @@ export const PedestalEstimator = () => {
                         depth={d || 14}
                         color={viewerColor}
                         finish={viewerFinish}
-                        textureUrl={previewImage}
                       />
                       <p className="mt-3 text-center text-xs text-ink/60">
                         {lang === "es"
