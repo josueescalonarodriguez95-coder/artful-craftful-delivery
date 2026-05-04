@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ArrowLeft, Gem, Palette, Hammer, Image as ImageIcon, Video } from "lucide-react";
 import { LangProvider, useLang } from "@/components/site/LangContext";
 import { CartProvider } from "@/components/site/CartContext";
 import { Nav } from "@/components/site/Nav";
@@ -8,84 +8,123 @@ import { Footer } from "@/components/site/Footer";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
 import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
 
-type Slug = "marmol" | "lienzo" | "esculturas";
+const SECTIONS = [
+  {
+    id: "marmol",
+    icon: Gem,
+    es: {
+      tag: "Mármol",
+      title: "Restauración de Mármol",
+      summary:
+        "Recuperamos esculturas, bases, tableros y elementos arquitectónicos en mármol — limpieza profunda, reparación de fracturas, reposición de fragmentos y pulido final para devolver brillo, color y estabilidad estructural.",
+    },
+    en: {
+      tag: "Marble",
+      title: "Marble Restoration",
+      summary:
+        "We restore marble sculptures, bases, tabletops and architectural elements — deep cleaning, fracture repair, fragment replacement and final polishing to bring back shine, color and structural stability.",
+    },
+  },
+  {
+    id: "lienzo",
+    icon: Palette,
+    es: {
+      tag: "Lienzo",
+      title: "Restauración de Lienzos",
+      summary:
+        "Limpieza de barnices oxidados, reentelado, consolidación de capa pictórica, retoques reversibles y barnizado final. Cuidamos la integridad original de cada pintura sobre lienzo.",
+    },
+    en: {
+      tag: "Canvas",
+      title: "Canvas Restoration",
+      summary:
+        "Removal of oxidized varnishes, relining, paint-layer consolidation, reversible inpainting and final varnish. We protect the original integrity of every canvas painting.",
+    },
+  },
+  {
+    id: "esculturas",
+    icon: Hammer,
+    es: {
+      tag: "Esculturas",
+      title: "Restauración de Esculturas",
+      summary:
+        "Reparación y conservación de esculturas en bronce, madera, resina, cerámica y materiales mixtos — soldaduras, reconstrucción de partes faltantes, pátinas y acabados de conservación.",
+    },
+    en: {
+      tag: "Sculptures",
+      title: "Sculpture Restoration",
+      summary:
+        "Repair and conservation of bronze, wood, resin, ceramic and mixed-media sculptures — welding, reconstruction of missing parts, patinas and conservation finishes.",
+    },
+  },
+];
 
-const META: Record<Slug, { es: string; en: string; descEs: string; descEn: string }> = {
-  marmol: {
-    es: "Restauración de Mármol",
-    en: "Marble Restoration",
-    descEs:
-      "Recuperamos piezas de mármol — esculturas, bases, tableros y elementos arquitectónicos — devolviéndoles su brillo, color y estabilidad estructural.",
-    descEn:
-      "We restore marble pieces — sculptures, bases, tabletops and architectural elements — recovering their shine, color and structural stability.",
-  },
-  lienzo: {
-    es: "Restauración de Lienzos",
-    en: "Canvas Restoration",
-    descEs:
-      "Limpieza, reentelado, retoques y conservación de pinturas sobre lienzo, respetando la integridad original de la obra.",
-    descEn:
-      "Cleaning, relining, inpainting and conservation of canvas paintings, respecting the original integrity of the work.",
-  },
-  esculturas: {
-    es: "Restauración de Esculturas",
-    en: "Sculpture Restoration",
-    descEs:
-      "Reparación y conservación de esculturas en diversos materiales — bronce, madera, resina, cerámica y mixtas.",
-    descEn:
-      "Repair and conservation of sculptures in various materials — bronze, wood, resin, ceramic and mixed media.",
-  },
-};
-
-const Body = ({ slug }: { slug: Slug }) => {
+const Body = () => {
   const { lang } = useLang();
-  const meta = META[slug];
-  const title = lang === "es" ? meta.es : meta.en;
-  const desc = lang === "es" ? meta.descEs : meta.descEn;
 
   useEffect(() => {
-    document.title = `${title} — Ramos Delivery Enterprise`;
-  }, [title]);
+    document.title = (lang === "es" ? "Restauraciones" : "Restorations") + " — Ramos Delivery Enterprise";
+  }, [lang]);
 
   return (
     <div className="min-h-screen bg-cream text-ink">
       <Nav />
       <main className="pt-28 md:pt-36 pb-24">
-        <div className="container max-w-4xl">
-          <Link
-            to="/"
-            className="inline-flex items-center gap-2 text-sm text-ink/70 hover:text-clay transition mb-6"
-            aria-label={lang === "es" ? "Volver" : "Back"}
-          >
+        <div className="container max-w-6xl">
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-ink/70 hover:text-clay transition mb-6">
             <ArrowLeft className="h-4 w-4" />
             <span>{lang === "es" ? "Volver" : "Back"}</span>
           </Link>
           <span className="block text-xs uppercase tracking-[0.25em] text-clay font-medium">
-            {lang === "es" ? "Restauraciones" : "Restorations"}
+            {lang === "es" ? "Servicio" : "Service"}
           </span>
           <h1 className="mt-4 font-display text-4xl md:text-6xl leading-[1.05] text-balance">
-            {title}
+            {lang === "es" ? "Restauraciones" : "Restorations"}
           </h1>
-          <p className="mt-6 text-ink/75 text-lg max-w-2xl leading-relaxed">{desc}</p>
+          <p className="mt-6 text-ink/75 text-lg max-w-2xl leading-relaxed">
+            {lang === "es"
+              ? "Tres especialidades, un mismo estándar museístico. Conoce qué restauramos y mira ejemplos en foto y video."
+              : "Three specialties, one museum-grade standard. Discover what we restore and see photo and video examples."}
+          </p>
 
-          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Placeholder for future photos */}
-            {[0, 1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="aspect-[4/3] rounded-md border border-border/70 bg-card/60 shadow-soft flex items-center justify-center text-ink/40 text-sm"
-              >
-                {lang === "es" ? "Fotografía próximamente" : "Photo coming soon"}
-              </div>
-            ))}
-          </div>
+          <div className="mt-16 space-y-20">
+            {SECTIONS.map((s, idx) => {
+              const copy = lang === "es" ? s.es : s.en;
+              const Icon = s.icon;
+              return (
+                <section key={s.id} id={s.id} className="scroll-mt-32">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="h-11 w-11 rounded-full bg-ink text-cream flex items-center justify-center">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <span className="text-xs uppercase tracking-[0.2em] text-clay font-medium">
+                      {String(idx + 1).padStart(2, "0")} — {copy.tag}
+                    </span>
+                  </div>
+                  <h2 className="font-display text-3xl md:text-4xl text-ink leading-tight">{copy.title}</h2>
+                  <p className="mt-4 text-ink/70 leading-relaxed max-w-3xl">{copy.summary}</p>
 
-          <div className="mt-14 prose prose-stone max-w-none">
-            <p className="text-ink/70 italic">
-              {lang === "es"
-                ? "Próximamente agregaremos información detallada, procesos y casos de estudio."
-                : "Detailed information, processes and case studies coming soon."}
-            </p>
+                  {/* Photos */}
+                  <div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {[0, 1, 2].map((i) => (
+                      <div
+                        key={i}
+                        className="aspect-[4/3] rounded-md border border-border/70 bg-card/60 shadow-soft flex flex-col items-center justify-center text-ink/40 text-xs gap-2"
+                      >
+                        <ImageIcon className="h-6 w-6" />
+                        <span>{lang === "es" ? "Foto próximamente" : "Photo coming soon"}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Video */}
+                  <div className="mt-4 aspect-video rounded-md border border-border/70 bg-card/60 shadow-soft flex flex-col items-center justify-center text-ink/40 text-xs gap-2">
+                    <Video className="h-6 w-6" />
+                    <span>{lang === "es" ? "Video próximamente" : "Video coming soon"}</span>
+                  </div>
+                </section>
+              );
+            })}
           </div>
         </div>
       </main>
@@ -96,17 +135,12 @@ const Body = ({ slug }: { slug: Slug }) => {
   );
 };
 
-const RestorationPage = () => {
-  const { slug } = useParams<{ slug: string }>();
-  const valid: Slug[] = ["marmol", "lienzo", "esculturas"];
-  const safe = (valid.includes(slug as Slug) ? slug : "marmol") as Slug;
-  return (
-    <LangProvider>
-      <CartProvider>
-        <Body slug={safe} />
-      </CartProvider>
-    </LangProvider>
-  );
-};
+const RestorationPage = () => (
+  <LangProvider>
+    <CartProvider>
+      <Body />
+    </CartProvider>
+  </LangProvider>
+);
 
 export default RestorationPage;
