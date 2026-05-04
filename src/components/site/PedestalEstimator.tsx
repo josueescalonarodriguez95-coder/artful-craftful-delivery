@@ -4,6 +4,7 @@ import { t } from "@/i18n/translations";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useCart } from "./CartContext";
 import { ShoppingCart } from "lucide-react";
 import plywoodNatural from "@/assets/pedestal-plywood-natural.jpg";
@@ -79,6 +80,7 @@ export const PedestalEstimator = () => {
   const [paintColor, setPaintColor] = useState<PaintColor>("white");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
+  const [previewOpen, setPreviewOpen] = useState(false);
   
   const { add } = useCart();
   const ref = useReveal<HTMLDivElement>();
@@ -173,7 +175,12 @@ export const PedestalEstimator = () => {
           {/* Pedestal preview */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24">
             <div className="bg-secondary/40 rounded-md border border-border/60 overflow-hidden mx-auto max-w-[280px] sm:max-w-sm lg:max-w-none">
-              <div className="relative block w-full aspect-square bg-cream overflow-hidden">
+              <button
+                type="button"
+                onClick={() => setPreviewOpen(true)}
+                className="relative block w-full aspect-square bg-cream overflow-hidden cursor-zoom-in"
+                aria-label={lang === "es" ? "Ver vista previa" : "View preview"}
+              >
                 <img
                   key={previewKey}
                   src={previewImage}
@@ -183,7 +190,7 @@ export const PedestalEstimator = () => {
                   height={1024}
                   className="w-full h-full object-cover animate-fade-in"
                 />
-              </div>
+              </button>
               <div className="p-4 border-t border-border/60">
                 <div className="text-[11px] uppercase tracking-[0.2em] text-ink/50 mb-1">
                   {lang === "es" ? "Vista previa" : "Preview"}
@@ -365,6 +372,27 @@ export const PedestalEstimator = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+        <DialogContent className="bg-cream p-2 sm:p-3 max-w-[92vw] sm:max-w-md md:max-w-lg w-auto">
+          <DialogTitle className="sr-only">
+            {`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+          </DialogTitle>
+          <div className="w-full overflow-auto max-h-[80vh] rounded-sm">
+            <img
+              src={previewImage}
+              alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+              width={1024}
+              height={1024}
+              className="w-full h-auto object-contain"
+            />
+          </div>
+          <div className="px-2 pb-1 pt-2 text-xs text-ink/60 text-center">
+            {MATERIAL[material][lang]} · {FINISH[finish][lang]}
+            {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
