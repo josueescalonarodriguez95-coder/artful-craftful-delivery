@@ -110,7 +110,7 @@ export const CrateGallery = () => {
   };
 
   const slot = slotRef.current;
-  const translatePx = -index * slot + drag;
+  const translatePx = drag;
 
   const activeDot = index;
 
@@ -140,29 +140,36 @@ export const CrateGallery = () => {
         >
           {/* Track */}
           <div
-            className="absolute top-1/2 left-1/2 flex items-center"
+            className="absolute inset-0"
             style={{
-              transform: `translate3d(calc(-50% + ${translatePx}px + ${slot / 2}px), -50%, 0)`,
+              transform: `translate3d(${translatePx}px, 0, 0)`,
               transition: animate
                 ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1)"
                 : "none",
               willChange: "transform",
-              gap: 0,
             }}
           >
             {Array.from({ length: total }).map((_, i) => {
-              const distance = (i * slot) - (index * slot - drag);
-              const norm = slot ? distance / slot : 0; // 0 at center
+              // Shortest signed offset from current index (wraps around)
+              let off = i - index;
+              if (off > total / 2) off -= total;
+              if (off < -total / 2) off += total;
+              const distance = off * slot - drag;
+              const norm = slot ? distance / slot : 0;
               const abs = Math.min(2, Math.abs(norm));
               const isActive = abs < 0.5;
-              const scale = 1 - abs * 0.06; // subtle scale, keep crisp
-              const opacity = Math.max(0.85, 1 - abs * 0.08); // keep all bright
-              const logical = i % total;
+              const scale = 1 - abs * 0.06;
+              const opacity = Math.max(0.85, 1 - abs * 0.08);
+              const logical = i;
               return (
                 <div
                   key={i}
-                  className="shrink-0 flex items-center justify-center"
-                  style={{ width: slot }}
+                  className="absolute top-1/2 left-1/2 flex items-center justify-center"
+                  style={{
+                    width: slot,
+                    transform: `translate(-50%, -50%) translateX(${off * slot}px)`,
+                    transition: animate ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1)" : "none",
+                  }}
                 >
                   <button
                     onClick={() => {
