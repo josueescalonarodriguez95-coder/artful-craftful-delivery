@@ -4,8 +4,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { useCart } from "./CartContext";
 import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
-import { Trash2, CreditCard, Wallet, Banknote, Building2, Smartphone, Apple } from "lucide-react";
+import { Trash2, CreditCard, Wallet, Building2, Smartphone, DollarSign, Mail, Copy } from "lucide-react";
 import { toast } from "sonner";
+
+const CONTACT_EMAIL = "rafebt86@gmail.com";
+const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
 
 export const CartDrawer = () => {
   const { items, remove, total, open, setOpen, clear } = useCart();
