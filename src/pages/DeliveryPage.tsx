@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Truck, ShieldCheck, Thermometer, ClipboardCheck, Image as ImageIcon, Video } from "lucide-react";
-import { LangProvider, useLang } from "@/components/site/LangContext";
-import { CartProvider } from "@/components/site/CartContext";
+import { useLang } from "@/components/site/LangContext";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
@@ -120,12 +119,6 @@ const Body = () => {
   );
 };
 
-const DeliveryPage = () => (
-  <LangProvider>
-    <CartProvider>
-      <Body />
-    </CartProvider>
-  </LangProvider>
-);
+const DeliveryPage = () => <Body />;
 
 export default DeliveryPage;
