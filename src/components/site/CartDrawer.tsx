@@ -4,10 +4,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { useCart } from "./CartContext";
 import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
-import { Trash2, CreditCard, Wallet, Building2, Smartphone, DollarSign, Mail, Copy } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Trash2, CreditCard, Smartphone, DollarSign, Mail, Copy, Wallet, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
-const CONTACT_EMAIL = "radent86@gmail.com";
+const CONTACT_EMAIL = "ramosdeliverye@gmail.com";
 const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
 const CASHAPP_URL = "https://cash.app/$ramosdelivery";
 
@@ -16,6 +19,10 @@ export const CartDrawer = () => {
   const { lang } = useLang();
   const [payOpen, setPayOpen] = useState(false);
   const [zelleOpen, setZelleOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [pendingMethod, setPendingMethod] = useState<"card" | "paypal" | null>(null);
+  const [form, setForm] = useState({ name: "", email: "", phone: "", address: "" });
 
   const T = {
     title: lang === "es" ? "Tu carrito" : "Your cart",
@@ -28,13 +35,17 @@ export const CartDrawer = () => {
     payDesc: lang === "es"
       ? "Selecciona la opción con la que prefieres pagar."
       : "Select the option you prefer to pay with.",
+    formTitle: lang === "es" ? "Tus datos" : "Your details",
+    formDesc: lang === "es"
+      ? "Necesitamos esto para enviarte el invoice."
+      : "We need this to send your invoice.",
+    name: lang === "es" ? "Nombre completo" : "Full name",
+    email: "Email",
+    phone: lang === "es" ? "Teléfono" : "Phone",
+    address: lang === "es" ? "Dirección" : "Address",
+    continue: lang === "es" ? "Continuar al pago" : "Continue to payment",
+    processing: lang === "es" ? "Procesando…" : "Processing…",
   };
-
-  const methods = [
-    { id: "venmo", icon: DollarSign, es: "Venmo", en: "Venmo" },
-    { id: "cashapp", icon: DollarSign, es: "Cash App", en: "Cash App" },
-    { id: "zelle", icon: Smartphone, es: "Zelle", en: "Zelle" },
-  ];
 
   const copyEmail = async () => {
     try {
@@ -45,27 +56,44 @@ export const CartDrawer = () => {
     }
   };
 
-  const choose = (m: (typeof methods)[number]) => {
-    if (m.id === "venmo") {
-      window.open(VENMO_URL, "_blank", "noopener,noreferrer");
-      return;
-    }
-    if (m.id === "cashapp") {
-      window.open(CASHAPP_URL, "_blank", "noopener,noreferrer");
-      return;
-    }
-    if (m.id === "zelle") {
-      setZelleOpen(true);
-      return;
-    }
-    toast.success(
-      lang === "es"
-        ? `Pedido enviado — coordinaremos el pago vía ${m.es}.`
-        : `Order sent — we'll coordinate payment via ${m.en}.`
-    );
-    clear();
+  const startStripe = (method: "card" | "paypal") => {
+    setPendingMethod(method);
     setPayOpen(false);
-    setOpen(false);
+    setFormOpen(true);
+  };
+
+  const submitStripe = async () => {
+    if (!form.name.trim() || !form.email.trim()) {
+      toast.error(lang === "es" ? "Nombre y email requeridos" : "Name and email required");
+      return;
+    }
+    if (!pendingMethod) return;
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: {
+          items: items.map((i) => ({
+            title: i.title,
+            details: i.details,
+            qty: i.qty,
+            unitPrice: i.unitPrice,
+          })),
+          customer: form,
+          paymentMethod: pendingMethod,
+          lang,
+        },
+      });
+      if (error) throw error;
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error("No checkout URL");
+      }
+    } catch (e: any) {
+      console.error(e);
+      toast.error(lang === "es" ? "Error al iniciar el pago" : "Payment error");
+      setLoading(false);
+    }
   };
 
   return (
@@ -130,24 +158,80 @@ export const CartDrawer = () => {
             <DialogDescription className="text-ink/60">{T.payDesc}</DialogDescription>
           </DialogHeader>
           <div className="mt-2 space-y-2">
-            {methods.map((m) => {
-              const Icon = m.icon;
-              return (
-                <button
-                  key={m.id}
-                  onClick={() => choose(m)}
-                  className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
-                >
-                  <Icon className="h-5 w-5 shrink-0" />
-                  <span className="text-sm">{lang === "es" ? m.es : m.en}</span>
-                </button>
-              );
-            })}
+            <button
+              onClick={() => startStripe("card")}
+              className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
+            >
+              <CreditCard className="h-5 w-5 shrink-0" />
+              <span className="text-sm">{lang === "es" ? "Tarjeta de crédito o débito" : "Credit or debit card"}</span>
+            </button>
+            <button
+              onClick={() => startStripe("paypal")}
+              className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
+            >
+              <Wallet className="h-5 w-5 shrink-0" />
+              <span className="text-sm">PayPal</span>
+            </button>
+            <button
+              onClick={() => { window.open(VENMO_URL, "_blank", "noopener,noreferrer"); }}
+              className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
+            >
+              <DollarSign className="h-5 w-5 shrink-0" />
+              <span className="text-sm">Venmo</span>
+            </button>
+            <button
+              onClick={() => { window.open(CASHAPP_URL, "_blank", "noopener,noreferrer"); }}
+              className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
+            >
+              <DollarSign className="h-5 w-5 shrink-0" />
+              <span className="text-sm">Cash App</span>
+            </button>
+            <button
+              onClick={() => { setPayOpen(false); setZelleOpen(true); }}
+              className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
+            >
+              <Smartphone className="h-5 w-5 shrink-0" />
+              <span className="text-sm">Zelle</span>
+            </button>
           </div>
 
           <div className="mt-2 flex items-baseline justify-between text-xs text-ink/60">
             <span className="uppercase tracking-[0.2em]">{T.total}</span>
             <span className="font-display text-xl text-ink tabular-nums">${total.toFixed(0)}</span>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={formOpen} onOpenChange={(v) => { if (!loading) setFormOpen(v); }}>
+        <DialogContent className="bg-cream max-w-md max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl text-ink">{T.formTitle}</DialogTitle>
+            <DialogDescription className="text-ink/60">{T.formDesc}</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 mt-2">
+            <div>
+              <Label htmlFor="cn">{T.name} *</Label>
+              <Input id="cn" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+            </div>
+            <div>
+              <Label htmlFor="ce">{T.email} *</Label>
+              <Input id="ce" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+            </div>
+            <div>
+              <Label htmlFor="cp">{T.phone}</Label>
+              <Input id="cp" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            </div>
+            <div>
+              <Label htmlFor="ca">{T.address}</Label>
+              <Input id="ca" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />
+            </div>
+            <Button
+              disabled={loading}
+              onClick={submitStripe}
+              className="w-full bg-ink hover:bg-ink/90 text-cream rounded-full py-6 mt-2"
+            >
+              {loading ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />{T.processing}</> : T.continue}
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
