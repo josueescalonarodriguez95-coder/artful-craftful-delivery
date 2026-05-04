@@ -1,28 +1,21 @@
 import { useState } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useCart } from "./CartContext";
 import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
-import { Trash2, Smartphone, DollarSign, Mail, Copy } from "lucide-react";
+import { Trash2, CreditCard, Wallet, Building2, Smartphone, DollarSign, Mail, Copy } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
 
-const CONTACT_EMAIL = "ramosdeliverye@gmail.com";
+const CONTACT_EMAIL = "radent86@gmail.com";
 const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
 const CASHAPP_URL = "https://cash.app/$ramosdelivery";
 
 export const CartDrawer = () => {
   const { items, remove, total, open, setOpen, clear } = useCart();
   const { lang } = useLang();
-  const [customerOpen, setCustomerOpen] = useState(false);
   const [payOpen, setPayOpen] = useState(false);
   const [zelleOpen, setZelleOpen] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [customer, setCustomer] = useState({ name: "", email: "", phone: "", address: "" });
 
   const T = {
     title: lang === "es" ? "Tu carrito" : "Your cart",
@@ -35,16 +28,6 @@ export const CartDrawer = () => {
     payDesc: lang === "es"
       ? "Selecciona la opción con la que prefieres pagar."
       : "Select the option you prefer to pay with.",
-    custTitle: lang === "es" ? "Tus datos para la factura" : "Your billing details",
-    custDesc: lang === "es"
-      ? "Completa tus datos para generar la factura."
-      : "Fill in your details to generate the invoice.",
-    name: lang === "es" ? "Nombre completo" : "Full name",
-    email: lang === "es" ? "Correo electrónico" : "Email",
-    phone: lang === "es" ? "Teléfono" : "Phone",
-    address: lang === "es" ? "Dirección" : "Address",
-    cont: lang === "es" ? "Continuar" : "Continue",
-    required: lang === "es" ? "Nombre y correo son requeridos" : "Name and email are required",
   };
 
   const methods = [
@@ -62,81 +45,27 @@ export const CartDrawer = () => {
     }
   };
 
-  const sendInvoice = async (paymentMethod: string) => {
-    const invoiceNumber = `INV-${Date.now().toString().slice(-8)}`;
-    const date = new Date().toLocaleDateString(lang === "es" ? "es-PR" : "en-US");
-    const payload = {
-      invoiceNumber,
-      date,
-      customerName: customer.name,
-      customerEmail: customer.email,
-      customerPhone: customer.phone,
-      customerAddress: customer.address,
-      paymentMethod,
-      items: items.map((i) => ({
-        title: i.title,
-        details: i.details,
-        qty: i.qty,
-        unitPrice: i.unitPrice,
-      })),
-      total,
-    };
-
-    setSending(true);
-    try {
-      // Send to business email (main copy)
-      await supabase.functions.invoke("send-transactional-email", {
-        body: {
-          templateName: "order-invoice",
-          recipientEmail: CONTACT_EMAIL,
-          idempotencyKey: `invoice-biz-${invoiceNumber}`,
-          templateData: payload,
-        },
-      });
-      // Send copy to customer
-      if (customer.email && customer.email !== CONTACT_EMAIL) {
-        await supabase.functions.invoke("send-transactional-email", {
-          body: {
-            templateName: "order-invoice",
-            recipientEmail: customer.email,
-            idempotencyKey: `invoice-cust-${invoiceNumber}`,
-            templateData: payload,
-          },
-        });
-      }
-      toast.success(lang === "es" ? "Factura enviada por correo" : "Invoice sent by email");
-    } catch (e) {
-      console.error(e);
-      toast.error(lang === "es" ? "No se pudo enviar la factura" : "Could not send invoice");
-    } finally {
-      setSending(false);
-    }
-  };
-
-  const choose = async (m: (typeof methods)[number]) => {
-    const label = lang === "es" ? m.es : m.en;
-    await sendInvoice(label);
-
+  const choose = (m: (typeof methods)[number]) => {
     if (m.id === "venmo") {
       window.open(VENMO_URL, "_blank", "noopener,noreferrer");
-    } else if (m.id === "cashapp") {
+      return;
+    }
+    if (m.id === "cashapp") {
       window.open(CASHAPP_URL, "_blank", "noopener,noreferrer");
-    } else if (m.id === "zelle") {
+      return;
+    }
+    if (m.id === "zelle") {
       setZelleOpen(true);
       return;
     }
+    toast.success(
+      lang === "es"
+        ? `Pedido enviado — coordinaremos el pago vía ${m.es}.`
+        : `Order sent — we'll coordinate payment via ${m.en}.`
+    );
     clear();
     setPayOpen(false);
     setOpen(false);
-  };
-
-  const submitCustomer = () => {
-    if (!customer.name.trim() || !customer.email.trim()) {
-      toast.error(T.required);
-      return;
-    }
-    setCustomerOpen(false);
-    setPayOpen(true);
   };
 
   return (
@@ -185,7 +114,7 @@ export const CartDrawer = () => {
             </div>
             <Button
               disabled={items.length === 0}
-              onClick={() => setCustomerOpen(true)}
+              onClick={() => setPayOpen(true)}
               className="w-full bg-ink hover:bg-ink/90 text-cream rounded-full py-6"
             >
               {T.checkout}
@@ -193,36 +122,6 @@ export const CartDrawer = () => {
           </div>
         </SheetContent>
       </Sheet>
-
-      <Dialog open={customerOpen} onOpenChange={setCustomerOpen}>
-        <DialogContent className="bg-cream max-w-md">
-          <DialogHeader>
-            <DialogTitle className="font-display text-2xl text-ink">{T.custTitle}</DialogTitle>
-            <DialogDescription className="text-ink/60">{T.custDesc}</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-3 mt-2">
-            <div>
-              <Label htmlFor="cn">{T.name} *</Label>
-              <Input id="cn" value={customer.name} onChange={(e) => setCustomer({ ...customer, name: e.target.value })} />
-            </div>
-            <div>
-              <Label htmlFor="ce">{T.email} *</Label>
-              <Input id="ce" type="email" value={customer.email} onChange={(e) => setCustomer({ ...customer, email: e.target.value })} />
-            </div>
-            <div>
-              <Label htmlFor="cp">{T.phone}</Label>
-              <Input id="cp" value={customer.phone} onChange={(e) => setCustomer({ ...customer, phone: e.target.value })} />
-            </div>
-            <div>
-              <Label htmlFor="ca">{T.address}</Label>
-              <Textarea id="ca" rows={2} value={customer.address} onChange={(e) => setCustomer({ ...customer, address: e.target.value })} />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button onClick={submitCustomer} className="bg-ink text-cream rounded-full">{T.cont}</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       <Dialog open={payOpen} onOpenChange={setPayOpen}>
         <DialogContent className="bg-cream max-w-md max-h-[90vh] overflow-y-auto">
@@ -236,9 +135,8 @@ export const CartDrawer = () => {
               return (
                 <button
                   key={m.id}
-                  disabled={sending}
                   onClick={() => choose(m)}
-                  className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left disabled:opacity-50"
+                  className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
                 >
                   <Icon className="h-5 w-5 shrink-0" />
                   <span className="text-sm">{lang === "es" ? m.es : m.en}</span>
@@ -254,7 +152,7 @@ export const CartDrawer = () => {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={zelleOpen} onOpenChange={(v) => { setZelleOpen(v); if (!v) { clear(); setPayOpen(false); setOpen(false); } }}>
+      <Dialog open={zelleOpen} onOpenChange={setZelleOpen}>
         <DialogContent className="bg-cream max-w-sm">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl text-ink">Zelle</DialogTitle>
