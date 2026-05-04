@@ -372,6 +372,27 @@ export const PedestalEstimator = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+        <DialogContent className="bg-cream p-2 sm:p-3 max-w-[92vw] sm:max-w-md md:max-w-lg w-auto">
+          <DialogTitle className="sr-only">
+            {`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+          </DialogTitle>
+          <div className="w-full overflow-auto max-h-[80vh] rounded-sm">
+            <img
+              src={previewImage}
+              alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+              width={1024}
+              height={1024}
+              className="w-full h-auto object-contain"
+            />
+          </div>
+          <div className="px-2 pb-1 pt-2 text-xs text-ink/60 text-center">
+            {MATERIAL[material][lang]} · {FINISH[finish][lang]}
+            {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
