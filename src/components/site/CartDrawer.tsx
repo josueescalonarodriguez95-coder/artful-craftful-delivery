@@ -136,6 +136,29 @@ export const CartDrawer = () => {
               );
             })}
           </div>
+
+          <div className="mt-4 border border-border/70 rounded-md p-3 bg-background">
+            <div className="text-xs uppercase tracking-[0.2em] text-ink/60 mb-2">
+              {lang === "es" ? "Contacto" : "Contact"}
+            </div>
+            <div className="flex items-center gap-2">
+              <Mail className="h-4 w-4 shrink-0 text-ink/70" />
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="text-sm text-ink underline-offset-4 hover:underline truncate"
+              >
+                {CONTACT_EMAIL}
+              </a>
+              <button
+                onClick={copyEmail}
+                className="ml-auto inline-flex items-center gap-1 text-xs px-2 py-1 rounded border border-border/70 hover:bg-ink hover:text-cream transition"
+                aria-label={lang === "es" ? "Copiar correo" : "Copy email"}
+              >
+                <Copy className="h-3.5 w-3.5" />
+                {lang === "es" ? "Copiar" : "Copy"}
+              </button>
+            </div>
+          </div>
           <div className="mt-2 flex items-baseline justify-between text-xs text-ink/60">
             <span className="uppercase tracking-[0.2em]">{T.total}</span>
             <span className="font-display text-xl text-ink tabular-nums">${total.toFixed(0)}</span>
