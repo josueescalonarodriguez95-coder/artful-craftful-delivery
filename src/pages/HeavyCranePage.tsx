@@ -126,29 +126,6 @@ const Body = () => {
             ))}
           </div>
 
-          <section className="mt-14">
-            <div className="flex items-center gap-3 mb-5">
-              <span className="text-xs uppercase tracking-[0.2em] text-clay font-medium">
-                {lang === "es" ? "Galería · fotos y videos" : "Gallery · photos & videos"}
-              </span>
-            </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                <div
-                  key={n}
-                  className="aspect-square rounded-md border border-dashed border-border/70 bg-card/40 flex items-center justify-center text-[10px] uppercase tracking-[0.2em] text-ink/40"
-                >
-                  {lang === "es" ? "Foto / Video" : "Photo / Video"}
-                </div>
-              ))}
-            </div>
-            <p className="mt-3 text-xs text-ink/50">
-              {lang === "es"
-                ? "Espacio reservado para subir fotos y videos de ejemplo."
-                : "Placeholder area to upload example photos and videos."}
-            </p>
-          </section>
-
           <div className="mt-14 rounded-md border border-border/70 bg-card/60 p-8 md:p-10">
             <div className="flex items-center gap-3">
               <div className="h-11 w-11 rounded-full bg-ink text-cream flex items-center justify-center">
