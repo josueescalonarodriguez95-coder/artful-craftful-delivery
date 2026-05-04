@@ -140,14 +140,13 @@ export const CrateGallery = () => {
         >
           {/* Track */}
           <div
-            className="absolute top-1/2 left-1/2 flex items-center"
+            className="absolute inset-0"
             style={{
-              transform: `translate3d(calc(-50% + ${translatePx}px + ${slot / 2}px), -50%, 0)`,
+              transform: `translate3d(${translatePx}px, 0, 0)`,
               transition: animate
                 ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1)"
                 : "none",
               willChange: "transform",
-              gap: 0,
             }}
           >
             {Array.from({ length: total }).map((_, i) => {
