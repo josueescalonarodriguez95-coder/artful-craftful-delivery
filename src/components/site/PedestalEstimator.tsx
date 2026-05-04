@@ -80,7 +80,7 @@ export const PedestalEstimator = () => {
   const [paintColor, setPaintColor] = useState<PaintColor>("white");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
-  const [previewMode, setPreviewMode] = useState<"select" | "photo" | "3d">("select");
+  const [zoomed, setZoomed] = useState(false);
   const { add } = useCart();
   const ref = useReveal<HTMLDivElement>();
 
@@ -111,39 +111,6 @@ export const PedestalEstimator = () => {
   })();
   const previewKey = `${material}-${finish}-${finish === "lacquer" ? lacquerColor : finish === "paint" ? paintColor : ""}`;
 
-  // Derive 3D viewer color + finish style
-  const viewerColor = (() => {
-    if (material === "marble") return finish === "black" ? "#1a1a1a" : "#f2efe8";
-    if (material === "acrylic") {
-      if (finish === "black") return "#181818";
-      if (finish === "white") return "#f5f5f2";
-      return "#cfe6ea";
-    }
-    // plywood
-    if (finish === "raw") return "#c9a877";
-    if (finish === "paint") {
-      if (paintColor === "black") return "#1a1a1a";
-      if (paintColor === "gray") return "#7a7a78";
-      return "#f2efe8";
-    }
-    if (finish === "lacquer") {
-      if (lacquerColor === "white") return "#f5f5f2";
-      if (lacquerColor === "gold") return "#c9a44c";
-      if (lacquerColor === "silver") return "#bfc2c7";
-      return "#0e0e0e";
-    }
-    return "#c9a877";
-  })();
-  const viewerFinish: "matte" | "lacquer" | "acrylic" | "marble" | "natural" =
-    material === "marble"
-      ? "marble"
-      : material === "acrylic"
-      ? "acrylic"
-      : finish === "lacquer"
-      ? "lacquer"
-      : finish === "raw"
-      ? "natural"
-      : "matte";
 
   const availableFinishes =
     material === "marble" ? MARBLE_FINISHES : material === "acrylic" ? ACRYLIC_FINISHES : DEFAULT_FINISHES;
@@ -231,128 +198,48 @@ export const PedestalEstimator = () => {
                 </DialogTrigger>
                 <DialogContent
                   className="max-w-4xl p-0 bg-cream border-border/60"
-                  onOpenAutoFocus={() => setPreviewMode("select")}
+                  onOpenAutoFocus={() => setZoomed(false)}
                 >
                   <DialogTitle className="sr-only">
                     {`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
                   </DialogTitle>
                   <DialogDescription className="sr-only">
                     {lang === "es"
-                      ? "Vista previa ampliada del pedestal con vista 3D interactiva"
-                      : "Enlarged pedestal preview with interactive 3D view"}
+                      ? "Vista previa ampliada del pedestal"
+                      : "Enlarged pedestal preview"}
                   </DialogDescription>
 
-                  {/* Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 px-5 pt-5 pr-12">
-                    {previewMode !== "select" ? (
-                      <button
-                        type="button"
-                        onClick={() => setPreviewMode("select")}
-                        className="inline-flex items-center gap-1.5 self-start rounded-full border border-ink/20 bg-cream px-3 py-1.5 text-[11px] uppercase tracking-[0.2em] text-ink/80 hover:bg-ink hover:text-cream hover:border-ink transition"
-                      >
-                        <ArrowLeft className="h-3.5 w-3.5" />
-                        {lang === "es" ? "Volver a opciones" : "Back to options"}
-                      </button>
-                    ) : (
-                      <div className="text-xs uppercase tracking-[0.2em] text-ink/60">
-                        {lang === "es" ? "Cómo quieres verlo" : "How to view it"}
-                      </div>
-                    )}
-                    <div className="text-[11px] uppercase tracking-[0.2em] text-ink/60 sm:text-right">
+                  <div className="flex items-center justify-between gap-4 px-5 pt-5 pr-12">
+                    <button
+                      type="button"
+                      onClick={() => setZoomed((z) => !z)}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-cream px-3 py-1.5 text-[11px] uppercase tracking-[0.2em] text-ink/80 hover:bg-ink hover:text-cream hover:border-ink transition"
+                    >
+                      {zoomed ? <ZoomOut className="h-3.5 w-3.5" /> : <ZoomIn className="h-3.5 w-3.5" />}
+                      {zoomed
+                        ? lang === "es" ? "Recoger" : "Zoom out"
+                        : lang === "es" ? "Ampliar" : "Zoom in"}
+                    </button>
+                    <div className="text-[11px] uppercase tracking-[0.2em] text-ink/60 text-right">
                       {MATERIAL[material][lang]} · {FINISH[finish][lang]}
                       {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
                     </div>
                   </div>
 
-                  {/* Body */}
-                  {previewMode === "select" && (
-                    <div className="p-5 grid sm:grid-cols-2 gap-4">
-                      <button
-                        type="button"
-                        onClick={() => setPreviewMode("photo")}
-                        className="group relative rounded-md overflow-hidden border border-border/60 bg-secondary/40 hover:border-ink/40 transition text-left"
-                      >
-                        <div className="aspect-[4/5] overflow-hidden bg-cream">
-                          <img
-                            src={previewImage}
-                            alt=""
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                          />
-                        </div>
-                        <div className="p-4 flex items-center gap-2">
-                          <ImageIcon className="h-4 w-4 text-clay" />
-                          <span className="font-display text-lg text-ink">
-                            {lang === "es" ? "Ver foto" : "View photo"}
-                          </span>
-                        </div>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setPreviewMode("3d")}
-                        className="group relative rounded-md overflow-hidden border border-border/60 bg-secondary/40 hover:border-ink/40 transition text-left"
-                      >
-                        <div className="aspect-[4/5] overflow-hidden bg-cream relative flex items-center justify-center">
-                          <img
-                            src={previewImage}
-                            alt=""
-                            className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-[1.03]"
-                          />
-                          <div className="absolute inset-0 bg-ink/20 flex items-center justify-center">
-                            <span className="inline-flex items-center gap-2 rounded-full bg-cream/95 text-ink text-[11px] uppercase tracking-[0.2em] px-3 py-1.5 shadow-elegant">
-                              <BoxIcon className="h-3.5 w-3.5" />
-                              360°
-                            </span>
-                          </div>
-                        </div>
-                        <div className="p-4 flex items-center gap-2">
-                          <BoxIcon className="h-4 w-4 text-clay" />
-                          <span className="font-display text-lg text-ink">
-                            {lang === "es" ? "Ver en 3D" : "View in 3D"}
-                          </span>
-                        </div>
-                      </button>
-                    </div>
-                  )}
-
-                  {previewMode === "photo" && (
-                    <div className="p-4 pt-3">
-                      <img
-                        src={previewImage}
-                        alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
-                        width={1024}
-                        height={1024}
-                        className="w-full h-auto object-contain rounded-md"
-                      />
-                    </div>
-                  )}
-
-                  {previewMode === "3d" && (
-                    <div className="p-4 pt-3">
-                      <Pedestal3DViewer
-                        height={h || 36}
-                        width={w || 14}
-                        depth={d || 14}
-                        color={viewerColor}
-                        finish={viewerFinish}
-                        variant={
-                          material === "marble"
-                            ? finish
-                            : material === "acrylic"
-                            ? finish
-                            : finish === "lacquer"
-                            ? lacquerColor
-                            : finish === "paint"
-                            ? paintColor
-                            : undefined
-                        }
-                      />
-                      <p className="mt-3 text-center text-xs text-ink/60">
-                        {lang === "es"
-                          ? "Arrastra con el dedo o el puntero para rotar el pedestal y ver todos sus lados."
-                          : "Drag with your finger or pointer to rotate the pedestal and see every side."}
-                      </p>
-                    </div>
-                  )}
+                  <div className="p-4 pt-3 overflow-auto max-h-[80vh]">
+                    <img
+                      src={previewImage}
+                      alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                      width={1024}
+                      height={1024}
+                      onClick={() => setZoomed((z) => !z)}
+                      className={
+                        zoomed
+                          ? "w-auto max-w-none h-auto rounded-md cursor-zoom-out"
+                          : "w-full h-auto object-contain rounded-md cursor-zoom-in"
+                      }
+                    />
+                  </div>
                 </DialogContent>
               </Dialog>
               <div className="p-4 border-t border-border/60">
