@@ -15,6 +15,7 @@ export const CartDrawer = () => {
   const { items, remove, total, open, setOpen, clear } = useCart();
   const { lang } = useLang();
   const [payOpen, setPayOpen] = useState(false);
+  const [zelleOpen, setZelleOpen] = useState(false);
 
   const T = {
     title: lang === "es" ? "Tu carrito" : "Your cart",
