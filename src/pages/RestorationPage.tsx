@@ -103,6 +103,10 @@ const Body = () => {
     document.title = (lang === "es" ? "Restauraciones" : "Restorations") + " — Ramos Delivery Enterprise";
   }, [lang]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
   return (
     <div className="min-h-screen bg-cream text-ink">
       <Nav />
