@@ -6,6 +6,7 @@ import crates from "@/assets/service-crates.jpg";
 import pedestals from "@/assets/service-pedestals.jpg";
 import restoration from "@/assets/service-restoration.jpg";
 import moving from "@/assets/service-moving.jpg";
+import heavyCrane from "@/assets/service-heavy-crane.jpg";
 
 export const Services = () => {
   const { lang } = useLang();
@@ -26,6 +27,17 @@ export const Services = () => {
       href: "/mudanzas",
       external: true,
     },
+    {
+      img: heavyCrane,
+      tag: { es: "05 — Grúa especializada", en: "05 — Specialized crane" },
+      title: { es: "Grúa para trabajos pesados", en: "Crane for heavy-duty jobs" },
+      body: {
+        es: "Mini grúa araña para izajes especiales en espacios reducidos — esculturas monumentales y cargas pesadas.",
+        en: "Spider mini crane for specialized lifts in tight spaces — monumental sculptures and heavy loads.",
+      },
+      href: "/grua-pesada",
+      external: true,
+    },
   ];
 
   return (
@@ -38,7 +50,7 @@ export const Services = () => {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 md:gap-8">
           {cards.map((c, i) => (
             <ServiceCard
               key={i}
