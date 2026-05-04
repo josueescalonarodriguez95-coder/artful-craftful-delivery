@@ -90,12 +90,24 @@ const Body = () => {
           </h1>
           <p className="mt-6 text-ink/75 text-lg max-w-2xl leading-relaxed">{desc}</p>
 
-          <div className="mt-14 grid md:grid-cols-2 gap-6">
+          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tiers.map((tier, i) => (
               <div
                 key={i}
                 className="group rounded-md border border-border/70 bg-card/60 p-7 md:p-8 shadow-soft hover:shadow-elegant transition"
               >
+                {(tier as { image?: string }).image && (
+                  <div className="-m-7 md:-m-8 mb-5 md:mb-6 aspect-[4/3] overflow-hidden bg-secondary rounded-t-md">
+                    <img
+                      src={(tier as { image?: string }).image}
+                      alt={tier.name}
+                      loading="lazy"
+                      width={1280}
+                      height={960}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
                 <div className="flex items-center gap-3">
                   <div className="h-11 w-11 rounded-full bg-ink text-cream flex items-center justify-center">
                     <tier.icon className="h-5 w-5" />
