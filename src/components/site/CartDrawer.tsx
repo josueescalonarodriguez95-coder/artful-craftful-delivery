@@ -11,7 +11,7 @@ import { Trash2, Smartphone, DollarSign, Mail, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
-const CONTACT_EMAIL = "radent86@gmail.com";
+const CONTACT_EMAIL = "ramosdeliverye@gmail.com";
 const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
 const CASHAPP_URL = "https://cash.app/$ramosdelivery";
 
