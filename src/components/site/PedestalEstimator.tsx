@@ -82,6 +82,7 @@ export const PedestalEstimator = () => {
   const [paintColor, setPaintColor] = useState<PaintColor>("white");
   const [qty, setQty] = useState(1);
   const [urgency, setUrgency] = useState<Urgency>("standard");
+  const [previewMode, setPreviewMode] = useState<"select" | "photo" | "3d">("select");
   const { add } = useCart();
   const ref = useReveal<HTMLDivElement>();
 
