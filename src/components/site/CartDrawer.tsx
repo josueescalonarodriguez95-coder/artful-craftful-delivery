@@ -57,6 +57,10 @@ export const CartDrawer = () => {
       window.open(CASHAPP_URL, "_blank", "noopener,noreferrer");
       return;
     }
+    if (m.id === "zelle") {
+      setZelleOpen(true);
+      return;
+    }
     toast.success(
       lang === "es"
         ? `Pedido enviado — coordinaremos el pago vía ${m.es}.`
