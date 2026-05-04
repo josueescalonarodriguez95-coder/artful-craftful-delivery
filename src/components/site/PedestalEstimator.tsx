@@ -112,6 +112,40 @@ export const PedestalEstimator = () => {
   })();
   const previewKey = `${material}-${finish}-${finish === "lacquer" ? lacquerColor : finish === "paint" ? paintColor : ""}`;
 
+  // Derive 3D viewer color + finish style
+  const viewerColor = (() => {
+    if (material === "marble") return finish === "black" ? "#1a1a1a" : "#f2efe8";
+    if (material === "acrylic") {
+      if (finish === "black") return "#181818";
+      if (finish === "white") return "#f5f5f2";
+      return "#cfe6ea";
+    }
+    // plywood
+    if (finish === "raw") return "#c9a877";
+    if (finish === "paint") {
+      if (paintColor === "black") return "#1a1a1a";
+      if (paintColor === "gray") return "#7a7a78";
+      return "#f2efe8";
+    }
+    if (finish === "lacquer") {
+      if (lacquerColor === "white") return "#f5f5f2";
+      if (lacquerColor === "gold") return "#c9a44c";
+      if (lacquerColor === "silver") return "#bfc2c7";
+      return "#0e0e0e";
+    }
+    return "#c9a877";
+  })();
+  const viewerFinish: "matte" | "lacquer" | "acrylic" | "marble" | "natural" =
+    material === "marble"
+      ? "marble"
+      : material === "acrylic"
+      ? "acrylic"
+      : finish === "lacquer"
+      ? "lacquer"
+      : finish === "raw"
+      ? "natural"
+      : "matte";
+
   const availableFinishes =
     material === "marble" ? MARBLE_FINISHES : material === "acrylic" ? ACRYLIC_FINISHES : DEFAULT_FINISHES;
 
