@@ -124,7 +124,7 @@ export const CartDrawer = () => {
       </Sheet>
 
       <Dialog open={payOpen} onOpenChange={setPayOpen}>
-        <DialogContent className="bg-cream max-w-md">
+        <DialogContent className="bg-cream max-w-md max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl text-ink">{T.payTitle}</DialogTitle>
             <DialogDescription className="text-ink/60">{T.payDesc}</DialogDescription>
