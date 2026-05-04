@@ -1,7 +1,7 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, Archive, Hammer, Truck, Package, Instagram, Facebook, Sparkles, ChevronDown } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck, Instagram, Facebook, Sparkles, ChevronDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -135,14 +135,6 @@ export const Nav = () => {
                   <span>Fine Art Storage</span>
                 </a>
                 <a
-                  href="#services"
-                  onClick={closeMenu}
-                  className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
-                >
-                  <Package className="h-5 w-5 text-clay" />
-                  <span>Packing</span>
-                </a>
-                <a
                   href="#installation"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
@@ -150,14 +142,14 @@ export const Nav = () => {
                   <Hammer className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Art Installation" : "Art Installation"}</span>
                 </a>
-                <a
-                  href="#delivery"
+                <Link
+                  to="/mudanzas"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Truck className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Transporte" : "Transport"}</span>
-                </a>
+                </Link>
                 <Link
                   to="/restauraciones"
                   onClick={closeMenu}
