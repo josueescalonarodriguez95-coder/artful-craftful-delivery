@@ -6,8 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 const EMAIL = "ramosdeliverye@gmail.com";
 const PHONE_TEL = "+17864262444";
 const PHONE_DISPLAY = "+1 (786) 426-2444";
-import { LangProvider, useLang } from "@/components/site/LangContext";
-import { CartProvider } from "@/components/site/CartContext";
+import { useLang } from "@/components/site/LangContext";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
@@ -183,12 +182,6 @@ const Body = () => {
   );
 };
 
-const MudanzasPage = () => (
-  <LangProvider>
-    <CartProvider>
-      <Body />
-    </CartProvider>
-  </LangProvider>
-);
+const MudanzasPage = () => <Body />;
 
 export default MudanzasPage;

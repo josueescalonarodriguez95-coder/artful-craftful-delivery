@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Gem, Palette, Hammer, Image as ImageIcon, Video } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { LangProvider, useLang } from "@/components/site/LangContext";
-import { CartProvider } from "@/components/site/CartContext";
+import { useLang } from "@/components/site/LangContext";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
@@ -166,12 +165,6 @@ const Body = () => {
   );
 };
 
-const RestorationPage = () => (
-  <LangProvider>
-    <CartProvider>
-      <Body />
-    </CartProvider>
-  </LangProvider>
-);
+const RestorationPage = () => <Body />;
 
 export default RestorationPage;

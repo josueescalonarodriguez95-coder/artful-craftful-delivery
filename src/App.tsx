@@ -9,6 +9,9 @@ import RestorationPage from "./pages/RestorationPage.tsx";
 import MudanzasPage from "./pages/MudanzasPage.tsx";
 import DeliveryPage from "./pages/DeliveryPage.tsx";
 import HeavyCranePage from "./pages/HeavyCranePage.tsx";
+import { LangProvider } from "@/components/site/LangContext";
+import { CartProvider } from "@/components/site/CartContext";
+import { CartDrawer } from "@/components/site/CartDrawer";
 
 const queryClient = new QueryClient();
 
@@ -18,16 +21,21 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/restauraciones" element={<RestorationPage />} />
-          <Route path="/restauraciones/:slug" element={<RestorationPage />} />
-          <Route path="/mudanzas" element={<MudanzasPage />} />
-          <Route path="/delivery" element={<DeliveryPage />} />
-          <Route path="/grua-pesada" element={<HeavyCranePage />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <LangProvider>
+          <CartProvider>
+            <CartDrawer />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/restauraciones" element={<RestorationPage />} />
+              <Route path="/restauraciones/:slug" element={<RestorationPage />} />
+              <Route path="/mudanzas" element={<MudanzasPage />} />
+              <Route path="/delivery" element={<DeliveryPage />} />
+              <Route path="/grua-pesada" element={<HeavyCranePage />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </CartProvider>
+        </LangProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

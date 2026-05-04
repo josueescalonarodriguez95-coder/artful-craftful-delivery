@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Construction, Sparkles, Mail, Phone, MessageSquare, Ruler, Weight, Mountain, Move3d } from "lucide-react";
 import heavyCrane from "@/assets/service-heavy-crane.jpg";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { LangProvider, useLang } from "@/components/site/LangContext";
-import { CartProvider } from "@/components/site/CartContext";
+import { useLang } from "@/components/site/LangContext";
 import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
@@ -194,12 +193,6 @@ const Body = () => {
   );
 };
 
-const HeavyCranePage = () => (
-  <LangProvider>
-    <CartProvider>
-      <Body />
-    </CartProvider>
-  </LangProvider>
-);
+const HeavyCranePage = () => <Body />;
 
 export default HeavyCranePage;
