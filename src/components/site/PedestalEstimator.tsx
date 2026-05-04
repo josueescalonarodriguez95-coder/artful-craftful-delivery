@@ -178,8 +178,8 @@ export const PedestalEstimator = () => {
         ? 220 / REF_VOLUME
         : 1200 / REF_VOLUME;
     let perUnit = volume * PRICE_PER_CUIN;
-    // Black marble surcharge (extra labor)
-    if (material === "marble" && finish === "black") {
+    // Black marble surcharge (extra labor) - only when dimensions are set
+    if (material === "marble" && finish === "black" && h > 0 && w > 0 && d > 0) {
       perUnit += 50;
     }
     // Acrylic thickness multiplier (1/4" is the base price)
