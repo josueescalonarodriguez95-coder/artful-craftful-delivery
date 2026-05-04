@@ -31,12 +31,9 @@ export const CartDrawer = () => {
   };
 
   const methods = [
-    { id: "card", icon: CreditCard, es: "Tarjeta de crédito / débito", en: "Credit / Debit card" },
-    { id: "paypal", icon: Wallet, es: "PayPal", en: "PayPal" },
     { id: "venmo", icon: DollarSign, es: "Venmo", en: "Venmo" },
     { id: "cashapp", icon: DollarSign, es: "Cash App", en: "Cash App" },
     { id: "zelle", icon: Smartphone, es: "Zelle", en: "Zelle" },
-    { id: "transfer", icon: Building2, es: "Transferencia bancaria", en: "Bank transfer" },
   ];
 
   const copyEmail = async () => {
