@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles, Mail, Phone, MessageSquare } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles, Mail, Phone, MessageSquare, Construction } from "lucide-react";
+import spiderCrane from "@/assets/service-spider-crane.jpg";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const EMAIL = "ramosdeliverye@gmail.com";
@@ -53,6 +54,20 @@ const Body = () => {
           ? ["Carga y descarga", "Mantas, plástico y cinta", "Desarmado y armado", "Local e interestatal"]
           : ["Loading & unloading", "Blankets, plastic & tape", "Disassembly & reassembly", "Local & interstate"],
     },
+    {
+      icon: Construction,
+      tag: lang === "es" ? "Grúa especializada" : "Specialized crane",
+      name: lang === "es" ? "Servicio de grúa para trabajos pesados" : "Crane service for heavy-duty jobs",
+      body:
+        lang === "es"
+          ? "Mini grúa araña (compact crawler crane) para izajes especiales en espacios reducidos — ideal para esculturas monumentales, mármol pesado y piezas de gran formato."
+          : "Spider mini crane (compact crawler crane) for specialized lifts in tight spaces — ideal for monumental sculptures, heavy marble and large-format pieces.",
+      points:
+        lang === "es"
+          ? ["Acceso a espacios reducidos", "Capacidad para cargas pesadas", "Operadores certificados", "Plan de izaje a medida"]
+          : ["Access to tight spaces", "Heavy-load capacity", "Certified operators", "Custom lift plan"],
+      image: spiderCrane,
+    },
   ];
 
   return (
@@ -75,12 +90,24 @@ const Body = () => {
           </h1>
           <p className="mt-6 text-ink/75 text-lg max-w-2xl leading-relaxed">{desc}</p>
 
-          <div className="mt-14 grid md:grid-cols-2 gap-6">
+          <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tiers.map((tier, i) => (
               <div
                 key={i}
                 className="group rounded-md border border-border/70 bg-card/60 p-7 md:p-8 shadow-soft hover:shadow-elegant transition"
               >
+                {(tier as { image?: string }).image && (
+                  <div className="-m-7 md:-m-8 mb-5 md:mb-6 aspect-[4/3] overflow-hidden bg-secondary rounded-t-md">
+                    <img
+                      src={(tier as { image?: string }).image}
+                      alt={tier.name}
+                      loading="lazy"
+                      width={1280}
+                      height={960}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
                 <div className="flex items-center gap-3">
                   <div className="h-11 w-11 rounded-full bg-ink text-cream flex items-center justify-center">
                     <tier.icon className="h-5 w-5" />

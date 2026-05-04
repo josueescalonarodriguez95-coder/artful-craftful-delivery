@@ -14,12 +14,15 @@ type City = {
 
 const CITIES: City[] = [
   { name: "Los Angeles", state: "California", coords: [-118.2437, 34.0522], labelDx: 0, labelDy: 24, anchor: "middle" },
-  { name: "Miami", state: "Florida", coords: [-80.1918, 25.7617], labelDx: 14, labelDy: 16, anchor: "start" },
-  { name: "West Palm Beach", state: "Florida", coords: [-80.0534, 26.7153], labelDx: 14, labelDy: -8, anchor: "start" },
+  { name: "Chicago", state: "Illinois", coords: [-87.6298, 41.8781], labelDx: 0, labelDy: -16, anchor: "middle" },
   { name: "New York", state: "New York", coords: [-74.006, 40.7128], labelDx: 14, labelDy: -8, anchor: "start" },
+  { name: "Charlotte", state: "North Carolina", coords: [-80.8431, 35.2271], labelDx: 14, labelDy: -8, anchor: "start" },
+  { name: "Charleston", state: "South Carolina", coords: [-79.9311, 32.7765], labelDx: 14, labelDy: 6, anchor: "start" },
+  { name: "West Palm Beach", state: "Florida", coords: [-80.0534, 26.7153], labelDx: 14, labelDy: -8, anchor: "start" },
+  { name: "Miami", state: "Florida", coords: [-80.1918, 25.7617], labelDx: 14, labelDy: 16, anchor: "start" },
 ];
 
-const ROUTE_ORDER = ["Los Angeles", "Miami", "West Palm Beach", "New York"];
+const ROUTE_ORDER = ["Los Angeles", "Chicago", "New York", "Charlotte", "Charleston", "West Palm Beach", "Miami"];
 
 const W = 1100;
 const H = 680;
