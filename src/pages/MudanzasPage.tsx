@@ -53,6 +53,7 @@ const Body = () => {
         lang === "es"
           ? ["Carga y descarga", "Mantas, plástico y cinta", "Desarmado y armado", "Local e interestatal"]
           : ["Loading & unloading", "Blankets, plastic & tape", "Disassembly & reassembly", "Local & interstate"],
+    },
     {
       icon: Construction,
       tag: lang === "es" ? "Grúa especializada" : "Specialized crane",
