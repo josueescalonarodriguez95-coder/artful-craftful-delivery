@@ -13,6 +13,10 @@ const Body = () => {
   const { lang } = useLang();
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
+
+  useEffect(() => {
     document.title = (lang === "es" ? "Fine Art Delivery" : "Fine Art Delivery") + " — Ramos Delivery Enterprise";
   }, [lang]);
 
