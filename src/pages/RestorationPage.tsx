@@ -60,6 +60,42 @@ const SECTIONS = [
   },
 ];
 
+const ThumbCard = ({ kind }: { kind: "photo" | "video" }) => {
+  const { lang } = useLang();
+  const [open, setOpen] = useState(false);
+  const Icon = kind === "video" ? Video : ImageIcon;
+  const label =
+    kind === "video"
+      ? lang === "es" ? "Video" : "Video"
+      : lang === "es" ? "Foto" : "Photo";
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="group bg-secondary/40 rounded-md border border-border/60 overflow-hidden cursor-zoom-in"
+        aria-label={label}
+      >
+        <div className="relative block w-full aspect-square bg-cream overflow-hidden flex flex-col items-center justify-center text-ink/40 gap-1 transition group-hover:bg-cream/80">
+          <Icon className="h-5 w-5" />
+          <span className="text-[10px] uppercase tracking-[0.15em]">{label}</span>
+        </div>
+      </button>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-3xl bg-cream">
+          <DialogTitle className="sr-only">{label}</DialogTitle>
+          <div className="aspect-video w-full rounded-md bg-secondary/40 border border-border/60 flex flex-col items-center justify-center text-ink/40 gap-2">
+            <Icon className="h-8 w-8" />
+            <span className="text-xs uppercase tracking-[0.2em]">
+              {lang === "es" ? "Próximamente" : "Coming soon"}
+            </span>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+};
+
 const Body = () => {
   const { lang } = useLang();
 
