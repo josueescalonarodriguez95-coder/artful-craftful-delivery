@@ -230,20 +230,56 @@ export const PedestalEstimator = () => {
                     </span>
                   </button>
                 </DialogTrigger>
-                <DialogContent className="max-w-3xl p-0 bg-cream border-border/60">
+                <DialogContent className="max-w-4xl p-0 bg-cream border-border/60">
                   <DialogTitle className="sr-only">
                     {`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
                   </DialogTitle>
                   <DialogDescription className="sr-only">
-                    {lang === "es" ? "Vista previa ampliada del pedestal" : "Enlarged pedestal preview"}
+                    {lang === "es"
+                      ? "Vista previa ampliada del pedestal con vista 3D interactiva"
+                      : "Enlarged pedestal preview with interactive 3D view"}
                   </DialogDescription>
-                  <img
-                    src={previewImage}
-                    alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
-                    width={1024}
-                    height={1024}
-                    className="w-full h-auto object-contain rounded-md"
-                  />
+                  <Tabs defaultValue="3d" className="w-full">
+                    <div className="flex items-center justify-between gap-4 px-4 pt-4">
+                      <div className="text-xs uppercase tracking-[0.2em] text-ink/60">
+                        {MATERIAL[material][lang]} · {FINISH[finish][lang]}
+                        {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
+                      </div>
+                      <TabsList className="bg-secondary/60">
+                        <TabsTrigger value="3d" className="text-xs gap-1.5">
+                          <BoxIcon className="h-3.5 w-3.5" />
+                          {lang === "es" ? "Vista 3D" : "3D View"}
+                        </TabsTrigger>
+                        <TabsTrigger value="photo" className="text-xs gap-1.5">
+                          <ImageIcon className="h-3.5 w-3.5" />
+                          {lang === "es" ? "Foto" : "Photo"}
+                        </TabsTrigger>
+                      </TabsList>
+                    </div>
+                    <TabsContent value="3d" className="m-0 p-4 pt-3">
+                      <Pedestal3DViewer
+                        height={h || 36}
+                        width={w || 14}
+                        depth={d || 14}
+                        color={viewerColor}
+                        finish={viewerFinish}
+                      />
+                      <p className="mt-3 text-center text-xs text-ink/60">
+                        {lang === "es"
+                          ? "Arrastra con el dedo o el puntero para rotar el pedestal y ver todos sus lados."
+                          : "Drag with your finger or pointer to rotate the pedestal and see every side."}
+                      </p>
+                    </TabsContent>
+                    <TabsContent value="photo" className="m-0 p-0">
+                      <img
+                        src={previewImage}
+                        alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                        width={1024}
+                        height={1024}
+                        className="w-full h-auto object-contain rounded-b-md"
+                      />
+                    </TabsContent>
+                  </Tabs>
                 </DialogContent>
               </Dialog>
               <div className="p-4 border-t border-border/60">
