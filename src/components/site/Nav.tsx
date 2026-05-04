@@ -67,11 +67,11 @@ export const Nav = () => {
         </button>
 
         <nav className="hidden md:flex items-center gap-2 text-sm">
-          <a href="#services" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.services}</a>
+          <Link to="/#services" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.services}</Link>
           <Link to="/delivery" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.delivery}</Link>
-          <a href="#pedestals" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.pedestals}</a>
+          <Link to="/#pedestals" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.pedestals}</Link>
           <Link to="/restauraciones" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.restorations}</Link>
-          <a href="#contact" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.contact}</a>
+          <Link to="/#contact" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.contact}</Link>
         </nav>
 
         <div className="flex items-center gap-3">
@@ -88,7 +88,7 @@ export const Nav = () => {
             >EN</button>
           </div>
           <Button asChild size="sm" className="hidden sm:inline-flex bg-ink hover:bg-ink/90 text-cream rounded-full px-5">
-            <a href="#delivery">{T.quote}</a>
+            <Link to="/#delivery">{T.quote}</Link>
           </Button>
           <button
             onClick={() => setOpen(true)}
@@ -126,22 +126,22 @@ export const Nav = () => {
                 </SheetTitle>
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-1">
-                <a
-                  href="#storage"
+                <Link
+                  to="/#storage"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Archive className="h-5 w-5 text-clay" />
                   <span>Fine Art Storage</span>
-                </a>
-                <a
-                  href="#installation"
+                </Link>
+                <Link
+                  to="/#installation"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Hammer className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Art Installation" : "Art Installation"}</span>
-                </a>
+                </Link>
                 <Link
                   to="/mudanzas"
                   onClick={closeMenu}
