@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound.tsx";
 import RestorationPage from "./pages/RestorationPage.tsx";
 import MudanzasPage from "./pages/MudanzasPage.tsx";
 import DeliveryPage from "./pages/DeliveryPage.tsx";
+import HeavyCranePage from "./pages/HeavyCranePage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/restauraciones/:slug" element={<RestorationPage />} />
           <Route path="/mudanzas" element={<MudanzasPage />} />
           <Route path="/delivery" element={<DeliveryPage />} />
+          <Route path="/grua-pesada" element={<HeavyCranePage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
