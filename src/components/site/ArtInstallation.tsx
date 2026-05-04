@@ -110,7 +110,7 @@ export const ArtInstallation = () => {
   };
 
   const slot = slotRef.current;
-  const translatePx = -cIndex * slot + drag;
+  const translatePx = drag;
 
   return (
     <section id="installation" className="relative py-24 md:py-36 bg-cream">
@@ -148,21 +148,32 @@ export const ArtInstallation = () => {
             onPointerLeave={endDrag}
           >
             <div
-              className="absolute top-1/2 left-1/2 flex items-center"
+              className="absolute inset-0"
               style={{
-                transform: `translate3d(calc(-50% + ${translatePx}px + ${slot / 2}px), -50%, 0)`,
+                transform: `translate3d(${translatePx}px, 0, 0)`,
                 transition: animate ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1)" : "none",
                 willChange: "transform",
               }}
             >
               {allMedia.map((p, i) => {
-                const distance = (i * slot) - (cIndex * slot - drag);
+                let off = i - cIndex;
+                if (off > total / 2) off -= total;
+                if (off < -total / 2) off += total;
+                const distance = off * slot - drag;
                 const norm = slot ? distance / slot : 0;
                 const abs = Math.min(2, Math.abs(norm));
                 const scale = 1 - abs * 0.06;
                 const opacity = Math.max(0.85, 1 - abs * 0.08);
                 return (
-                  <div key={i} className="shrink-0 flex items-center justify-center" style={{ width: slot }}>
+                  <div
+                    key={i}
+                    className="absolute top-1/2 left-1/2 flex items-center justify-center"
+                    style={{
+                      width: slot,
+                      transform: `translate(-50%, -50%) translateX(${off * slot}px)`,
+                      transition: animate ? "transform 800ms cubic-bezier(0.22, 1, 0.36, 1)" : "none",
+                    }}
+                  >
                     <button
                       onClick={() => { if (Math.abs(drag) > 4) return; setOpen({ list: allMedia, index: i }); }}
                       className="block will-change-transform relative"
