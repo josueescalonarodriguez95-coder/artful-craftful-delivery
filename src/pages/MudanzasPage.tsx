@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles, Mail, Phone, MessageSquare, Construction } from "lucide-react";
-import spiderCrane from "@/assets/service-spider-crane.jpg";
+import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles, Mail, Phone, MessageSquare } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const EMAIL = "ramosdeliverye@gmail.com";
