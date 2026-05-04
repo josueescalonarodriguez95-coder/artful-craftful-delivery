@@ -6,8 +6,6 @@ import { useLang } from "./LangContext";
 import { Button } from "@/components/ui/button";
 import { Trash2, CreditCard, Wallet, Building2, Smartphone, DollarSign, Mail, Copy } from "lucide-react";
 import { toast } from "sonner";
-import venmoQR from "@/assets/venmo-qr.jpeg";
-import cashappQR from "@/assets/cashapp-qr.jpeg";
 
 const CONTACT_EMAIL = "rafebt86@gmail.com";
 const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
