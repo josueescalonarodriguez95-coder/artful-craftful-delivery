@@ -29,13 +29,21 @@ export const CartDrawer = () => {
   };
 
   const methods = [
-    { id: "applepay", icon: Apple, es: "Apple Pay", en: "Apple Pay" },
     { id: "card", icon: CreditCard, es: "Tarjeta de crédito / débito", en: "Credit / Debit card" },
     { id: "paypal", icon: Wallet, es: "PayPal", en: "PayPal" },
+    { id: "venmo", icon: DollarSign, es: "Venmo", en: "Venmo" },
     { id: "zelle", icon: Smartphone, es: "Zelle", en: "Zelle" },
     { id: "transfer", icon: Building2, es: "Transferencia bancaria", en: "Bank transfer" },
-    { id: "cash", icon: Banknote, es: "Efectivo a la entrega", en: "Cash on delivery" },
   ];
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      toast.success(lang === "es" ? "Correo copiado" : "Email copied");
+    } catch {
+      toast.error(lang === "es" ? "No se pudo copiar" : "Could not copy");
+    }
+  };
 
   const choose = (m: (typeof methods)[number]) => {
     toast.success(
