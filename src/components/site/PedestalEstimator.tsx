@@ -230,7 +230,10 @@ export const PedestalEstimator = () => {
                     </span>
                   </button>
                 </DialogTrigger>
-                <DialogContent className="max-w-4xl p-0 bg-cream border-border/60">
+                <DialogContent
+                  className="max-w-4xl p-0 bg-cream border-border/60"
+                  onOpenAutoFocus={() => setPreviewMode("select")}
+                >
                   <DialogTitle className="sr-only">
                     {`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
                   </DialogTitle>
@@ -239,47 +242,108 @@ export const PedestalEstimator = () => {
                       ? "Vista previa ampliada del pedestal con vista 3D interactiva"
                       : "Enlarged pedestal preview with interactive 3D view"}
                   </DialogDescription>
-                  <Tabs defaultValue="3d" className="w-full">
-                    <div className="flex items-center justify-between gap-4 px-4 pt-4">
+
+                  {/* Header */}
+                  <div className="flex items-center justify-between gap-4 px-5 pt-5">
+                    {previewMode !== "select" ? (
+                      <button
+                        type="button"
+                        onClick={() => setPreviewMode("select")}
+                        className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.2em] text-ink/70 hover:text-ink transition"
+                      >
+                        <ArrowLeft className="h-3.5 w-3.5" />
+                        {lang === "es" ? "Volver a opciones" : "Back to options"}
+                      </button>
+                    ) : (
                       <div className="text-xs uppercase tracking-[0.2em] text-ink/60">
-                        {MATERIAL[material][lang]} · {FINISH[finish][lang]}
-                        {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
+                        {lang === "es" ? "Cómo quieres verlo" : "How to view it"}
                       </div>
-                      <TabsList className="bg-secondary/60">
-                        <TabsTrigger value="3d" className="text-xs gap-1.5">
-                          <BoxIcon className="h-3.5 w-3.5" />
-                          {lang === "es" ? "Vista 3D" : "3D View"}
-                        </TabsTrigger>
-                        <TabsTrigger value="photo" className="text-xs gap-1.5">
-                          <ImageIcon className="h-3.5 w-3.5" />
-                          {lang === "es" ? "Foto" : "Photo"}
-                        </TabsTrigger>
-                      </TabsList>
+                    )}
+                    <div className="text-xs uppercase tracking-[0.2em] text-ink/60 text-right">
+                      {MATERIAL[material][lang]} · {FINISH[finish][lang]}
+                      {finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}
                     </div>
-                    <TabsContent value="3d" className="m-0 p-4 pt-3">
+                  </div>
+
+                  {/* Body */}
+                  {previewMode === "select" && (
+                    <div className="p-5 grid sm:grid-cols-2 gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setPreviewMode("photo")}
+                        className="group relative rounded-md overflow-hidden border border-border/60 bg-secondary/40 hover:border-ink/40 transition text-left"
+                      >
+                        <div className="aspect-[4/5] overflow-hidden bg-cream">
+                          <img
+                            src={previewImage}
+                            alt=""
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          />
+                        </div>
+                        <div className="p-4 flex items-center gap-2">
+                          <ImageIcon className="h-4 w-4 text-clay" />
+                          <span className="font-display text-lg text-ink">
+                            {lang === "es" ? "Ver foto" : "View photo"}
+                          </span>
+                        </div>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPreviewMode("3d")}
+                        className="group relative rounded-md overflow-hidden border border-border/60 bg-secondary/40 hover:border-ink/40 transition text-left"
+                      >
+                        <div className="aspect-[4/5] overflow-hidden bg-cream relative flex items-center justify-center">
+                          <img
+                            src={previewImage}
+                            alt=""
+                            className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-[1.03]"
+                          />
+                          <div className="absolute inset-0 bg-ink/20 flex items-center justify-center">
+                            <span className="inline-flex items-center gap-2 rounded-full bg-cream/95 text-ink text-[11px] uppercase tracking-[0.2em] px-3 py-1.5 shadow-elegant">
+                              <BoxIcon className="h-3.5 w-3.5" />
+                              360°
+                            </span>
+                          </div>
+                        </div>
+                        <div className="p-4 flex items-center gap-2">
+                          <BoxIcon className="h-4 w-4 text-clay" />
+                          <span className="font-display text-lg text-ink">
+                            {lang === "es" ? "Ver en 3D" : "View in 3D"}
+                          </span>
+                        </div>
+                      </button>
+                    </div>
+                  )}
+
+                  {previewMode === "photo" && (
+                    <div className="p-4 pt-3">
+                      <img
+                        src={previewImage}
+                        alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
+                        width={1024}
+                        height={1024}
+                        className="w-full h-auto object-contain rounded-md"
+                      />
+                    </div>
+                  )}
+
+                  {previewMode === "3d" && (
+                    <div className="p-4 pt-3">
                       <Pedestal3DViewer
                         height={h || 36}
                         width={w || 14}
                         depth={d || 14}
                         color={viewerColor}
                         finish={viewerFinish}
+                        textureUrl={previewImage}
                       />
                       <p className="mt-3 text-center text-xs text-ink/60">
                         {lang === "es"
                           ? "Arrastra con el dedo o el puntero para rotar el pedestal y ver todos sus lados."
                           : "Drag with your finger or pointer to rotate the pedestal and see every side."}
                       </p>
-                    </TabsContent>
-                    <TabsContent value="photo" className="m-0 p-0">
-                      <img
-                        src={previewImage}
-                        alt={`${MATERIAL[material][lang]} · ${FINISH[finish][lang]}`}
-                        width={1024}
-                        height={1024}
-                        className="w-full h-auto object-contain rounded-b-md"
-                      />
-                    </TabsContent>
-                  </Tabs>
+                    </div>
+                  )}
                 </DialogContent>
               </Dialog>
               <div className="p-4 border-t border-border/60">
