@@ -70,22 +70,7 @@ export const Nav = () => {
           <a href="#services" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.services}</a>
           <a href="#delivery" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.delivery}</a>
           <a href="#pedestals" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.pedestals}</a>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm outline-none text-sm leading-none">
-              {T.restorations}
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" className="bg-cream border-border">
-              <DropdownMenuItem asChild>
-                <Link to="/restauraciones/marmol">{lang === "es" ? "Mármol" : "Marble"}</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/restauraciones/lienzo">{lang === "es" ? "Lienzo" : "Canvas"}</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link to="/restauraciones/esculturas">{lang === "es" ? "Esculturas" : "Sculptures"}</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Link to="/restauraciones" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.restorations}</Link>
           <a href="#contact" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.contact}</a>
         </nav>
 
@@ -173,26 +158,14 @@ export const Nav = () => {
                   <Truck className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Transporte" : "Transport"}</span>
                 </a>
-                <Collapsible open={restOpen} onOpenChange={setRestOpen}>
-                  <CollapsibleTrigger className="w-full flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition">
-                    <Sparkles className="h-5 w-5 text-clay" />
-                    <span className="flex-1 text-left">{lang === "es" ? "Restauraciones" : "Restorations"}</span>
-                    <ChevronDown className={`h-4 w-4 transition-transform ${restOpen ? "rotate-180" : ""}`} />
-                  </CollapsibleTrigger>
-                  <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                    <div className="ml-10 mt-1 mb-2 flex flex-col gap-1 border-l border-border pl-3">
-                      <Link to="/restauraciones/marmol" onClick={closeMenu} className="px-3 py-2 rounded-md text-sm text-ink/80 hover:bg-ink/5 hover:text-ink transition">
-                        {lang === "es" ? "Mármol" : "Marble"}
-                      </Link>
-                      <Link to="/restauraciones/lienzo" onClick={closeMenu} className="px-3 py-2 rounded-md text-sm text-ink/80 hover:bg-ink/5 hover:text-ink transition">
-                        {lang === "es" ? "Lienzo" : "Canvas"}
-                      </Link>
-                      <Link to="/restauraciones/esculturas" onClick={closeMenu} className="px-3 py-2 rounded-md text-sm text-ink/80 hover:bg-ink/5 hover:text-ink transition">
-                        {lang === "es" ? "Esculturas" : "Sculptures"}
-                      </Link>
-                    </div>
-                  </CollapsibleContent>
-                </Collapsible>
+                <Link
+                  to="/restauraciones"
+                  onClick={closeMenu}
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
+                >
+                  <Sparkles className="h-5 w-5 text-clay" />
+                  <span>{lang === "es" ? "Restauraciones" : "Restorations"}</span>
+                </Link>
               </nav>
               <div className="mt-8 pt-6 border-t border-border">
                 <p className="text-xs uppercase tracking-wider text-ink/60 mb-3 px-3">

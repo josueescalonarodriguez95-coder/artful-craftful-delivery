@@ -12,7 +12,7 @@ export const Services = () => {
   const ref = useReveal<HTMLDivElement>();
 
   const cards = [
-    { img: restoration, ...t.services.items[0], href: "#delivery", external: false },
+    { img: restoration, ...t.services.items[0], href: "/delivery", external: true },
     { img: crates, ...t.services.items[1], href: "#delivery", external: false },
     { img: pedestals, ...t.services.items[2], href: "#pedestals", external: false },
     {
