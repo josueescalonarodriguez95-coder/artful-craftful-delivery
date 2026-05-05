@@ -1,7 +1,7 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, Archive, Hammer, Truck, Instagram, Facebook, Sparkles, ChevronDown } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck, Instagram, Facebook, Sparkles, ChevronDown, Package, Box } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -126,6 +126,22 @@ export const Nav = () => {
                 </SheetTitle>
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-1">
+                <Link
+                  to="/#delivery"
+                  onClick={closeMenu}
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
+                >
+                  <Package className="h-5 w-5 text-clay" />
+                  <span>{lang === "es" ? "Huacales a medida" : "Custom crates"}</span>
+                </Link>
+                <Link
+                  to="/#pedestals"
+                  onClick={closeMenu}
+                  className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
+                >
+                  <Box className="h-5 w-5 text-clay" />
+                  <span>{lang === "es" ? "Pedestales a medida" : "Custom pedestals"}</span>
+                </Link>
                 <Link
                   to="/#storage"
                   onClick={closeMenu}
