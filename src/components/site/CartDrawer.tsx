@@ -14,8 +14,39 @@ import { StripeEmbeddedCheckout } from "./StripeEmbeddedCheckout";
 const CONTACT_EMAIL = "ramosdeliverye@gmail.com";
 const ZELLE_EMAIL = "radent86@gmail.com";
 const PAYPAL_USERNAME = "ramosdeliverye";
-const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
-const CASHAPP_URL = "https://cash.app/$ramosdelivery";
+const VENMO_USERNAME = "Rafael-Ramos-23";
+const VENMO_URL = `https://venmo.com/${VENMO_USERNAME}`;
+const CASHAPP_USERNAME = "ramosdelivery";
+const CASHAPP_URL = `https://cash.app/$${CASHAPP_USERNAME}`;
+
+const isMobile = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+const isIOS = () => /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+/**
+ * Try to open a native payment app on mobile via deep link, fallback to web URL.
+ * On desktop, just opens the web URL in a new tab.
+ */
+const openPaymentApp = (deepLink: string, webUrl: string) => {
+  if (!isMobile()) {
+    window.open(webUrl, "_blank", "noopener,noreferrer");
+    return;
+  }
+  // On iOS, universal links (https://) open the app automatically if installed.
+  // Custom schemes (venmo://, cashme://) also work but need fallback.
+  const start = Date.now();
+  const fallbackTimer = window.setTimeout(() => {
+    // If the app didn't take focus, redirect to web.
+    if (Date.now() - start < 2500 && !document.hidden) {
+      window.location.href = webUrl;
+    }
+  }, 1200);
+  const onVisibility = () => {
+    if (document.hidden) window.clearTimeout(fallbackTimer);
+  };
+  document.addEventListener("visibilitychange", onVisibility, { once: true });
+  // Trigger the deep link
+  window.location.href = deepLink;
+};
 
 export const CartDrawer = () => {
   const { items, remove, total, open, setOpen, clear } = useCart();
