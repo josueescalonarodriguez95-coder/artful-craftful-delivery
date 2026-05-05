@@ -248,14 +248,23 @@ export const CartDrawer = () => {
               <span className="text-sm">PayPal</span>
             </button>
             <button
-              onClick={() => { window.open(VENMO_URL, "_blank", "noopener,noreferrer"); }}
+              onClick={() => {
+                const amt = total.toFixed(2);
+                const venmoDeep = `venmo://paycharge?txn=pay&recipients=${VENMO_USERNAME}&amount=${amt}&note=${encodeURIComponent("Ramos Delivery Order")}`;
+                openPaymentApp(venmoDeep, `${VENMO_URL}?txn=pay&amount=${amt}&note=${encodeURIComponent("Ramos Delivery Order")}`);
+              }}
               className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
             >
               <DollarSign className="h-5 w-5 shrink-0" />
               <span className="text-sm">Venmo</span>
             </button>
             <button
-              onClick={() => { window.open(CASHAPP_URL, "_blank", "noopener,noreferrer"); }}
+              onClick={() => {
+                const amt = total.toFixed(2);
+                // Cash App deep link: cashme://$username or cashapp://
+                const cashDeep = `https://cash.app/$${CASHAPP_USERNAME}/${amt}`;
+                openPaymentApp(cashDeep, `${CASHAPP_URL}/${amt}`);
+              }}
               className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
             >
               <DollarSign className="h-5 w-5 shrink-0" />
