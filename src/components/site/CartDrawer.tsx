@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Trash2, CreditCard, Smartphone, DollarSign, Mail, Copy, Wallet, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { StripeEmbeddedCheckout } from "./StripeEmbeddedCheckout";
 
 const CONTACT_EMAIL = "ramosdeliverye@gmail.com";
 const ZELLE_EMAIL = "radent86@gmail.com";
@@ -22,6 +23,11 @@ export const CartDrawer = () => {
   const [payOpen, setPayOpen] = useState(false);
   const [zelleOpen, setZelleOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
+  const [cardCheckoutOpen, setCardCheckoutOpen] = useState(false);
+  const [checkoutPayload, setCheckoutPayload] = useState<{
+    items: Array<{ title: string; details?: string; qty: number; unitPrice: number }>;
+    customer: { name: string; email: string; phone?: string; address?: string };
+  } | null>(null);
   const [loading, setLoading] = useState(false);
   const [pendingMethod, setPendingMethod] = useState<"card" | "paypal" | null>(null);
   const [form, setForm] = useState({ name: "", email: "", phone: "", address: "" });
@@ -121,31 +127,14 @@ export const CartDrawer = () => {
       return;
     }
 
-    try {
-      const { data, error } = await supabase.functions.invoke("create-checkout", {
-        body: {
-          items: items.map((i) => ({
-            title: i.title,
-            details: i.details,
-            qty: i.qty,
-            unitPrice: i.unitPrice,
-          })),
-          customer: form,
-          paymentMethod: pendingMethod,
-          lang,
-        },
-      });
-      if (error) throw error;
-      if (data?.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error("No checkout URL");
-      }
-    } catch (e: any) {
-      console.error(e);
-      toast.error(lang === "es" ? "Error al iniciar el pago" : "Payment error");
-      setLoading(false);
-    }
+    // Card: open embedded Stripe checkout inline
+    setCheckoutPayload({
+      items: items.map((i) => ({ title: i.title, details: i.details, qty: i.qty, unitPrice: i.unitPrice })),
+      customer: { ...form },
+    });
+    setFormOpen(false);
+    setCardCheckoutOpen(true);
+    setLoading(false);
   };
 
   return (
