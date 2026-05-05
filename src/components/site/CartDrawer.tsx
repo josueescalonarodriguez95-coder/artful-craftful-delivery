@@ -149,8 +149,10 @@ export const CartDrawer = () => {
     if (pendingMethod === "paypal") {
       // Open PayPal payment URL prefilled to merchant email.
       // The invoice will be sent only after the merchant confirms the payment was received in PayPal.
-      const paypalUrl = `https://www.paypal.com/paypalme/${PAYPAL_USERNAME}/${total.toFixed(2)}USD`;
-      window.open(paypalUrl, "_blank", "noopener,noreferrer");
+      const amount = total.toFixed(2);
+      const paypalWeb = `https://www.paypal.com/paypalme/${PAYPAL_USERNAME}/${amount}USD`;
+      const paypalDeep = `paypal://paypalme/${PAYPAL_USERNAME}/${amount}USD`;
+      openPaymentApp(paypalDeep, paypalWeb);
       toast.success(lang === "es" ? "Completa el pago en PayPal. Recibirás el invoice cuando se confirme el pago." : "Complete payment on PayPal. You'll receive the invoice once payment is confirmed.");
       clear();
       setLoading(false);
