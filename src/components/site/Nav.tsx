@@ -1,7 +1,7 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, Archive, Hammer, Truck, Instagram, Facebook, Sparkles, ChevronDown } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck, Instagram, Facebook, Sparkles, ChevronDown, Package, Box } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
