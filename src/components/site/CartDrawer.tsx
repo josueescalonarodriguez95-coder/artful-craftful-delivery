@@ -13,7 +13,7 @@ import { StripeEmbeddedCheckout } from "./StripeEmbeddedCheckout";
 
 const CONTACT_EMAIL = "ramosdeliverye@gmail.com";
 const ZELLE_EMAIL = "radent86@gmail.com";
-const PAYPAL_EMAIL = "ramosdeliverye@gmail.com";
+const PAYPAL_USERNAME = "ramosdeliverye";
 const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
 const CASHAPP_URL = "https://cash.app/$ramosdelivery";
 
@@ -118,7 +118,7 @@ export const CartDrawer = () => {
     if (pendingMethod === "paypal") {
       // Open PayPal payment URL prefilled to merchant email.
       // The invoice will be sent only after the merchant confirms the payment was received in PayPal.
-      const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(PAYPAL_EMAIL)}&item_name=${encodeURIComponent("Ramos Delivery Order")}&amount=${total.toFixed(2)}&currency_code=USD`;
+      const paypalUrl = `https://www.paypal.com/paypalme/${PAYPAL_USERNAME}/${total.toFixed(2)}USD`;
       window.open(paypalUrl, "_blank", "noopener,noreferrer");
       toast.success(lang === "es" ? "Completa el pago en PayPal. Recibirás el invoice cuando se confirme el pago." : "Complete payment on PayPal. You'll receive the invoice once payment is confirmed.");
       clear();
