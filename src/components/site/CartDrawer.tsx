@@ -250,10 +250,10 @@ export const CartDrawer = () => {
           <div className="mt-2 border border-border/70 rounded-md p-3 bg-background flex items-center gap-2">
             <Mail className="h-4 w-4 shrink-0 text-ink/70" />
             <a
-              href={`mailto:${CONTACT_EMAIL}`}
+              href={`mailto:${ZELLE_EMAIL}`}
               className="text-sm text-ink underline-offset-4 hover:underline truncate"
             >
-              {CONTACT_EMAIL}
+              {ZELLE_EMAIL}
             </a>
             <button
               onClick={copyEmail}
