@@ -107,8 +107,9 @@ export const CartDrawer = () => {
   };
 
   const submitStripe = async () => {
-    if (!form.name.trim() || !form.email.trim()) {
-      toast.error(lang === "es" ? "Nombre y email requeridos" : "Name and email required");
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim());
+    if (!form.name.trim() || !emailOk) {
+      toast.error(lang === "es" ? "Nombre y email válido requeridos" : "Valid name and email required");
       return;
     }
     if (!pendingMethod) return;
