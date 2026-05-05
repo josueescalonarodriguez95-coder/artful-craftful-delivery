@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 const CONTACT_EMAIL = "ramosdeliverye@gmail.com";
 const ZELLE_EMAIL = "radent86@gmail.com";
+const PAYPAL_EMAIL = "ramosdeliverye@gmail.com";
 const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
 const CASHAPP_URL = "https://cash.app/$ramosdelivery";
 
