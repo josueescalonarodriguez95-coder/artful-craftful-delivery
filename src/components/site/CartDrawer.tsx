@@ -50,7 +50,7 @@ export const CartDrawer = () => {
 
   const copyEmail = async () => {
     try {
-      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      await navigator.clipboard.writeText(ZELLE_EMAIL);
       toast.success(lang === "es" ? "Correo copiado" : "Email copied");
     } catch {
       toast.error(lang === "es" ? "No se pudo copiar" : "Could not copy");
