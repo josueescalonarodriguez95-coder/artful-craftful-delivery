@@ -306,6 +306,29 @@ export const CartDrawer = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Dialog open={cardCheckoutOpen} onOpenChange={(v) => { setCardCheckoutOpen(v); if (!v) setCheckoutPayload(null); }}>
+        <DialogContent className="bg-cream max-w-2xl max-h-[92vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="font-display text-2xl text-ink">
+              {lang === "es" ? "Pago con tarjeta" : "Card payment"}
+            </DialogTitle>
+            <DialogDescription className="text-ink/60">
+              {lang === "es"
+                ? "Ingresa los datos de tu tarjeta para completar el pago."
+                : "Enter your card details to complete payment."}
+            </DialogDescription>
+          </DialogHeader>
+          {checkoutPayload && (
+            <StripeEmbeddedCheckout
+              items={checkoutPayload.items}
+              customer={checkoutPayload.customer}
+              lang={lang}
+              returnUrl={`${window.location.origin}/?payment=success&session_id={CHECKOUT_SESSION_ID}`}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };
