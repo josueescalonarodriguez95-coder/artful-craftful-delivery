@@ -14,39 +14,8 @@ import { StripeEmbeddedCheckout } from "./StripeEmbeddedCheckout";
 const CONTACT_EMAIL = "ramosdeliverye@gmail.com";
 const ZELLE_EMAIL = "radent86@gmail.com";
 const PAYPAL_USERNAME = "ramosdeliverye";
-const VENMO_USERNAME = "Rafael-Ramos-23";
-const VENMO_URL = `https://venmo.com/${VENMO_USERNAME}`;
-const CASHAPP_USERNAME = "ramosdelivery";
-const CASHAPP_URL = `https://cash.app/$${CASHAPP_USERNAME}`;
-
-const isMobile = () => /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-const isIOS = () => /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-/**
- * Try to open a native payment app on mobile via deep link, fallback to web URL.
- * On desktop, just opens the web URL in a new tab.
- */
-const openPaymentApp = (deepLink: string, webUrl: string) => {
-  if (!isMobile()) {
-    window.open(webUrl, "_blank", "noopener,noreferrer");
-    return;
-  }
-  // On iOS, universal links (https://) open the app automatically if installed.
-  // Custom schemes (venmo://, cashme://) also work but need fallback.
-  const start = Date.now();
-  const fallbackTimer = window.setTimeout(() => {
-    // If the app didn't take focus, redirect to web.
-    if (Date.now() - start < 2500 && !document.hidden) {
-      window.location.href = webUrl;
-    }
-  }, 1200);
-  const onVisibility = () => {
-    if (document.hidden) window.clearTimeout(fallbackTimer);
-  };
-  document.addEventListener("visibilitychange", onVisibility, { once: true });
-  // Trigger the deep link
-  window.location.href = deepLink;
-};
+const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
+const CASHAPP_URL = "https://cash.app/$ramosdelivery";
 
 export const CartDrawer = () => {
   const { items, remove, total, open, setOpen, clear } = useCart();
@@ -149,10 +118,8 @@ export const CartDrawer = () => {
     if (pendingMethod === "paypal") {
       // Open PayPal payment URL prefilled to merchant email.
       // The invoice will be sent only after the merchant confirms the payment was received in PayPal.
-      const amount = total.toFixed(2);
-      const paypalWeb = `https://www.paypal.com/paypalme/${PAYPAL_USERNAME}/${amount}USD`;
-      const paypalDeep = `paypal://paypalme/${PAYPAL_USERNAME}/${amount}USD`;
-      openPaymentApp(paypalDeep, paypalWeb);
+      const paypalUrl = `https://www.paypal.com/paypalme/${PAYPAL_USERNAME}/${total.toFixed(2)}USD`;
+      window.open(paypalUrl, "_blank", "noopener,noreferrer");
       toast.success(lang === "es" ? "Completa el pago en PayPal. Recibirás el invoice cuando se confirme el pago." : "Complete payment on PayPal. You'll receive the invoice once payment is confirmed.");
       clear();
       setLoading(false);
@@ -248,23 +215,14 @@ export const CartDrawer = () => {
               <span className="text-sm">PayPal</span>
             </button>
             <button
-              onClick={() => {
-                const amt = total.toFixed(2);
-                const venmoDeep = `venmo://paycharge?txn=pay&recipients=${VENMO_USERNAME}&amount=${amt}&note=${encodeURIComponent("Ramos Delivery Order")}`;
-                openPaymentApp(venmoDeep, `${VENMO_URL}?txn=pay&amount=${amt}&note=${encodeURIComponent("Ramos Delivery Order")}`);
-              }}
+              onClick={() => { window.open(VENMO_URL, "_blank", "noopener,noreferrer"); }}
               className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
             >
               <DollarSign className="h-5 w-5 shrink-0" />
               <span className="text-sm">Venmo</span>
             </button>
             <button
-              onClick={() => {
-                const amt = total.toFixed(2);
-                // Cash App deep link: cashme://$username or cashapp://
-                const cashDeep = `https://cash.app/$${CASHAPP_USERNAME}/${amt}`;
-                openPaymentApp(cashDeep, `${CASHAPP_URL}/${amt}`);
-              }}
+              onClick={() => { window.open(CASHAPP_URL, "_blank", "noopener,noreferrer"); }}
               className="w-full flex items-center gap-3 border border-border/70 rounded-md px-4 py-3 bg-background hover:bg-ink hover:text-cream transition text-left"
             >
               <DollarSign className="h-5 w-5 shrink-0" />
