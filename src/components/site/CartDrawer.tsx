@@ -64,6 +64,42 @@ export const CartDrawer = () => {
     setFormOpen(true);
   };
 
+  const sendInvoiceEmails = async () => {
+    const idBase = `paypal-${Date.now()}`;
+    const baseData = {
+      customerName: form.name,
+      customerEmail: form.email,
+      customerPhone: form.phone,
+      customerAddress: form.address,
+      items: items.map((i) => ({ title: i.title, details: i.details, qty: i.qty, unitPrice: i.unitPrice })),
+      total,
+      paymentMethod: "PayPal",
+      lang,
+    };
+    try {
+      await Promise.all([
+        supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "order-invoice",
+            recipientEmail: form.email,
+            idempotencyKey: `${idBase}-buyer`,
+            templateData: { ...baseData, isMerchantCopy: false },
+          },
+        }),
+        supabase.functions.invoke("send-transactional-email", {
+          body: {
+            templateName: "order-invoice",
+            recipientEmail: CONTACT_EMAIL,
+            idempotencyKey: `${idBase}-merchant`,
+            templateData: { ...baseData, isMerchantCopy: true },
+          },
+        }),
+      ]);
+    } catch (e) {
+      console.error("invoice send failed", e);
+    }
+  };
+
   const submitStripe = async () => {
     if (!form.name.trim() || !form.email.trim()) {
       toast.error(lang === "es" ? "Nombre y email requeridos" : "Name and email required");
@@ -71,6 +107,20 @@ export const CartDrawer = () => {
     }
     if (!pendingMethod) return;
     setLoading(true);
+
+    if (pendingMethod === "paypal") {
+      // Open PayPal payment URL prefilled to merchant email
+      const paypalUrl = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${encodeURIComponent(PAYPAL_EMAIL)}&item_name=${encodeURIComponent("Ramos Delivery Order")}&amount=${total.toFixed(2)}&currency_code=USD`;
+      window.open(paypalUrl, "_blank", "noopener,noreferrer");
+      await sendInvoiceEmails();
+      toast.success(lang === "es" ? "Invoice enviado. Completa el pago en PayPal." : "Invoice sent. Complete payment on PayPal.");
+      clear();
+      setLoading(false);
+      setFormOpen(false);
+      setOpen(false);
+      return;
+    }
+
     try {
       const { data, error } = await supabase.functions.invoke("create-checkout", {
         body: {
