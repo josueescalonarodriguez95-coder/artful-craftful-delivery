@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 const CONTACT_EMAIL = "ramosdeliverye@gmail.com";
+const ZELLE_EMAIL = "radent86@gmail.com";
 const VENMO_URL = "https://venmo.com/Rafael-Ramos-23";
 const CASHAPP_URL = "https://cash.app/$ramosdelivery";
 
@@ -49,7 +50,7 @@ export const CartDrawer = () => {
 
   const copyEmail = async () => {
     try {
-      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      await navigator.clipboard.writeText(ZELLE_EMAIL);
       toast.success(lang === "es" ? "Correo copiado" : "Email copied");
     } catch {
       toast.error(lang === "es" ? "No se pudo copiar" : "Could not copy");
@@ -249,10 +250,10 @@ export const CartDrawer = () => {
           <div className="mt-2 border border-border/70 rounded-md p-3 bg-background flex items-center gap-2">
             <Mail className="h-4 w-4 shrink-0 text-ink/70" />
             <a
-              href={`mailto:${CONTACT_EMAIL}`}
+              href={`mailto:${ZELLE_EMAIL}`}
               className="text-sm text-ink underline-offset-4 hover:underline truncate"
             >
-              {CONTACT_EMAIL}
+              {ZELLE_EMAIL}
             </a>
             <button
               onClick={copyEmail}
