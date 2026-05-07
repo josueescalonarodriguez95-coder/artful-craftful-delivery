@@ -146,7 +146,7 @@ export const CartDrawer = () => {
                   </div>
                   <div className="flex flex-col items-end gap-2 shrink-0">
                     <div className="font-display text-lg tabular-nums text-ink">
-                      ${(i.qty * i.unitPrice).toFixed(0)}
+                      ${(i.qty * i.unitPrice).toFixed(2)}
                     </div>
                     <button
                       onClick={() => remove(i.id)}
