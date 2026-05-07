@@ -12,7 +12,7 @@
 // Costos fijos (USD)
 export const PLYWOOD_SHEET_AREA_IN2 = 48 * 96; // 4608 in² por plancha 48×96
 export const PLYWOOD_SHEET_COST = 40;           // $ por plancha 48×96
-export const WOOD_WASTE_FACTOR = 1.15;          // 15% desperdicio
+export const WOOD_WASTE_FACTOR = 1.10;          // 10% desperdicio
 export const LABOR_COST = 25;                   // mano de obra
 export const CLAMPS_COST = 10;                  // presillas
 export const GLUE_COST = 10;                    // cola
