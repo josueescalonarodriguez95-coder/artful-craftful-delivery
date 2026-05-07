@@ -189,6 +189,14 @@ export const CartDrawer = () => {
             >
               {T.paypal}
             </Button>
+            <Button
+              disabled={items.length === 0}
+              onClick={() => setMethod("venmo")}
+              variant="outline"
+              className="w-full rounded-full py-5 border-ink/30"
+            >
+              {T.venmo}
+            </Button>
           </div>
         </SheetContent>
       </Sheet>
