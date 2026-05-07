@@ -51,6 +51,7 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
     return {
       usedAreaIn2: 0,
       woodCost: 0,
+      laborHours: 0,
       laborCost: 0,
       clampsCost: 0,
       glueCost: 0,
