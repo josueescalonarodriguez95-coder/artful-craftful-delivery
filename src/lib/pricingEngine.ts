@@ -67,7 +67,8 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   const baseArea = length * width;
   const sideArea = 2 * (length * height + width * height);
   const totalArea = baseArea + sideArea;
-  const woodCost = (totalArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
+  const weightedArea = baseArea * 1.0 + sideArea * 0.6;
+  const woodCost = (weightedArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
 
   // 🧽 FOAM — fijo en 2 piezas
   const foamPieces = FOAM_PIECES;
