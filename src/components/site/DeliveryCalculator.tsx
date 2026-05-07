@@ -121,14 +121,6 @@ export const DeliveryCalculator = () => {
                 </div>
               </div>
 
-              {/* Fragile toggle */}
-              <div className="flex items-center justify-between p-4 bg-secondary/50 rounded">
-                <span className="text-sm text-ink">
-                  {lang === "es" ? "Manejo extra-frágil (+15%)" : "Extra-fragile handling (+15%)"}
-                </span>
-                <Switch checked={fragile} onCheckedChange={setFragile} />
-              </div>
-
             </div>
           </div>
 
@@ -145,37 +137,28 @@ export const DeliveryCalculator = () => {
                 />
                 <Row label={lang === "es" ? "Cantidad" : "Quantity"} value={`× ${qty}`} />
                 <Row label={lang === "es" ? "Subtotal" : "Subtotal"} value={fmt(calc.subtotal)} />
-                {fragile && (
-                  <Row
-                    label={lang === "es" ? "Recargo frágil" : "Fragile surcharge"}
-                    value={fmt(calc.fragileFee)}
-                    accent
-                  />
-                )}
               </div>
               <div className="mt-6 pt-6 border-t border-cream/20 flex items-end justify-between">
                 <span className="text-xs uppercase tracking-[0.2em] text-cream/60">
-                  {lang === "es" ? "Total estimado" : "Estimated total"}
+                  {lang === "es" ? "Total" : "Total"}
                 </span>
-                <span className="font-display text-5xl tabular-nums">${calc.total.toFixed(0)}</span>
+                <span className="font-display text-5xl tabular-nums">${calc.total.toFixed(2)}</span>
               </div>
-              <p className="mt-6 text-[11px] text-cream/50 leading-relaxed">
-                {lang === "es"
-                  ? "* Precios estimados. La cotización final se confirma tras evaluar la pieza a empacar."
-                  : "* Estimated pricing. Final quote confirmed after assessing the item to be packed."}
-              </p>
               <Button
                 onClick={() => {
                   if (!hasDims || calc.total <= 0) return;
                   const dims = `${hNum}×${wNum}×${dNum} in`;
+                  // finalPrice ya viene del Pricing Engine — INMUTABLE.
                   add({
                     type: "crate",
                     title: lang === "es" ? `Huacal a medida (${dims})` : `Custom crate (${dims})`,
-                    details: `${qty}u${fragile ? (lang === "es" ? " · frágil" : " · fragile") : ""}`,
+                    details: `${qty}u`,
                     qty,
-                    unitPrice: calc.total / qty,
+                    unitPrice: breakdown.finalPrice,
                   });
                 }}
+                disabled={!hasDims}
+                className="mt-5 w-full bg-clay hover:bg-clay/90 text-cream rounded-full"
                 disabled={!hasDims}
                 className="mt-5 w-full bg-clay hover:bg-clay/90 text-cream rounded-full"
               >
