@@ -59,8 +59,8 @@ Deno.serve(async (req) => {
       ui_mode: "embedded_page",
       return_url: returnUrl,
       ...(emailOk ? { customer_email: customer.email } : {}),
-      // Enable Apple Pay, Google Pay, Cards, Link automatically
-      automatic_payment_methods: { enabled: true },
+      // Omit payment_method_types so Stripe shows all enabled methods
+      // (Cards, Apple Pay, Google Pay, Link) based on dashboard settings.
       line_items,
       metadata: {
         customer_name: customer.name || "",
