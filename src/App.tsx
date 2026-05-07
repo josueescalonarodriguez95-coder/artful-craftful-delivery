@@ -9,6 +9,7 @@ import RestorationPage from "./pages/RestorationPage.tsx";
 import MudanzasPage from "./pages/MudanzasPage.tsx";
 import DeliveryPage from "./pages/DeliveryPage.tsx";
 import HeavyCranePage from "./pages/HeavyCranePage.tsx";
+import OrderConfirmation from "./pages/OrderConfirmation.tsx";
 import { LangProvider } from "@/components/site/LangContext";
 import { CartProvider } from "@/components/site/CartContext";
 import { CartDrawer } from "@/components/site/CartDrawer";
@@ -31,6 +32,7 @@ const App = () => (
               <Route path="/mudanzas" element={<MudanzasPage />} />
               <Route path="/delivery" element={<DeliveryPage />} />
               <Route path="/grua-pesada" element={<HeavyCranePage />} />
+              <Route path="/order-confirmation" element={<OrderConfirmation />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
