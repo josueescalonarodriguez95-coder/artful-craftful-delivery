@@ -221,44 +221,50 @@ export const CartDrawer = () => {
             />
           )}
 
-          {(method === "zelle" || method === "paypal") && (
-            <div className="space-y-5">
-              <button onClick={reset} className="text-xs text-ink/60 hover:text-ink">{T.back}</button>
+          {(method === "zelle" || method === "paypal" || method === "venmo") && (() => {
+            const handle =
+              method === "zelle" ? ZELLE_EMAIL : method === "paypal" ? PAYPAL_EMAIL : VENMO_USERNAME;
+            const externalLink =
+              method === "paypal" ? PAYPAL_LINK : method === "venmo" ? VENMO_LINK : null;
+            const linkLabel = method === "venmo" ? T.openVenmo : "paypal.com →";
+            return (
+              <div className="space-y-5">
+                <button onClick={reset} className="text-xs text-ink/60 hover:text-ink">{T.back}</button>
 
-              <div className="rounded border border-ink/15 p-4 bg-background space-y-3">
-                <div className="text-xs uppercase tracking-[0.2em] text-ink/60">{T.instructions}</div>
-                <div className="flex items-baseline justify-between">
-                  <span className="text-sm text-ink/70">{T.amount}</span>
-                  <span className="font-display text-3xl tabular-nums">${total.toFixed(2)}</span>
-                </div>
-                <div>
-                  <div className="text-sm text-ink/70 mb-1">{T.sendTo}</div>
-                  <div className="flex items-center gap-2">
-                    <code className="flex-1 px-3 py-2 bg-ink/5 rounded text-sm break-all">
-                      {method === "zelle" ? ZELLE_EMAIL : PAYPAL_EMAIL}
-                    </code>
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      onClick={() => copy(method === "zelle" ? ZELLE_EMAIL : PAYPAL_EMAIL, method)}
-                    >
-                      {copied === method ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                      <span className="ml-1">{copied === method ? T.copied : T.copy}</span>
-                    </Button>
+                <div className="rounded border border-ink/15 p-4 bg-background space-y-3">
+                  <div className="text-xs uppercase tracking-[0.2em] text-ink/60">{T.instructions}</div>
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-sm text-ink/70">{T.amount}</span>
+                    <span className="font-display text-3xl tabular-nums">${total.toFixed(2)}</span>
                   </div>
-                  {method === "paypal" && (
-                    <a
-                      href={`${PAYPAL_LINK}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-clay underline mt-2 inline-block"
-                    >
-                      paypal.com →
-                    </a>
-                  )}
+                  <div>
+                    <div className="text-sm text-ink/70 mb-1">{T.sendTo}</div>
+                    <div className="flex items-center gap-2">
+                      <code className="flex-1 px-3 py-2 bg-ink/5 rounded text-sm break-all">
+                        {handle}
+                      </code>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => copy(handle, method)}
+                      >
+                        {copied === method ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                        <span className="ml-1">{copied === method ? T.copied : T.copy}</span>
+                      </Button>
+                    </div>
+                    {externalLink && (
+                      <a
+                        href={externalLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-clay underline mt-2 inline-block"
+                      >
+                        {linkLabel}
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
 
               <div className="space-y-3">
                 <div className="text-sm text-ink/70">{T.afterPay}</div>
