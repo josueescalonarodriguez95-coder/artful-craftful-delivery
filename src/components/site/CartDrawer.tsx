@@ -42,6 +42,8 @@ export const CartDrawer = () => {
     card: lang === "es" ? "Tarjeta / Apple Pay / Google Pay" : "Card / Apple Pay / Google Pay",
     zelle: "Pay with Zelle",
     paypal: "Pay with PayPal",
+    venmo: "Pay with Venmo",
+    openVenmo: lang === "es" ? "Abrir Venmo" : "Open Venmo",
     instructions: lang === "es" ? "Instrucciones de pago" : "Payment instructions",
     sendTo: lang === "es" ? "Envía el pago a:" : "Send payment to:",
     copy: lang === "es" ? "Copiar" : "Copy",
