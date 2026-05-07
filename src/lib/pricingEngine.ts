@@ -11,7 +11,8 @@
 
 // Costos fijos (USD)
 export const PLYWOOD_SHEET_AREA_IN2 = 48 * 96; // 4608 in² por plancha 48×96
-export const PLYWOOD_SHEET_COST = 1;            // $ por plancha (factor base)
+export const PLYWOOD_SHEET_COST = 40;           // $ por plancha 48×96
+export const WOOD_WASTE_FACTOR = 1.15;          // 15% desperdicio
 export const LABOR_COST = 25;                   // mano de obra
 export const CLAMPS_COST = 10;                  // presillas
 export const GLUE_COST = 10;                    // cola
@@ -65,7 +66,8 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
 
   // 🪵 MADERA — área usada proporcional a una plancha 48x96
   const usedArea = length * width;
-  const woodCost = (usedArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
+  const woodCost =
+    ((usedArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST) * WOOD_WASTE_FACTOR;
 
   // 🧽 FOAM AUTOMÁTICO — por dimensiones máximas
   let foamPieces = 1;
