@@ -74,9 +74,9 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   const foamPieces = FOAM_PIECES;
   const foam = foamPieces * FOAM_PIECE_COST;
 
-  // 👷 LABOR — fijo
-  const laborHours = 1;
-  const labor = LABOR_COST;
+  // 👷 LABOR — escala con altura
+  const laborHours = 1 + height * 0.03;
+  const labor = laborHours * LABOR_COST;
 
   // ➕ SUBTOTAL
   const subtotal =
