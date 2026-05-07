@@ -12,12 +12,11 @@
 // Costos fijos (USD)
 export const PLYWOOD_SHEET_AREA_IN2 = 48 * 96; // 4608 in² por plancha 48×96
 export const PLYWOOD_SHEET_COST = 40;           // $ por plancha 48×96
-export const WOOD_WASTE_FACTOR = 1.10;          // 10% desperdicio
-export const LABOR_COST = 25;                   // mano de obra
+export const LABOR_COST = 25;                   // mano de obra (fijo)
 export const CLAMPS_COST = 10;                  // presillas
 export const GLUE_COST = 10;                    // cola
 export const FOAM_PIECE_COST = 17;              // costo por pieza de foam
-export const FOAM_COVERAGE_PER_PIECE = 1000;    // in³ cubiertos por pieza
+export const FOAM_PIECES = 2;                   // piezas de foam (fijo)
 export const DELIVERY_COST = 49.20;             // delivery
 export const MARKUP = 3;                        // multiplicador final ×3
 
@@ -64,22 +63,19 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
     };
   }
 
-  // 🪵 MADERA — área usada proporcional a una plancha 48x96
-  const usedArea = length * width;
-  const woodCost =
-    ((usedArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST) * WOOD_WASTE_FACTOR;
+  // 🪵 MADERA REAL — base + 4 lados, proporcional a una plancha 48x96
+  const baseArea = length * width;
+  const sideArea = 2 * (length * height + width * height);
+  const totalArea = baseArea + sideArea;
+  const woodCost = (totalArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
 
-  // 🧽 FOAM AUTOMÁTICO — por dimensiones máximas
-  let foamPieces = 1;
-  if (length > 30 || width > 30) foamPieces = 2;
-  if (length > 60 || width > 60) foamPieces = 3;
+  // 🧽 FOAM — fijo en 2 piezas
+  const foamPieces = FOAM_PIECES;
   const foam = foamPieces * FOAM_PIECE_COST;
 
-  // 👷 LABOR AUTOMÁTICO — por dimensiones
-  let laborHours = 1;
-  if (length > 48 || width > 50 || height > 12) laborHours = 2;
-  if (length > 70 || width > 70) laborHours = 3;
-  const labor = laborHours * LABOR_COST;
+  // 👷 LABOR — fijo
+  const laborHours = 1;
+  const labor = LABOR_COST;
 
   // ➕ SUBTOTAL
   const subtotal =
@@ -89,7 +85,7 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   const finalPrice = Math.round(subtotal * MARKUP);
 
   return {
-    usedAreaIn2: usedArea,
+    usedAreaIn2: totalArea,
     woodCost,
     laborHours,
     laborCost: labor,
