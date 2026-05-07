@@ -65,9 +65,10 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   const usedArea = length * width;
   const woodCost = (usedArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
 
-  // 🧽 FOAM AUTOMÁTICO — basado en volumen
-  const volume = length * width * height;
-  const foamPieces = Math.ceil(volume / FOAM_COVERAGE_PER_PIECE);
+  // 🧽 FOAM AUTOMÁTICO — por dimensiones máximas
+  let foamPieces = 1;
+  if (length > 30 || width > 30) foamPieces = 2;
+  if (length > 60 || width > 60) foamPieces = 3;
   const foam = foamPieces * FOAM_PIECE_COST;
 
   // ➕ SUBTOTAL
