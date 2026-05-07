@@ -62,10 +62,7 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   const surfaceIn2 = 2 * (L * W + L * H + W * H);
   // Costo proporcional de madera según área usada de la plancha
   const plywoodCost = (surfaceIn2 / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
-  const volume = L * W * H;
-  const foamPieces = Math.ceil(volume / FOAM_COVERAGE_PER_PIECE);
-  const foamCost = foamPieces * FOAM_PIECE_COST;
-  const subtotal = plywoodCost + LABOR_COST + STAPLES_COST + GLUE_COST + foamCost;
+  const subtotal = plywoodCost + LABOR_COST + STAPLES_COST + GLUE_COST + FOAM_COST;
   const finalPrice = subtotal * MARKUP;
 
   return {
@@ -74,7 +71,7 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
     laborCost: LABOR_COST,
     staplesCost: STAPLES_COST,
     glueCost: GLUE_COST,
-    foamCost,
+    foamCost: FOAM_COST,
     subtotal,
     finalPrice,
   };
