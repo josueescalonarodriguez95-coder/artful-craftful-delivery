@@ -10,11 +10,12 @@ interface CartItem {
   details?: string;
   qty: number;
   unitPrice: number;
+  image?: string;
 }
 
 interface Customer {
-  name: string;
-  email: string;
+  name?: string;
+  email?: string;
   phone?: string;
   address?: string;
 }
@@ -26,13 +27,13 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const items: CartItem[] = body.items || [];
     const customer: Customer = body.customer || {};
-    const paymentMethod: "card" | "paypal" = body.paymentMethod || "card";
     const lang: "es" | "en" = body.lang || "en";
     const env: StripeEnv = body.environment === "live" ? "live" : "sandbox";
-    const returnUrl: string = body.returnUrl || "https://ramosdeliveryenterprise.com/?payment=success&session_id={CHECKOUT_SESSION_ID}";
+    const returnUrl: string =
+      body.returnUrl ||
+      "https://ramosdeliveryenterprise.com/order-confirmation?session_id={CHECKOUT_SESSION_ID}";
 
     if (!items.length) throw new Error("Cart is empty");
-    if (!customer.email || !customer.name) throw new Error("Customer name and email required");
 
     const stripe = createStripeClient(env);
 
@@ -44,19 +45,25 @@ Deno.serve(async (req) => {
         product_data: {
           name: it.title.slice(0, 250),
           ...(it.details ? { description: it.details.slice(0, 250) } : {}),
+          ...(it.image ? { images: [it.image] } : {}),
         },
       },
     }));
+
+    // Validate email format if provided; otherwise let Stripe collect it.
+    const emailOk =
+      customer.email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email.trim());
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       ui_mode: "embedded_page",
       return_url: returnUrl,
-      customer_email: customer.email,
-      payment_method_types: paymentMethod === "paypal" ? ["paypal"] : ["card"],
+      ...(emailOk ? { customer_email: customer.email } : {}),
+      // Omit payment_method_types so Stripe shows all enabled methods
+      // (Cards, Apple Pay, Google Pay, Link) based on dashboard settings.
       line_items,
       metadata: {
-        customer_name: customer.name,
+        customer_name: customer.name || "",
         customer_phone: customer.phone || "",
         customer_address: customer.address || "",
         lang,
