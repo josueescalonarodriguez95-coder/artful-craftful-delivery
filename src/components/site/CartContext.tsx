@@ -28,10 +28,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const add: CartCtx["add"] = (item) => {
     const id = item.id ?? `${item.type}-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    // Normalize unitPrice to cents precision so all downstream math
-    // (display, Stripe, manual orders) uses the exact same value.
-    const unitPrice = Math.round((item.unitPrice ?? 0) * 100) / 100;
-    setItems((prev) => [...prev, { ...item, unitPrice, id }]);
+    setItems((prev) => [...prev, { ...item, id }]);
     setOpen(true);
   };
   const remove = (id: string) => setItems((prev) => prev.filter((i) => i.id !== id));
