@@ -80,7 +80,7 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
 
   // ➕ SUBTOTAL REAL
   const subtotal =
-    labor + CLAMPS_COST + GLUE_COST + foam + woodCost + DELIVERY_COST;
+    labor + CLAMPS_COST + GLUE_COST + foam + woodCost;
 
   // 📈 ESCALA SUAVE — finalPrice = subtotal × (2.55 + (vol/14000)^0.7)
   const scaleFactor = Math.pow(volume / 14000, 0.7);
