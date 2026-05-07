@@ -37,18 +37,23 @@ Deno.serve(async (req) => {
 
     const stripe = createStripeClient(env);
 
-    const line_items = items.map((it) => ({
-      quantity: it.qty,
-      price_data: {
-        currency: "usd",
-        unit_amount: Math.round(it.unitPrice * 100),
-        product_data: {
-          name: it.title.slice(0, 250),
-          ...(it.details ? { description: it.details.slice(0, 250) } : {}),
-          ...(it.image ? { images: [it.image] } : {}),
+    // Send a single line per cart item so Stripe total exactly matches the
+    // displayed cart total (which is rounded to whole dollars in the UI).
+    const line_items = items.map((it) => {
+      const lineTotal = Math.round(it.qty * it.unitPrice); // whole dollars, matches UI
+      return {
+        quantity: 1,
+        price_data: {
+          currency: "usd",
+          unit_amount: lineTotal * 100, // dollars -> cents
+          product_data: {
+            name: `${it.title} (x${it.qty})`.slice(0, 250),
+            ...(it.details ? { description: it.details.slice(0, 250) } : {}),
+            ...(it.image ? { images: [it.image] } : {}),
+          },
         },
-      },
-    }));
+      };
+    });
 
     // Validate email format if provided; otherwise let Stripe collect it.
     const emailOk =
