@@ -63,26 +63,28 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
     };
   }
 
-  // 🪵 MADERA REAL — base + lados suavizados (×0.5), proporcional a plancha 48x96
+  // 🪵 MADERA REAL — base + lados suavizados (×0.4), proporcional a plancha 48x96
   const baseArea = length * width;
   const sideArea = 2 * (length * height + width * height);
-  const totalArea = baseArea + sideArea * 0.5;
+  const totalArea = baseArea + sideArea * 0.4;
   const woodCost = (totalArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
 
   // 🧽 FOAM — fijo en 2 piezas
   const foamPieces = FOAM_PIECES;
   const foam = foamPieces * FOAM_PIECE_COST;
 
-  // 👷 LABOR — escala logarítmicamente con altura
-  const laborHours = 1 + Math.log(height + 1);
-  const labor = laborHours * LABOR_COST;
+  // 👷 LABOR — fijo
+  const laborHours = 1;
+  const labor = LABOR_COST;
 
-  // ➕ SUBTOTAL
+  // ➕ BASE COST
   const subtotal =
     labor + CLAMPS_COST + GLUE_COST + foam + woodCost + DELIVERY_COST;
 
-  // 📦 MARGEN ×3
-  const finalPrice = Math.round(subtotal * MARKUP);
+  // 📦 ESCALA POR VOLUMEN — finalPrice = baseCost × (2 + (vol/10000)^0.6)
+  const volume = length * width * height;
+  const scaleFactor = Math.pow(volume / 10000, 0.6);
+  const finalPrice = Math.round(subtotal * (2 + scaleFactor));
 
   return {
     usedAreaIn2: totalArea,
