@@ -18,9 +18,7 @@ export const CLAMPS_COST = 10;                  // presillas
 export const GLUE_COST = 10;                    // cola
 export const FOAM_PIECE_COST = 17;              // costo por pieza de foam
 export const FOAM_COVERAGE_PER_PIECE = 1000;    // in³ cubiertos por pieza
-// 🚚 DELIVERY DINÁMICO: (ancho × largo × 0.13) + (alto × 13.75)
-export const DELIVERY_AREA_RATE = 0.13;         // $/in² (ancho × largo)
-export const DELIVERY_HEIGHT_RATE = 13.75;      // $/in (alto)
+export const DELIVERY_COST = 53.75;             // delivery
 export const MARKUP = 3;                        // multiplicador final ×3
 
 export interface CrateDimensions {
@@ -83,12 +81,9 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   if (length > 70 || width > 70) laborHours = 3;
   const labor = laborHours * LABOR_COST;
 
-  // 🚚 DELIVERY: (ancho × largo × 0.13) + (alto × 13.75)
-  const delivery = (width * length * DELIVERY_AREA_RATE) + (height * DELIVERY_HEIGHT_RATE);
-
   // ➕ SUBTOTAL
   const subtotal =
-    labor + CLAMPS_COST + GLUE_COST + foam + woodCost + delivery;
+    labor + CLAMPS_COST + GLUE_COST + foam + woodCost + DELIVERY_COST;
 
   // 📦 MARGEN ×3
   const finalPrice = Math.round(subtotal * MARKUP);
@@ -102,7 +97,7 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
     glueCost: GLUE_COST,
     foamPieces,
     foamCost: foam,
-    deliveryCost: delivery,
+    deliveryCost: DELIVERY_COST,
     subtotal,
     finalPrice,
   };
