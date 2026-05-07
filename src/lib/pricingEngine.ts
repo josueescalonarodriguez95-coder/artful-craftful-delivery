@@ -63,19 +63,18 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
     };
   }
 
-  // 🪵 MADERA REAL — base + 4 lados, proporcional a una plancha 48x96
+  // 🪵 MADERA REAL — base + lados suavizados (×0.5), proporcional a plancha 48x96
   const baseArea = length * width;
   const sideArea = 2 * (length * height + width * height);
-  const totalArea = baseArea + sideArea;
-  const weightedArea = baseArea * 1.0 + sideArea * 0.6;
-  const woodCost = (weightedArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
+  const totalArea = baseArea + sideArea * 0.5;
+  const woodCost = (totalArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
 
   // 🧽 FOAM — fijo en 2 piezas
   const foamPieces = FOAM_PIECES;
   const foam = foamPieces * FOAM_PIECE_COST;
 
-  // 👷 LABOR — escala con altura
-  const laborHours = 1 + height * 0.03;
+  // 👷 LABOR — escala logarítmicamente con altura
+  const laborHours = 1 + Math.log(height + 1);
   const labor = laborHours * LABOR_COST;
 
   // ➕ SUBTOTAL
