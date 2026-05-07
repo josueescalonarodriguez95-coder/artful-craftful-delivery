@@ -17,7 +17,8 @@ export const PLYWOOD_SHEET_COST = 40;          // $40 por plancha
 export const LABOR_COST = 25;                  // mano de obra
 export const STAPLES_COST = 10;                // presillas
 export const GLUE_COST = 10;                   // cola
-export const FOAM_COST = 34;                   // foam
+export const FOAM_PIECE_COST = 17;              // costo por pieza de foam
+export const FOAM_COVERAGE_PER_PIECE = 1000;    // in³ cubiertos por pieza
 export const MARKUP = 3;                       // multiplicador final ×3
 
 export interface CrateDimensions {
