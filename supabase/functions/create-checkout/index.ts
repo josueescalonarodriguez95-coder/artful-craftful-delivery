@@ -48,7 +48,7 @@ Deno.serve(async (req) => {
           currency: "usd",
           unit_amount: unitAmountCents,
           product_data: {
-            name: `${it.title} (x${it.qty})`.slice(0, 250),
+            name: it.title.slice(0, 250),
             ...(it.details ? { description: it.details.slice(0, 250) } : {}),
             ...(it.image ? { images: [it.image] } : {}),
           },
