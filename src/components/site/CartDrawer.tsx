@@ -297,7 +297,8 @@ export const CartDrawer = () => {
                 </Button>
               </div>
             </div>
-          )}
+            );
+          })()}
         </DialogContent>
       </Dialog>
     </>
