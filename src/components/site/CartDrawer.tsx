@@ -14,8 +14,10 @@ import { useToast } from "@/hooks/use-toast";
 const ZELLE_EMAIL = "radent86@gmail.com";
 const PAYPAL_EMAIL = "duniagonzalez1986@yahoo.com";
 const PAYPAL_LINK = `https://www.paypal.com/paypalme/`;
+const VENMO_USERNAME = "@Rafael-Ramos-23";
+const VENMO_LINK = `https://venmo.com/u/Rafael-Ramos-23`;
 
-type Method = null | "card" | "zelle" | "paypal";
+type Method = null | "card" | "zelle" | "paypal" | "venmo";
 
 export const CartDrawer = () => {
   const { items, remove, total, open, setOpen, clear } = useCart();
