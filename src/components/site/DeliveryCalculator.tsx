@@ -159,8 +159,6 @@ export const DeliveryCalculator = () => {
                 }}
                 disabled={!hasDims}
                 className="mt-5 w-full bg-clay hover:bg-clay/90 text-cream rounded-full"
-                disabled={!hasDims}
-                className="mt-5 w-full bg-clay hover:bg-clay/90 text-cream rounded-full"
               >
                 <ShoppingCart className="h-4 w-4 mr-2" />
                 {lang === "es" ? "Agregar al carrito" : "Add to cart"}
