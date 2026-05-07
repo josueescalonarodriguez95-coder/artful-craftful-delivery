@@ -4,8 +4,8 @@ import { getStripe, getStripeEnvironment } from "@/lib/stripe";
 import { supabase } from "@/integrations/supabase/client";
 
 interface Props {
-  items: Array<{ title: string; details?: string; qty: number; unitPrice: number }>;
-  customer: { name: string; email: string; phone?: string; address?: string };
+  items: Array<{ title: string; details?: string; qty: number; unitPrice: number; image?: string }>;
+  customer?: { name?: string; email?: string; phone?: string; address?: string };
   lang: "es" | "en";
   returnUrl: string;
 }
@@ -15,8 +15,7 @@ export function StripeEmbeddedCheckout({ items, customer, lang, returnUrl }: Pro
     const { data, error } = await supabase.functions.invoke("create-checkout", {
       body: {
         items,
-        customer,
-        paymentMethod: "card",
+        customer: customer || {},
         lang,
         returnUrl,
         environment: getStripeEnvironment(),
