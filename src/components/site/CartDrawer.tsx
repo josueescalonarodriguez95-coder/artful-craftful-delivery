@@ -14,8 +14,10 @@ import { useToast } from "@/hooks/use-toast";
 const ZELLE_EMAIL = "radent86@gmail.com";
 const PAYPAL_EMAIL = "duniagonzalez1986@yahoo.com";
 const PAYPAL_LINK = `https://www.paypal.com/paypalme/`;
+const VENMO_USERNAME = "@Rafael-Ramos-23";
+const VENMO_LINK = `https://venmo.com/u/Rafael-Ramos-23`;
 
-type Method = null | "card" | "zelle" | "paypal";
+type Method = null | "card" | "zelle" | "paypal" | "venmo";
 
 export const CartDrawer = () => {
   const { items, remove, total, open, setOpen, clear } = useCart();
@@ -40,6 +42,8 @@ export const CartDrawer = () => {
     card: lang === "es" ? "Tarjeta / Apple Pay / Google Pay" : "Card / Apple Pay / Google Pay",
     zelle: "Pay with Zelle",
     paypal: "Pay with PayPal",
+    venmo: "Pay with Venmo",
+    openVenmo: lang === "es" ? "Abrir Venmo" : "Open Venmo",
     instructions: lang === "es" ? "Instrucciones de pago" : "Payment instructions",
     sendTo: lang === "es" ? "Envía el pago a:" : "Send payment to:",
     copy: lang === "es" ? "Copiar" : "Copy",
@@ -185,6 +189,14 @@ export const CartDrawer = () => {
             >
               {T.paypal}
             </Button>
+            <Button
+              disabled={items.length === 0}
+              onClick={() => setMethod("venmo")}
+              variant="outline"
+              className="w-full rounded-full py-5 border-ink/30"
+            >
+              {T.venmo}
+            </Button>
           </div>
         </SheetContent>
       </Sheet>
@@ -209,44 +221,50 @@ export const CartDrawer = () => {
             />
           )}
 
-          {(method === "zelle" || method === "paypal") && (
-            <div className="space-y-5">
-              <button onClick={reset} className="text-xs text-ink/60 hover:text-ink">{T.back}</button>
+          {(method === "zelle" || method === "paypal" || method === "venmo") && (() => {
+            const handle =
+              method === "zelle" ? ZELLE_EMAIL : method === "paypal" ? PAYPAL_EMAIL : VENMO_USERNAME;
+            const externalLink =
+              method === "paypal" ? PAYPAL_LINK : method === "venmo" ? VENMO_LINK : null;
+            const linkLabel = method === "venmo" ? T.openVenmo : "paypal.com →";
+            return (
+              <div className="space-y-5">
+                <button onClick={reset} className="text-xs text-ink/60 hover:text-ink">{T.back}</button>
 
-              <div className="rounded border border-ink/15 p-4 bg-background space-y-3">
-                <div className="text-xs uppercase tracking-[0.2em] text-ink/60">{T.instructions}</div>
-                <div className="flex items-baseline justify-between">
-                  <span className="text-sm text-ink/70">{T.amount}</span>
-                  <span className="font-display text-3xl tabular-nums">${total.toFixed(2)}</span>
-                </div>
-                <div>
-                  <div className="text-sm text-ink/70 mb-1">{T.sendTo}</div>
-                  <div className="flex items-center gap-2">
-                    <code className="flex-1 px-3 py-2 bg-ink/5 rounded text-sm break-all">
-                      {method === "zelle" ? ZELLE_EMAIL : PAYPAL_EMAIL}
-                    </code>
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      onClick={() => copy(method === "zelle" ? ZELLE_EMAIL : PAYPAL_EMAIL, method)}
-                    >
-                      {copied === method ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-                      <span className="ml-1">{copied === method ? T.copied : T.copy}</span>
-                    </Button>
+                <div className="rounded border border-ink/15 p-4 bg-background space-y-3">
+                  <div className="text-xs uppercase tracking-[0.2em] text-ink/60">{T.instructions}</div>
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-sm text-ink/70">{T.amount}</span>
+                    <span className="font-display text-3xl tabular-nums">${total.toFixed(2)}</span>
                   </div>
-                  {method === "paypal" && (
-                    <a
-                      href={`${PAYPAL_LINK}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-clay underline mt-2 inline-block"
-                    >
-                      paypal.com →
-                    </a>
-                  )}
+                  <div>
+                    <div className="text-sm text-ink/70 mb-1">{T.sendTo}</div>
+                    <div className="flex items-center gap-2">
+                      <code className="flex-1 px-3 py-2 bg-ink/5 rounded text-sm break-all">
+                        {handle}
+                      </code>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        onClick={() => copy(handle, method)}
+                      >
+                        {copied === method ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                        <span className="ml-1">{copied === method ? T.copied : T.copy}</span>
+                      </Button>
+                    </div>
+                    {externalLink && (
+                      <a
+                        href={externalLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-clay underline mt-2 inline-block"
+                      >
+                        {linkLabel}
+                      </a>
+                    )}
+                  </div>
                 </div>
-              </div>
 
               <div className="space-y-3">
                 <div className="text-sm text-ink/70">{T.afterPay}</div>
@@ -279,7 +297,8 @@ export const CartDrawer = () => {
                 </Button>
               </div>
             </div>
-          )}
+            );
+          })()}
         </DialogContent>
       </Dialog>
     </>
