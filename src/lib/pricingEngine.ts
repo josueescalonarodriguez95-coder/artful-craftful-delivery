@@ -83,9 +83,12 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   if (length > 70 || width > 70) laborHours = 3;
   const labor = laborHours * LABOR_COST;
 
+  // 🚚 DELIVERY: (ancho × largo × 0.13) + (alto × 13.75)
+  const delivery = (width * length * DELIVERY_AREA_RATE) + (height * DELIVERY_HEIGHT_RATE);
+
   // ➕ SUBTOTAL
   const subtotal =
-    labor + CLAMPS_COST + GLUE_COST + foam + woodCost + DELIVERY_COST;
+    labor + CLAMPS_COST + GLUE_COST + foam + woodCost + delivery;
 
   // 📦 MARGEN ×3
   const finalPrice = Math.round(subtotal * MARKUP);
