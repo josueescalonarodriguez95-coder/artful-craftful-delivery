@@ -102,7 +102,7 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
     glueCost: GLUE_COST,
     foamPieces,
     foamCost: foam,
-    deliveryCost: DELIVERY_COST,
+    deliveryCost: delivery,
     subtotal,
     finalPrice,
   };
