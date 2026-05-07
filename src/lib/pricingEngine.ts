@@ -73,9 +73,8 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   const foamPieces = FOAM_PIECES;
   const foam = foamPieces * FOAM_PIECE_COST;
 
-  // 👷 LABOR — escala con volumen ajustado: 1 + vol/25000 horas
-  const adjustedHeight = 8 + height * 0.4;
-  const volume = length * width * adjustedHeight;
+  // 👷 LABOR — escala con volumen: 1 + vol/25000 horas
+  const volume = length * width * height;
   const laborHours = 1 + volume / 25000;
   const labor = laborHours * LABOR_COST;
 
