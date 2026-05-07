@@ -64,21 +64,40 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
     };
   }
 
-  // 💰 FÓRMULA DIRECTA
+  // 🪵 MADERA — área usada proporcional a una plancha 48x96
   const usedArea = length * width;
-  const subtotal = (width * length * 0.13) + (height * 13.75);
-  const finalPrice = Math.round(subtotal);
+  const woodCost =
+    ((usedArea / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST) * WOOD_WASTE_FACTOR;
+
+  // 🧽 FOAM AUTOMÁTICO — por dimensiones máximas
+  let foamPieces = 1;
+  if (length > 30 || width > 30) foamPieces = 2;
+  if (length > 60 || width > 60) foamPieces = 3;
+  const foam = foamPieces * FOAM_PIECE_COST;
+
+  // 👷 LABOR AUTOMÁTICO — por dimensiones
+  let laborHours = 1;
+  if (length > 48 || width > 50 || height > 12) laborHours = 2;
+  if (length > 70 || width > 70) laborHours = 3;
+  const labor = laborHours * LABOR_COST;
+
+  // ➕ SUBTOTAL
+  const subtotal =
+    labor + CLAMPS_COST + GLUE_COST + foam + woodCost + DELIVERY_COST;
+
+  // 📦 MARGEN ×3
+  const finalPrice = Math.round(subtotal * MARKUP);
 
   return {
     usedAreaIn2: usedArea,
-    woodCost: 0,
-    laborHours: 0,
-    laborCost: 0,
-    clampsCost: 0,
-    glueCost: 0,
-    foamPieces: 0,
-    foamCost: 0,
-    deliveryCost: 0,
+    woodCost,
+    laborHours,
+    laborCost: labor,
+    clampsCost: CLAMPS_COST,
+    glueCost: GLUE_COST,
+    foamPieces,
+    foamCost: foam,
+    deliveryCost: DELIVERY_COST,
     subtotal,
     finalPrice,
   };
