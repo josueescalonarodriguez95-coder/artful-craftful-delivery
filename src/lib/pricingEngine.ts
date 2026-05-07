@@ -29,6 +29,7 @@ export interface CrateDimensions {
 export interface CratePriceBreakdown {
   usedAreaIn2: number;
   woodCost: number;
+  laborHours: number;
   laborCost: number;
   clampsCost: number;
   glueCost: number;
