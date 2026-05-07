@@ -146,7 +146,7 @@ export const CartDrawer = () => {
                   </div>
                   <div className="flex flex-col items-end gap-2 shrink-0">
                     <div className="font-display text-lg tabular-nums text-ink">
-                      ${(i.qty * i.unitPrice).toFixed(0)}
+                      ${(i.qty * i.unitPrice).toFixed(2)}
                     </div>
                     <button
                       onClick={() => remove(i.id)}
@@ -164,7 +164,7 @@ export const CartDrawer = () => {
           <div className="border-t border-border/60 pt-4 mt-4 space-y-2">
             <div className="flex items-baseline justify-between mb-2">
               <span className="text-xs uppercase tracking-[0.2em] text-ink/60">{T.total}</span>
-              <span className="font-display text-4xl tabular-nums text-ink">${total.toFixed(0)}</span>
+              <span className="font-display text-4xl tabular-nums text-ink">${total.toFixed(2)}</span>
             </div>
             <Button
               disabled={items.length === 0}
