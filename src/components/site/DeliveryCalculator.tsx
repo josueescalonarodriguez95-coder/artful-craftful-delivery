@@ -1,22 +1,11 @@
 import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "./CartContext";
 import { CrateGallery } from "./CrateGallery";
-
-const FRAGILE_PCT = 0.15;
-
-// Costos de materiales y mano de obra para huacales personalizados
-const PLYWOOD_SIZE_IN = 48 * 96; // 4608 in² por plywood (48×96)
-const PLYWOOD_COST = 40;          // $40 cada plywood
-const STAPLES_COST = 10;          // $10 presilla
-const GLUE_COST = 10;             // $10 cola
-const LABOR_COST = 25;            // $25/hora (≈1h por huacal)
-const FOAM_COST = 34;             // $34 foam
-const MARKUP = 3;                 // multiplicador final ×3
+import { computeCratePrice } from "@/lib/pricingEngine";
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
@@ -25,7 +14,6 @@ export const DeliveryCalculator = () => {
   const [width, setWidth] = useState<string>("");
   const [depth, setDepth] = useState<string>("");
   const [qty, setQty] = useState(1);
-  const [fragile, setFragile] = useState(false);
   const ref = useReveal<HTMLDivElement>();
 
   const hNum = Number(height) || 0;
@@ -33,19 +21,17 @@ export const DeliveryCalculator = () => {
   const dNum = Number(depth) || 0;
   const hasDims = hNum > 0 && wNum > 0 && dNum > 0;
 
+  // Pricing Engine — única fuente de verdad. NO multiplicar ni ajustar fuera.
+  const breakdown = useMemo(
+    () => computeCratePrice({ length: dNum, width: wNum, height: hNum }),
+    [hNum, wNum, dNum]
+  );
   const calc = useMemo(() => {
     const volume = hNum * wNum * dNum;
-    // Área total de las 6 caras del huacal (in²)
-    const surface = hasDims ? 2 * (hNum * wNum + hNum * dNum + wNum * dNum) : 0;
-    const plywoods = hasDims ? Math.ceil(surface / PLYWOOD_SIZE_IN) : 0;
-    const plywoodCost = plywoods * PLYWOOD_COST;
-    const materialsAndLabor = plywoodCost + STAPLES_COST + GLUE_COST + LABOR_COST + FOAM_COST;
-    const unit = hasDims ? materialsAndLabor * MARKUP : 0;
-    const subtotal = unit * qty;
-    const fragileFee = fragile ? subtotal * FRAGILE_PCT : 0;
-    const total = subtotal + fragileFee;
-    return { volume, surface, plywoods, plywoodCost, materialsAndLabor, unit, subtotal, fragileFee, total };
-  }, [hNum, wNum, dNum, hasDims, qty, fragile]);
+    const unit = breakdown.finalPrice; // INMUTABLE
+    const subtotal = unit * qty;       // suma simple, sin recálculo
+    return { volume, unit, subtotal, total: subtotal };
+  }, [hNum, wNum, dNum, qty, breakdown]);
 
   const fmt = (n: number) => `$${n.toFixed(2)}`;
 
