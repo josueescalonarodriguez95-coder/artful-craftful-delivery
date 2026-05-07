@@ -18,7 +18,9 @@ export const CLAMPS_COST = 10;                  // presillas
 export const GLUE_COST = 10;                    // cola
 export const FOAM_PIECE_COST = 17;              // costo por pieza de foam
 export const FOAM_COVERAGE_PER_PIECE = 1000;    // in³ cubiertos por pieza
-export const DELIVERY_COST = 53.75;             // delivery
+// 🚚 DELIVERY DINÁMICO: (ancho × largo × 0.13) + (alto × 13.75)
+export const DELIVERY_AREA_RATE = 0.13;         // $/in² (ancho × largo)
+export const DELIVERY_HEIGHT_RATE = 13.75;      // $/in (alto)
 export const MARKUP = 3;                        // multiplicador final ×3
 
 export interface CrateDimensions {
