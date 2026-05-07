@@ -101,6 +101,60 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          amount_total: number
+          created_at: string
+          currency: string
+          customer_address: string | null
+          customer_email: string | null
+          customer_name: string | null
+          customer_phone: string | null
+          id: string
+          items: Json
+          metadata: Json | null
+          payment_method: string | null
+          status: string
+          stripe_payment_intent_id: string | null
+          stripe_session_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount_total?: number
+          created_at?: string
+          currency?: string
+          customer_address?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          id?: string
+          items?: Json
+          metadata?: Json | null
+          payment_method?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount_total?: number
+          created_at?: string
+          currency?: string
+          customer_address?: string | null
+          customer_email?: string | null
+          customer_name?: string | null
+          customer_phone?: string | null
+          id?: string
+          items?: Json
+          metadata?: Json | null
+          payment_method?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       suppressed_emails: {
         Row: {
           created_at: string
