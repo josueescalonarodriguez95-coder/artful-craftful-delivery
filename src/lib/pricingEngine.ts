@@ -84,7 +84,7 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   // 📦 ESCALA POR VOLUMEN — finalPrice = baseCost × (2 + (vol/10000)^0.6)
   const volume = length * width * height;
   const scaleFactor = Math.pow(volume / 10000, 0.6);
-  const finalPrice = Math.round(subtotal * (2 + scaleFactor));
+  const finalPrice = Math.round(subtotal * (2.45 + scaleFactor));
 
   return {
     usedAreaIn2: totalArea,
