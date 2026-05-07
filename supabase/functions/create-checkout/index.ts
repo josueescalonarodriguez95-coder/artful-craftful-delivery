@@ -37,17 +37,18 @@ Deno.serve(async (req) => {
 
     const stripe = createStripeClient(env);
 
-    // Send a single line per cart item so Stripe total exactly matches the
-    // displayed cart total (which is rounded to whole dollars in the UI).
+    // Send each cart line to Stripe with exact cent precision.
+    // unitPrice is in dollars (already rounded to 2 decimals at cart-add
+    // time), so multiplying by 100 and rounding gives exact cents.
     const line_items = items.map((it) => {
-      const lineTotal = Math.round(it.qty * it.unitPrice); // whole dollars, matches UI
+      const unitAmountCents = Math.round(it.unitPrice * 100);
       return {
-        quantity: 1,
+        quantity: it.qty,
         price_data: {
           currency: "usd",
-          unit_amount: lineTotal * 100, // dollars -> cents
+          unit_amount: unitAmountCents,
           product_data: {
-            name: `${it.title} (x${it.qty})`.slice(0, 250),
+            name: it.title.slice(0, 250),
             ...(it.details ? { description: it.details.slice(0, 250) } : {}),
             ...(it.image ? { images: [it.image] } : {}),
           },
