@@ -29,6 +29,7 @@ export interface CrateDimensions {
 export interface CratePriceBreakdown {
   usedAreaIn2: number;
   woodCost: number;
+  laborHours: number;
   laborCost: number;
   clampsCost: number;
   glueCost: number;
@@ -50,6 +51,7 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
     return {
       usedAreaIn2: 0,
       woodCost: 0,
+      laborHours: 0,
       laborCost: 0,
       clampsCost: 0,
       glueCost: 0,
@@ -71,9 +73,15 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   if (length > 60 || width > 60) foamPieces = 3;
   const foam = foamPieces * FOAM_PIECE_COST;
 
+  // 👷 LABOR AUTOMÁTICO — por dimensiones
+  let laborHours = 1;
+  if (length > 48 || width > 50 || height > 12) laborHours = 2;
+  if (length > 70 || width > 70) laborHours = 3;
+  const labor = laborHours * LABOR_COST;
+
   // ➕ SUBTOTAL
   const subtotal =
-    LABOR_COST + CLAMPS_COST + GLUE_COST + foam + woodCost + DELIVERY_COST;
+    labor + CLAMPS_COST + GLUE_COST + foam + woodCost + DELIVERY_COST;
 
   // 📦 MARGEN ×3
   const finalPrice = Math.round(subtotal * MARKUP);
@@ -81,7 +89,8 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   return {
     usedAreaIn2: usedArea,
     woodCost,
-    laborCost: LABOR_COST,
+    laborHours,
+    laborCost: labor,
     clampsCost: CLAMPS_COST,
     glueCost: GLUE_COST,
     foamPieces,
