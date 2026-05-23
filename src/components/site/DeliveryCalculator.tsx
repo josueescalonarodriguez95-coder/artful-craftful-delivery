@@ -22,7 +22,7 @@ const FOAM_OPTIONS: {
   {
     id: "white-styro-1",
     image: foamWhite,
-    price: 80,
+    price: 0,
     name: { es: 'Estereofón blanco 1"', en: 'White styrofoam 1"' },
     desc: { es: "Espuma blanca de 1 pulgada", en: "1-inch white foam" },
   },
@@ -164,7 +164,7 @@ export const DeliveryCalculator = () => {
                   <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
                     {lang === "es" ? "Tipo de foam" : "Foam type"}
                   </label>
-                  <span className="text-xs text-ink/55">+{fmt(foam.price)}</span>
+                  <span className="text-xs text-ink/55">{foam.price > 0 ? `+${fmt(foam.price)}` : (lang === "es" ? "Incluido" : "Included")}</span>
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-3">
                   {FOAM_OPTIONS.map((f) => {
@@ -200,7 +200,7 @@ export const DeliveryCalculator = () => {
                             {f.name[lang]}
                           </div>
                           <div className="mt-1 text-[11px] tabular-nums text-clay font-medium">
-                            +${f.price}
+                            {f.price > 0 ? `+$${f.price}` : (lang === "es" ? "Default" : "Default")}
                           </div>
                         </div>
                       </button>
