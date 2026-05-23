@@ -247,7 +247,7 @@ export const DeliveryCalculator = () => {
                   add({
                     type: "crate",
                     title: lang === "es" ? `Huacal a medida (${dims})` : `Custom crate (${dims})`,
-                    details: `${qty}u`,
+                    details: `${qty}u · ${foam.name[lang]}`,
                     qty,
                     unitPrice: breakdown.finalPrice,
                   });
