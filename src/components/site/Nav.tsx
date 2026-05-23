@@ -1,7 +1,7 @@
 import { useLang } from "./LangContext";
 import { useCart } from "./CartContext";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Menu, Archive, Hammer, Truck, Instagram, Facebook, Sparkles, ChevronDown, Package, Box } from "lucide-react";
+import { ShoppingCart, Menu, Archive, Hammer, Truck, Instagram, Facebook, Sparkles, ChevronDown, Package, Box, Phone, Mail, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -11,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AboutPanel } from "./AboutPanel";
@@ -23,6 +24,7 @@ export const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [restOpen, setRestOpen] = useState(false);
+  const [quoteOpen, setQuoteOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -87,8 +89,12 @@ export const Nav = () => {
               aria-label="English"
             >EN</button>
           </div>
-          <Button asChild size="sm" className="hidden sm:inline-flex bg-ink hover:bg-ink/90 text-cream rounded-full px-5">
-            <Link to="/#delivery">{T.quote}</Link>
+          <Button
+            size="sm"
+            onClick={() => setQuoteOpen(true)}
+            className="hidden sm:inline-flex bg-ink hover:bg-ink/90 text-cream rounded-full px-5"
+          >
+            {T.quote}
           </Button>
           <button
             onClick={() => setOpen(true)}
@@ -206,6 +212,76 @@ export const Nav = () => {
         </div>
       </div>
       <AboutPanel open={aboutOpen} onOpenChange={setAboutOpen} />
+
+      <Dialog open={quoteOpen} onOpenChange={setQuoteOpen}>
+        <DialogContent className="bg-cream border-border max-w-md">
+          <DialogHeader>
+            <span className="text-xs uppercase tracking-[0.25em] text-clay font-medium">
+              {lang === "es" ? "Cotización personalizada" : "Custom quote"}
+            </span>
+            <DialogTitle className="font-display text-3xl text-ink leading-tight mt-2">
+              {lang === "es" ? "Hablemos de tu proyecto." : "Let's talk about your project."}
+            </DialogTitle>
+            <DialogDescription className="text-ink/70 pt-1">
+              {lang === "es"
+                ? "Cuéntanos qué necesitas enviar, restaurar o construir. Te respondemos con una cotización a la medida."
+                : "Tell us what you need to ship, restore, or build. We'll get back to you with a tailored quote."}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="mt-2 space-y-3">
+            <a
+              href="tel:+17864262444"
+              className="flex items-center gap-4 rounded-md border border-border bg-background p-4 hover:bg-ink hover:text-cream transition group"
+            >
+              <span className="h-10 w-10 rounded-full bg-clay text-cream flex items-center justify-center shrink-0">
+                <Phone className="h-4 w-4" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-ink/55 group-hover:text-cream/60">
+                  {lang === "es" ? "Llámanos" : "Call us"}
+                </div>
+                <div className="font-medium truncate">+1 (786) 426-2444</div>
+              </div>
+            </a>
+            <a
+              href="mailto:ramosdeliverye@gmail.com"
+              className="flex items-center gap-4 rounded-md border border-border bg-background p-4 hover:bg-ink hover:text-cream transition group"
+            >
+              <span className="h-10 w-10 rounded-full bg-clay text-cream flex items-center justify-center shrink-0">
+                <Mail className="h-4 w-4" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-ink/55 group-hover:text-cream/60">
+                  Email
+                </div>
+                <div className="font-medium truncate">ramosdeliverye@gmail.com</div>
+              </div>
+            </a>
+            <div className="flex items-center gap-4 rounded-md border border-border/60 bg-secondary/40 p-4">
+              <span className="h-10 w-10 rounded-full bg-ink/10 text-ink flex items-center justify-center shrink-0">
+                <MapPin className="h-4 w-4" />
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] uppercase tracking-[0.2em] text-ink/55">
+                  {lang === "es" ? "Localización" : "Location"}
+                </div>
+                <div className="font-medium text-ink">Miami, Florida</div>
+              </div>
+            </div>
+          </div>
+
+          <Button
+            onClick={() => setQuoteOpen(false)}
+            asChild
+            className="w-full bg-clay hover:bg-clay/90 text-cream rounded-full mt-2"
+          >
+            <Link to="/#contact">
+              {lang === "es" ? "Enviar mensaje por formulario" : "Send a message via form"}
+            </Link>
+          </Button>
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };
