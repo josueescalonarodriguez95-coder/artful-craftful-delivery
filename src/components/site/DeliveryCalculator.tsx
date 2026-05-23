@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Check } from "lucide-react";
+import { ShoppingCart, Check, Info } from "lucide-react";
 import { useCart } from "./CartContext";
 import { CrateGallery } from "./CrateGallery";
 import { computeCratePrice } from "@/lib/pricingEngine";
@@ -210,11 +210,16 @@ export const DeliveryCalculator = () => {
               </div>
 
               {/* Disclaimer */}
-              <p className="text-[11px] leading-relaxed text-ink/55 italic border-t border-border/60 pt-4">
-                {lang === "es"
-                  ? "Nota: cada huacal está sujeto a cambios en el precio final dependiendo de la dificultad del trabajo, materiales adicionales o requerimientos especiales."
-                  : "Note: each crate is subject to final price changes depending on the difficulty of the build, additional materials, or special requirements."}
-              </p>
+              <div className="flex items-start gap-3 rounded-md border border-clay/20 bg-clay/[0.07] p-4">
+                <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-clay-deep text-cream shadow-glow animate-hint-bounce">
+                  <Info className="h-3.5 w-3.5" />
+                </span>
+                <p className="text-[13px] leading-relaxed text-clay-deep">
+                  {lang === "es"
+                    ? "Cada huacal está sujeto a cambios en el precio final dependiendo de la dificultad del trabajo, materiales adicionales o requerimientos especiales."
+                    : "Each crate is subject to final price changes depending on the difficulty of the build, additional materials, or special requirements."}
+                </p>
+              </div>
 
             </div>
           </div>
