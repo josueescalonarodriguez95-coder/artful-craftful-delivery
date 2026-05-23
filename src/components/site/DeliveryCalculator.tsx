@@ -158,6 +158,64 @@ export const DeliveryCalculator = () => {
                 </div>
               </div>
 
+              {/* Foam selection */}
+              <div>
+                <div className="flex items-baseline justify-between">
+                  <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
+                    {lang === "es" ? "Tipo de foam" : "Foam type"}
+                  </label>
+                  <span className="text-xs text-ink/55">+{fmt(foam.price)}</span>
+                </div>
+                <div className="mt-4 grid grid-cols-3 gap-3">
+                  {FOAM_OPTIONS.map((f) => {
+                    const active = f.id === foamId;
+                    return (
+                      <button
+                        key={f.id}
+                        type="button"
+                        onClick={() => setFoamId(f.id)}
+                        className={`group relative text-left rounded-md overflow-hidden border transition ${
+                          active
+                            ? "border-clay ring-2 ring-clay/40"
+                            : "border-border hover:border-ink/40"
+                        }`}
+                      >
+                        <div className="aspect-square w-full overflow-hidden bg-secondary">
+                          <img
+                            src={f.image}
+                            alt={f.name[lang]}
+                            loading="lazy"
+                            width={1024}
+                            height={1024}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                        {active && (
+                          <span className="absolute top-2 right-2 h-6 w-6 rounded-full bg-clay text-cream flex items-center justify-center shadow-soft">
+                            <Check className="h-3.5 w-3.5" />
+                          </span>
+                        )}
+                        <div className="p-2.5">
+                          <div className="text-[11px] font-medium text-ink leading-tight">
+                            {f.name[lang]}
+                          </div>
+                          <div className="mt-1 text-[11px] tabular-nums text-clay font-medium">
+                            +${f.price}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Disclaimer */}
+              <p className="text-[11px] leading-relaxed text-ink/55 italic border-t border-border/60 pt-4">
+                {lang === "es"
+                  ? "Nota: cada huacal está sujeto a cambios en el precio final dependiendo de la dificultad del trabajo, materiales adicionales o requerimientos especiales."
+                  : "Note: each crate is subject to final price changes depending on the difficulty of the build, additional materials, or special requirements."}
+              </p>
+
             </div>
           </div>
 
