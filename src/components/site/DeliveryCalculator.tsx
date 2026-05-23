@@ -200,7 +200,7 @@ export const DeliveryCalculator = () => {
                             {f.name[lang]}
                           </div>
                           <div className="mt-1 text-[11px] tabular-nums text-clay font-medium">
-                            +${f.price}
+                            {f.price > 0 ? `+$${f.price}` : (lang === "es" ? "Default" : "Default")}
                           </div>
                         </div>
                       </button>
