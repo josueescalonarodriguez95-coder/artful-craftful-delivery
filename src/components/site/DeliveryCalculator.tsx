@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Check } from "lucide-react";
+import { ShoppingCart, Check, Info } from "lucide-react";
 import { useCart } from "./CartContext";
 import { CrateGallery } from "./CrateGallery";
 import { computeCratePrice } from "@/lib/pricingEngine";
