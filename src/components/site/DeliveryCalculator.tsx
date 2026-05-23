@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Check, Info } from "lucide-react";
+import { ShoppingCart, Check, Info, BadgePercent, Phone, Mail } from "lucide-react";
 import { useCart } from "./CartContext";
 import { CrateGallery } from "./CrateGallery";
 import { computeCratePrice } from "@/lib/pricingEngine";
@@ -207,6 +207,71 @@ export const DeliveryCalculator = () => {
                       </button>
                     );
                   })}
+                </div>
+              </div>
+
+              {/* Bulk discount notice */}
+              <div
+                className={`rounded-md border p-4 transition-all ${
+                  qty > 3
+                    ? "border-clay bg-clay text-cream shadow-elegant"
+                    : "border-clay/30 bg-clay/[0.08]"
+                }`}
+              >
+                <div className="flex items-start gap-3">
+                  <span
+                    className={`mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full ${
+                      qty > 3 ? "bg-cream text-clay" : "bg-clay text-cream"
+                    }`}
+                  >
+                    <BadgePercent className="h-4 w-4" />
+                  </span>
+                  <div className="flex-1">
+                    <div
+                      className={`text-[13px] font-semibold uppercase tracking-[0.15em] ${
+                        qty > 3 ? "text-cream" : "text-clay-deep"
+                      }`}
+                    >
+                      {lang === "es" ? "Descuento por volumen" : "Bulk discount"}
+                    </div>
+                    <p
+                      className={`mt-1 text-[13px] leading-relaxed ${
+                        qty > 3 ? "text-cream/90" : "text-clay-deep/90"
+                      }`}
+                    >
+                      {qty > 3
+                        ? lang === "es"
+                          ? "¡Calificas para un descuento! Contáctanos para aplicar tu precio especial antes de finalizar la orden."
+                          : "You qualify for a discount! Contact us to apply your special price before completing your order."
+                        : lang === "es"
+                        ? "¿Necesitas más de 3 huacales? Aplicamos un descuento especial. Contáctanos para coordinar tu cotización."
+                        : "Need more than 3 crates? We offer a special discount. Contact us to coordinate your quote."}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <a
+                        href="tel:+17864262444"
+                        className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                          qty > 3
+                            ? "bg-cream text-ink hover:bg-cream/90"
+                            : "bg-ink text-cream hover:bg-ink/90"
+                        }`}
+                      >
+                        <Phone className="h-3.5 w-3.5" />
+                        +1 (786) 426-2444
+                      </a>
+                      <a
+                        href="mailto:ramosdeliverye@gmail.com"
+                        className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition ${
+                          qty > 3
+                            ? "bg-cream/15 text-cream border border-cream/30 hover:bg-cream/25"
+                            : "bg-background text-ink border border-ink/15 hover:bg-ink hover:text-cream"
+                        }`}
+                      >
+                        <Mail className="h-3.5 w-3.5" />
+                        ramosdeliverye@gmail.com
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
 
