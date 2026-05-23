@@ -210,7 +210,7 @@ export const DeliveryCalculator = () => {
               </div>
 
               {/* Disclaimer */}
-              <p className="text-sm md:text-[15px] leading-relaxed font-medium text-clay border-t border-clay/30 pt-4">
+              <p className="text-[11px] leading-relaxed text-ink/55 italic border-t border-border/60 pt-4">
                 {lang === "es"
                   ? "Nota: cada huacal está sujeto a cambios en el precio final dependiendo de la dificultad del trabajo, materiales adicionales o requerimientos especiales."
                   : "Note: each crate is subject to final price changes depending on the difficulty of the build, additional materials, or special requirements."}
