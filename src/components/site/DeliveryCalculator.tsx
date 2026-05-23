@@ -58,9 +58,10 @@ export const DeliveryCalculator = () => {
   const hasDims = hNum > 0 && wNum > 0 && dNum > 0;
   const foam = FOAM_OPTIONS.find((f) => f.id === foamId)!;
 
-  // Pricing Engine — única fuente de verdad. NO multiplicar ni ajustar fuera.
+  // Foam base (estereofón blanco): +$80 incluido siempre. Las otras opciones
+  // suman su delta encima del base. Total foam = 80 + foam.price (delta).
   const breakdown = useMemo(
-    () => computeCratePrice({ length: dNum, width: wNum, height: hNum }, foam.price),
+    () => computeCratePrice({ length: dNum, width: wNum, height: hNum }, 80 + foam.price),
     [hNum, wNum, dNum, foam.price]
   );
   const calc = useMemo(() => {
