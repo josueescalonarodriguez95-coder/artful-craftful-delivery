@@ -164,7 +164,7 @@ export const DeliveryCalculator = () => {
                   <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
                     {lang === "es" ? "Tipo de foam" : "Foam type"}
                   </label>
-                  <span className="text-xs text-ink/55">+{fmt(foam.price)}</span>
+                  <span className="text-xs text-ink/55">{foam.price > 0 ? `+${fmt(foam.price)}` : (lang === "es" ? "Incluido" : "Included")}</span>
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-3">
                   {FOAM_OPTIONS.map((f) => {
