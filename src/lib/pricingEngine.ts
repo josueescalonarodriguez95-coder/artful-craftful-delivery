@@ -41,7 +41,10 @@ export interface CratePriceBreakdown {
  * Calcula el precio de UN huacal. Ejecutar UNA sola vez (al agregar al
  * carrito). El `finalPrice` resultante NO debe recalcularse jamás.
  */
-export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
+export function computeCratePrice(
+  dims: CrateDimensions,
+  foamUpgrade: number = 0
+): CratePriceBreakdown {
   const { length: L, width: W, height: H } = dims;
 
   if (L <= 0 || W <= 0 || H <= 0) {
@@ -62,7 +65,9 @@ export function computeCratePrice(dims: CrateDimensions): CratePriceBreakdown {
   // Costo proporcional de madera según área usada de la plancha
   const plywoodCost = (surfaceIn2 / PLYWOOD_SHEET_AREA_IN2) * PLYWOOD_SHEET_COST;
   const subtotal = plywoodCost + LABOR_COST + STAPLES_COST + GLUE_COST + FOAM_COST;
-  const finalPrice = subtotal * MARKUP;
+  // Markup ×3 sobre los costos base + upgrade fijo de foam premium (se suma
+  // al precio final tal cual, sin volver a multiplicar).
+  const finalPrice = subtotal * MARKUP + (foamUpgrade > 0 ? foamUpgrade : 0);
 
   return {
     surfaceIn2,

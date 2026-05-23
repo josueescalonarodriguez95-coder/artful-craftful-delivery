@@ -2,10 +2,45 @@ import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Check } from "lucide-react";
 import { useCart } from "./CartContext";
 import { CrateGallery } from "./CrateGallery";
 import { computeCratePrice } from "@/lib/pricingEngine";
+import foamWhite from "@/assets/foam-white-styrofoam.jpg";
+import foamBlackPolylam from "@/assets/foam-black-polylam.jpg";
+import foamBlackFirm from "@/assets/foam-black-firm-2in.jpg";
+
+type FoamId = "white-styro-1" | "black-polylam-1" | "black-firm-2";
+
+const FOAM_OPTIONS: {
+  id: FoamId;
+  image: string;
+  price: number;
+  name: { es: string; en: string };
+  desc: { es: string; en: string };
+}[] = [
+  {
+    id: "white-styro-1",
+    image: foamWhite,
+    price: 80,
+    name: { es: 'Estereofón blanco 1"', en: 'White styrofoam 1"' },
+    desc: { es: "Espuma blanca de 1 pulgada", en: "1-inch white foam" },
+  },
+  {
+    id: "black-polylam-1",
+    image: foamBlackPolylam,
+    price: 80,
+    name: { es: 'Polylam negro 1"', en: 'Black polylam 1"' },
+    desc: { es: "Polylam foam negro de 1 pulgada", en: "1-inch black polylam foam" },
+  },
+  {
+    id: "black-firm-2",
+    image: foamBlackFirm,
+    price: 180,
+    name: { es: 'Polietileno firme negro 2"', en: 'Firm black polyethylene 2"' },
+    desc: { es: "Espuma firme negra de 2 pulgadas", en: "2-inch firm black foam" },
+  },
+];
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
@@ -14,17 +49,19 @@ export const DeliveryCalculator = () => {
   const [width, setWidth] = useState<string>("");
   const [depth, setDepth] = useState<string>("");
   const [qty, setQty] = useState(1);
+  const [foamId, setFoamId] = useState<FoamId>("white-styro-1");
   const ref = useReveal<HTMLDivElement>();
 
   const hNum = Number(height) || 0;
   const wNum = Number(width) || 0;
   const dNum = Number(depth) || 0;
   const hasDims = hNum > 0 && wNum > 0 && dNum > 0;
+  const foam = FOAM_OPTIONS.find((f) => f.id === foamId)!;
 
   // Pricing Engine — única fuente de verdad. NO multiplicar ni ajustar fuera.
   const breakdown = useMemo(
-    () => computeCratePrice({ length: dNum, width: wNum, height: hNum }),
-    [hNum, wNum, dNum]
+    () => computeCratePrice({ length: dNum, width: wNum, height: hNum }, foam.price),
+    [hNum, wNum, dNum, foam.price]
   );
   const calc = useMemo(() => {
     const volume = hNum * wNum * dNum;
@@ -121,6 +158,64 @@ export const DeliveryCalculator = () => {
                 </div>
               </div>
 
+              {/* Foam selection */}
+              <div>
+                <div className="flex items-baseline justify-between">
+                  <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
+                    {lang === "es" ? "Tipo de foam" : "Foam type"}
+                  </label>
+                  <span className="text-xs text-ink/55">+{fmt(foam.price)}</span>
+                </div>
+                <div className="mt-4 grid grid-cols-3 gap-3">
+                  {FOAM_OPTIONS.map((f) => {
+                    const active = f.id === foamId;
+                    return (
+                      <button
+                        key={f.id}
+                        type="button"
+                        onClick={() => setFoamId(f.id)}
+                        className={`group relative text-left rounded-md overflow-hidden border transition ${
+                          active
+                            ? "border-clay ring-2 ring-clay/40"
+                            : "border-border hover:border-ink/40"
+                        }`}
+                      >
+                        <div className="aspect-square w-full overflow-hidden bg-secondary">
+                          <img
+                            src={f.image}
+                            alt={f.name[lang]}
+                            loading="lazy"
+                            width={1024}
+                            height={1024}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                        {active && (
+                          <span className="absolute top-2 right-2 h-6 w-6 rounded-full bg-clay text-cream flex items-center justify-center shadow-soft">
+                            <Check className="h-3.5 w-3.5" />
+                          </span>
+                        )}
+                        <div className="p-2.5">
+                          <div className="text-[11px] font-medium text-ink leading-tight">
+                            {f.name[lang]}
+                          </div>
+                          <div className="mt-1 text-[11px] tabular-nums text-clay font-medium">
+                            +${f.price}
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Disclaimer */}
+              <p className="text-[11px] leading-relaxed text-ink/55 italic border-t border-border/60 pt-4">
+                {lang === "es"
+                  ? "Nota: cada huacal está sujeto a cambios en el precio final dependiendo de la dificultad del trabajo, materiales adicionales o requerimientos especiales."
+                  : "Note: each crate is subject to final price changes depending on the difficulty of the build, additional materials, or special requirements."}
+              </p>
+
             </div>
           </div>
 
@@ -152,7 +247,7 @@ export const DeliveryCalculator = () => {
                   add({
                     type: "crate",
                     title: lang === "es" ? `Huacal a medida (${dims})` : `Custom crate (${dims})`,
-                    details: `${qty}u`,
+                    details: `${qty}u · ${foam.name[lang]}`,
                     qty,
                     unitPrice: breakdown.finalPrice,
                   });
