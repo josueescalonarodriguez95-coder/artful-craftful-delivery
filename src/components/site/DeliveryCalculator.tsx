@@ -98,7 +98,7 @@ export const DeliveryCalculator = () => {
               {/* Custom dimensions */}
               <div>
                 <label className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">
-                  {lang === "es" ? "Medidas del huacal" : "Crate dimensions"}
+                  {lang === "es" ? "Medidas del huacal (in)" : "Crate dimensions (in)"}
                 </label>
                 <div className="mt-4 grid grid-cols-3 gap-3">
                   {[
