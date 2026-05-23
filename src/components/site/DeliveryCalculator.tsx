@@ -2,10 +2,45 @@ import { useMemo, useState } from "react";
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Check } from "lucide-react";
 import { useCart } from "./CartContext";
 import { CrateGallery } from "./CrateGallery";
 import { computeCratePrice } from "@/lib/pricingEngine";
+import foamWhite from "@/assets/foam-white-styrofoam.jpg";
+import foamBlackPolylam from "@/assets/foam-black-polylam.jpg";
+import foamBlackFirm from "@/assets/foam-black-firm-2in.jpg";
+
+type FoamId = "white-styro-1" | "black-polylam-1" | "black-firm-2";
+
+const FOAM_OPTIONS: {
+  id: FoamId;
+  image: string;
+  price: number;
+  name: { es: string; en: string };
+  desc: { es: string; en: string };
+}[] = [
+  {
+    id: "white-styro-1",
+    image: foamWhite,
+    price: 80,
+    name: { es: 'Estereofón blanco 1"', en: 'White styrofoam 1"' },
+    desc: { es: "Espuma blanca de 1 pulgada", en: "1-inch white foam" },
+  },
+  {
+    id: "black-polylam-1",
+    image: foamBlackPolylam,
+    price: 80,
+    name: { es: 'Polylam negro 1"', en: 'Black polylam 1"' },
+    desc: { es: "Polylam foam negro de 1 pulgada", en: "1-inch black polylam foam" },
+  },
+  {
+    id: "black-firm-2",
+    image: foamBlackFirm,
+    price: 180,
+    name: { es: 'Polietileno firme negro 2"', en: 'Firm black polyethylene 2"' },
+    desc: { es: "Espuma firme negra de 2 pulgadas", en: "2-inch firm black foam" },
+  },
+];
 
 export const DeliveryCalculator = () => {
   const { lang } = useLang();
@@ -14,17 +49,19 @@ export const DeliveryCalculator = () => {
   const [width, setWidth] = useState<string>("");
   const [depth, setDepth] = useState<string>("");
   const [qty, setQty] = useState(1);
+  const [foamId, setFoamId] = useState<FoamId>("white-styro-1");
   const ref = useReveal<HTMLDivElement>();
 
   const hNum = Number(height) || 0;
   const wNum = Number(width) || 0;
   const dNum = Number(depth) || 0;
   const hasDims = hNum > 0 && wNum > 0 && dNum > 0;
+  const foam = FOAM_OPTIONS.find((f) => f.id === foamId)!;
 
   // Pricing Engine — única fuente de verdad. NO multiplicar ni ajustar fuera.
   const breakdown = useMemo(
-    () => computeCratePrice({ length: dNum, width: wNum, height: hNum }),
-    [hNum, wNum, dNum]
+    () => computeCratePrice({ length: dNum, width: wNum, height: hNum }, foam.price),
+    [hNum, wNum, dNum, foam.price]
   );
   const calc = useMemo(() => {
     const volume = hNum * wNum * dNum;
