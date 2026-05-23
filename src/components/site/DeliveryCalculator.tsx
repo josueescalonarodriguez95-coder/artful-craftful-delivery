@@ -22,7 +22,7 @@ const FOAM_OPTIONS: {
   {
     id: "white-styro-1",
     image: foamWhite,
-    price: 80,
+    price: 0,
     name: { es: 'Estereofón blanco 1"', en: 'White styrofoam 1"' },
     desc: { es: "Espuma blanca de 1 pulgada", en: "1-inch white foam" },
   },
