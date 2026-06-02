@@ -232,7 +232,7 @@ export const DeliveryCalculator = () => {
                         qty > 3 ? "text-cream" : "text-clay-deep"
                       }`}
                     >
-                      {lang === "es" ? "Descuento por volumen" : "Bulk discount"}
+                      {lang === "es" ? "Descuento especial" : "Special discount"}
                     </div>
                     <p
                       className={`mt-1 text-[13px] leading-relaxed ${
