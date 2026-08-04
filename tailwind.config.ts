@@ -55,8 +55,12 @@ export default {
           DEFAULT: "hsl(var(--clay))",
           deep: "hsl(var(--clay-deep))",
         },
+        rose: {
+          soft: "hsl(var(--rose-soft))",
+        },
         sand: "hsl(var(--sand))",
         cream: "hsl(var(--cream))",
+
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
