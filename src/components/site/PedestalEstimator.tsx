@@ -302,50 +302,50 @@ export const PedestalEstimator = () => {
 
           {/* Estimate panel */}
           <div className="lg:col-span-3 lg:sticky lg:top-24">
-            <div className="bg-rose-soft text-ink rounded-md p-6 md:p-8 shadow-elegant border border-ink/10">
-              <div className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium">{t.pedestal.estimate[lang]}</div>
+            <div className="bg-rose-soft text-cream rounded-md p-6 md:p-8 shadow-elegant border border-cream/10">
+              <div className="text-xs uppercase tracking-[0.2em] text-cream/70 font-medium">{t.pedestal.estimate[lang]}</div>
               <div className="mt-6 space-y-3 text-sm">
                 <Row label={`${t.pedestal.volume[lang]} (${h}×${w}×${d})`} value={`${calc.volume.toLocaleString()} in³`} />
               </div>
 
               {/* Resumen de selecciones */}
-              <div className="mt-6 pt-6 border-t border-ink/15">
-                <div className="text-xs uppercase tracking-[0.2em] text-ink/60 font-medium mb-3">
+              <div className="mt-6 pt-6 border-t border-cream/20">
+                <div className="text-xs uppercase tracking-[0.2em] text-cream/70 font-medium mb-3">
                   {lang === "es" ? "Resumen de tu selección" : "Your selection summary"}
                 </div>
-                <ul className="space-y-2 text-sm text-ink/80">
+                <ul className="space-y-2 text-sm text-cream/90">
                   <li className="flex justify-between gap-4">
-                    <span className="text-ink/60">{lang === "es" ? "Dimensiones" : "Dimensions"}</span>
+                    <span className="text-cream/70">{lang === "es" ? "Dimensiones" : "Dimensions"}</span>
                     <span className="tabular-nums">{h}×{w}×{d} in</span>
                   </li>
                   <li className="flex justify-between gap-4">
-                    <span className="text-ink/60">{t.pedestal.material[lang]}</span>
+                    <span className="text-cream/70">{t.pedestal.material[lang]}</span>
                     <span>{MATERIAL[material][lang]}</span>
                   </li>
                   <li className="flex justify-between gap-4">
-                    <span className="text-ink/60">{t.pedestal.finish[lang]}</span>
+                    <span className="text-cream/70">{t.pedestal.finish[lang]}</span>
                     <span>{FINISH[finish][lang]}{finish === "lacquer" ? ` · ${LACQUER_COLOR[lacquerColor][lang]}` : finish === "paint" ? ` · ${PAINT_COLOR[paintColor][lang]}` : ""}</span>
                   </li>
                   {material === "acrylic" && (
                     <li className="flex justify-between gap-4">
-                      <span className="text-ink/60">{lang === "es" ? "Grosor" : "Thickness"}</span>
+                      <span className="text-cream/70">{lang === "es" ? "Grosor" : "Thickness"}</span>
                       <span>{ACRYLIC_THICKNESS[acrylicThickness][lang]}</span>
                     </li>
                   )}
                   <li className="flex justify-between gap-4">
-                    <span className="text-ink/60">{t.pedestal.qty[lang]}</span>
+                    <span className="text-cream/70">{t.pedestal.qty[lang]}</span>
                     <span className="tabular-nums">{qty}</span>
                   </li>
                   <li className="flex justify-between gap-4">
-                    <span className="text-ink/60">{t.pedestal.urgency[lang]}</span>
+                    <span className="text-cream/70">{t.pedestal.urgency[lang]}</span>
                     <span>{urgency === "standard" ? t.pedestal.standard[lang] : t.pedestal.rush[lang]}</span>
                   </li>
                 </ul>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-ink/15">
+              <div className="mt-6 pt-6 border-t border-cream/20">
                 <div className="flex items-baseline justify-between">
-                  <span className="text-xs uppercase tracking-[0.2em] text-ink/60">Total · {qty}u</span>
+                  <span className="text-xs uppercase tracking-[0.2em] text-cream/70">Total · {qty}u</span>
                   <span className="font-display text-5xl tabular-nums">${calc.total.toFixed(0)}</span>
                 </div>
               </div>
@@ -366,6 +366,7 @@ export const PedestalEstimator = () => {
                 className="mt-6 w-full bg-clay text-cream hover:bg-ink hover:text-cream rounded-full py-6 inline-flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 <ShoppingCart className="h-4 w-4" />
+
 
                 {lang === "es" ? "Agregar al carrito" : "Add to cart"}
               </Button>
