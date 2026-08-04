@@ -46,8 +46,10 @@
     --ink: 340 22% 95%;
     --clay: 356 78% 48%;
     --clay-deep: 340 80% 60%;
+    --rose-soft: 350 55% 94%;
     --sand: 345 30% 22%;
     --cream: 0 0% 6%;
+
 
     /* Gradients */
     --gradient-warm: linear-gradient(135deg, hsl(0 0% 6%) 0%, hsl(345 40% 14%) 100%);
