@@ -39,6 +39,16 @@ const albumExtras: Photo[] = [
   { src: album4, type: "image", es: "Obra contemporánea instalada sobre sofá", en: "Contemporary artwork installed above sofa" },
   { src: "/album-video-1.mov", type: "video", es: "Video de instalación", en: "Installation video" },
   { src: "/album-video-2.mov", type: "video", es: "Video de instalación", en: "Installation video" },
+  { src: n1.url, type: "image", es: "Obra texturizada rosada instalada en comedor", en: "Pink textured artwork installed in dining room" },
+  { src: n2.url, type: "image", es: "Obra gráfica azul y negra instalada frente a ventanal", en: "Blue and black graphic artwork installed by window" },
+  { src: n3.url, type: "image", es: "Obra enmarcada en blanco con pieza circular", en: "White framed artwork with circular piece" },
+  { src: n4.url, type: "image", es: "Escultura roja tipo contenedor montada en pared", en: "Red container sculpture mounted on wall" },
+  { src: n5.url, type: "image", es: "Instalación de obras de gran formato en galería", en: "Large-format artworks installed in gallery" },
+  { src: n6.url, type: "image", es: "Equipo Ramos instalando huacal en galería", en: "Ramos team crating artwork in gallery" },
+  { src: n7.url, type: "image", es: "Escultura roja sobre pedestal frente al mar", en: "Red sculpture on pedestal with ocean view" },
+  { src: n8.url, type: "image", es: "Obra cinética instalada sobre consola", en: "Kinetic artwork installed above console" },
+  { src: n9.url, type: "image", es: "Obra blanca de técnica mixta enmarcada", en: "White mixed-media framed artwork" },
+  { src: n10.url, type: "image", es: "Escultura metálica en diagonal instalada en pared", en: "Diagonal metal sculpture installed on wall" },
 ];
 
 const allMedia: Photo[] = [...initialPhotos, ...albumExtras];
