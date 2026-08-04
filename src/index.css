@@ -4,74 +4,75 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap');
 
-/* Fine Art Delivery — Warm minimalist design system. All colors HSL. */
+/* Fine Art Delivery — Noir / Rojo / Rosado design system. All colors HSL. */
 
 @layer base {
   :root {
-    /* Warm cream palette */
-    --background: 36 33% 96%;
-    --foreground: 20 14% 14%;
+    /* Noir base */
+    --background: 0 0% 6%;
+    --foreground: 340 25% 96%;
 
-    --card: 36 40% 98%;
-    --card-foreground: 20 14% 14%;
+    --card: 0 0% 9%;
+    --card-foreground: 340 25% 96%;
 
-    --popover: 36 40% 98%;
-    --popover-foreground: 20 14% 14%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 340 25% 96%;
 
-    /* Terracotta primary */
-    --primary: 16 55% 47%;
-    --primary-foreground: 36 40% 98%;
-    --primary-glow: 18 70% 62%;
+    /* Red primary */
+    --primary: 356 78% 48%;
+    --primary-foreground: 340 30% 98%;
+    --primary-glow: 340 85% 62%;
 
-    /* Warm sand secondary */
-    --secondary: 32 25% 88%;
-    --secondary-foreground: 20 14% 14%;
+    /* Deep rose secondary */
+    --secondary: 345 25% 14%;
+    --secondary-foreground: 340 25% 96%;
 
-    --muted: 33 20% 92%;
-    --muted-foreground: 20 10% 40%;
+    --muted: 0 0% 13%;
+    --muted-foreground: 340 12% 68%;
 
-    --accent: 28 45% 78%;
-    --accent-foreground: 20 14% 14%;
+    --accent: 340 70% 58%;
+    --accent-foreground: 0 0% 6%;
 
-    --destructive: 0 70% 45%;
-    --destructive-foreground: 36 40% 98%;
+    --destructive: 0 80% 52%;
+    --destructive-foreground: 340 30% 98%;
 
-    --border: 30 18% 85%;
-    --input: 30 18% 85%;
-    --ring: 16 55% 47%;
+    --border: 345 15% 20%;
+    --input: 345 15% 20%;
+    --ring: 356 78% 48%;
 
     --radius: 0.25rem;
 
-    /* Brand-specific */
-    --ink: 22 18% 18%;
-    --clay: 16 55% 47%;
-    --clay-deep: 14 50% 35%;
-    --sand: 32 30% 82%;
-    --cream: 36 33% 96%;
+    /* Brand-specific (ink = light surface, cream = noir base) */
+    --ink: 340 22% 95%;
+    --clay: 356 78% 48%;
+    --clay-deep: 340 80% 60%;
+    --sand: 345 30% 22%;
+    --cream: 0 0% 6%;
 
     /* Gradients */
-    --gradient-warm: linear-gradient(135deg, hsl(36 33% 96%) 0%, hsl(28 35% 88%) 100%);
+    --gradient-warm: linear-gradient(135deg, hsl(0 0% 6%) 0%, hsl(345 40% 14%) 100%);
     --gradient-clay: linear-gradient(135deg, hsl(var(--clay)) 0%, hsl(var(--primary-glow)) 100%);
-    --gradient-overlay: linear-gradient(180deg, hsl(20 14% 14% / 0) 0%, hsl(20 14% 14% / 0.55) 100%);
+    --gradient-overlay: linear-gradient(180deg, hsl(0 0% 4% / 0) 0%, hsl(0 0% 4% / 0.7) 100%);
 
     /* Shadows */
-    --shadow-soft: 0 1px 2px hsl(20 14% 14% / 0.04), 0 8px 24px hsl(20 14% 14% / 0.06);
-    --shadow-elegant: 0 20px 50px -20px hsl(16 55% 30% / 0.25);
-    --shadow-glow: 0 0 60px hsl(var(--primary-glow) / 0.35);
+    --shadow-soft: 0 1px 2px hsl(0 0% 0% / 0.4), 0 8px 24px hsl(0 0% 0% / 0.5);
+    --shadow-elegant: 0 20px 50px -20px hsl(356 78% 30% / 0.55);
+    --shadow-glow: 0 0 60px hsl(var(--primary-glow) / 0.45);
 
     /* Transitions */
     --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
 
-    --sidebar-background: 36 33% 96%;
-    --sidebar-foreground: 20 14% 14%;
-    --sidebar-primary: 16 55% 47%;
-    --sidebar-primary-foreground: 36 40% 98%;
-    --sidebar-accent: 32 25% 88%;
-    --sidebar-accent-foreground: 20 14% 14%;
-    --sidebar-border: 30 18% 85%;
-    --sidebar-ring: 16 55% 47%;
+    --sidebar-background: 0 0% 8%;
+    --sidebar-foreground: 340 25% 96%;
+    --sidebar-primary: 356 78% 48%;
+    --sidebar-primary-foreground: 340 30% 98%;
+    --sidebar-accent: 345 25% 14%;
+    --sidebar-accent-foreground: 340 25% 96%;
+    --sidebar-border: 345 15% 20%;
+    --sidebar-ring: 356 78% 48%;
   }
 }
+
 
 @layer base {
   * {
