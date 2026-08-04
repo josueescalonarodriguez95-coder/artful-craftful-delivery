@@ -11,6 +11,16 @@ import album1 from "@/assets/album-1.jpg";
 import album2 from "@/assets/album-2.jpg";
 import album3 from "@/assets/album-3.jpg";
 import album4 from "@/assets/album-4.jpg";
+import n1 from "@/assets/IMG_5105.jpeg.asset.json";
+import n2 from "@/assets/IMG_3801.jpeg.asset.json";
+import n3 from "@/assets/IMG_3775.jpeg.asset.json";
+import n4 from "@/assets/IMG_3702.jpeg.asset.json";
+import n5 from "@/assets/IMG_3608.jpeg.asset.json";
+import n6 from "@/assets/IMG_3434.jpeg.asset.json";
+import n7 from "@/assets/IMG_3141.jpeg.asset.json";
+import n8 from "@/assets/IMG_3128.jpeg.asset.json";
+import n9 from "@/assets/IMG_3127.jpeg.asset.json";
+import n10 from "@/assets/IMG_3130.jpeg.asset.json";
 
 type MediaType = "image" | "video";
 type Photo = { src: string; es: string; en: string; type: MediaType };
