@@ -22,7 +22,7 @@ export const FineArtStorage = () => {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div className="rounded-md overflow-hidden border border-border/70 shadow-soft">
             <img
-              src={storageImg}
+              src={storageImg.url}
               alt={lang === "es" ? "Instalación de almacenamiento de bellas artes con clima controlado" : "Climate-controlled fine art storage facility"}
               loading="lazy"
               width={1600}
