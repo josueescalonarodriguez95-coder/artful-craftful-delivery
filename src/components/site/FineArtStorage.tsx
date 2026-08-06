@@ -1,7 +1,7 @@
 import { useLang } from "./LangContext";
 import { useReveal } from "@/hooks/useReveal";
 import { ShieldCheck, Thermometer, Lock } from "lucide-react";
-import storageImg from "@/assets/storage-facility.jpg";
+import storageImg from "@/assets/storage-facility.png.asset.json";
 
 export const FineArtStorage = () => {
   const { lang } = useLang();
