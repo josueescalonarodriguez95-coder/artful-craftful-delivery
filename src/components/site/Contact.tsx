@@ -108,8 +108,8 @@ export const Contact = () => {
                 className="bg-transparent border-cream/20 text-cream placeholder:text-cream/40 focus-visible:ring-clay"
               />
             </div>
-            <Button type="submit" className="w-full bg-clay hover:bg-clay-deep text-cream rounded-full py-6 text-sm tracking-wide">
-              {t.contact.send[lang]}
+            <Button type="submit" disabled={sending} className="w-full bg-clay hover:bg-clay-deep text-cream rounded-full py-6 text-sm tracking-wide disabled:opacity-60">
+              {sending ? (lang === "es" ? "Enviando..." : "Sending...") : t.contact.send[lang]}
             </Button>
           </form>
         </div>
