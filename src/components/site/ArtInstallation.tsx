@@ -268,7 +268,7 @@ export const ArtInstallation = () => {
                 <button
                   onClick={prev}
                   aria-label={lang === "es" ? "Anterior" : "Previous"}
-                  className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-cream/20 hover:bg-cream/40 backdrop-blur-sm text-cream flex items-center justify-center transition"
+                  className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-ink/90 hover:bg-ink shadow-lg ring-1 ring-cream/20 text-cream flex items-center justify-center transition"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
@@ -291,7 +291,7 @@ export const ArtInstallation = () => {
                 <button
                   onClick={next}
                   aria-label={lang === "es" ? "Siguiente" : "Next"}
-                  className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-cream/20 hover:bg-cream/40 backdrop-blur-sm text-cream flex items-center justify-center transition"
+                  className="shrink-0 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-ink/90 hover:bg-ink shadow-lg ring-1 ring-cream/20 text-cream flex items-center justify-center transition"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>
