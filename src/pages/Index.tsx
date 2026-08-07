@@ -12,7 +12,7 @@ import { ArtInstallation } from "@/components/site/ArtInstallation";
 import { ShippingOptions } from "@/components/site/ShippingOptions";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
-import { RevealSection } from "@/components/site/RevealSection";
+import { StickyStack } from "@/components/site/StickyStack";
 import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
 
