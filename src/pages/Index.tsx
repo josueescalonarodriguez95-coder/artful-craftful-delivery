@@ -56,16 +56,27 @@ const Index = () => {
       <div className="min-h-screen bg-cream text-ink">
         <Nav />
         <main>
-          <Hero />
-          <RevealSection><Marquee /></RevealSection>
-          <RevealSection><Services /></RevealSection>
-          <RevealSection><DeliveryCalculator /></RevealSection>
-          <RevealSection><PedestalEstimator /></RevealSection>
-          <RevealSection><FineArtStorage /></RevealSection>
-          <RevealSection><ArtInstallation /></RevealSection>
-          <RevealSection><ShippingOptions /></RevealSection>
-          <RevealSection><Contact /></RevealSection>
+          <StickyStack>
+            <div>
+              <Hero />
+              <Marquee />
+            </div>
+            <div>
+              <Services />
+            </div>
+            <div>
+              <DeliveryCalculator />
+              <PedestalEstimator />
+            </div>
+            <div>
+              <FineArtStorage />
+              <ArtInstallation />
+              <ShippingOptions />
+              <Contact />
+            </div>
+          </StickyStack>
         </main>
+
         <Footer />
         <WhatsAppFloat />
         <ScrollToTop />
