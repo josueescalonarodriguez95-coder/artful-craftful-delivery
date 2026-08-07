@@ -12,7 +12,7 @@ import { ArtInstallation } from "@/components/site/ArtInstallation";
 import { ShippingOptions } from "@/components/site/ShippingOptions";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
-import { StickyStack } from "@/components/site/StickyStack";
+import { RevealSection } from "@/components/site/RevealSection";
 import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
 
@@ -56,27 +56,16 @@ const Index = () => {
       <div className="min-h-screen bg-cream text-ink">
         <Nav />
         <main>
-          <StickyStack>
-            <div>
-              <Hero />
-              <Marquee />
-            </div>
-            <div>
-              <Services />
-            </div>
-            <div>
-              <DeliveryCalculator />
-              <PedestalEstimator />
-            </div>
-            <div>
-              <FineArtStorage />
-              <ArtInstallation />
-              <ShippingOptions />
-              <Contact />
-            </div>
-          </StickyStack>
+          <Hero />
+          <RevealSection><Marquee /></RevealSection>
+          <RevealSection><Services /></RevealSection>
+          <RevealSection><DeliveryCalculator /></RevealSection>
+          <RevealSection><PedestalEstimator /></RevealSection>
+          <RevealSection><FineArtStorage /></RevealSection>
+          <RevealSection><ArtInstallation /></RevealSection>
+          <RevealSection><ShippingOptions /></RevealSection>
+          <RevealSection><Contact /></RevealSection>
         </main>
-
         <Footer />
         <WhatsAppFloat />
         <ScrollToTop />
