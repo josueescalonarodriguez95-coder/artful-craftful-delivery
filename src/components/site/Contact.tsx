@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useReveal } from "@/hooks/useReveal";
 import { toast } from "sonner";
 import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
 
 const schema = z.object({
   name: z.string().trim().min(1).max(100),
@@ -18,16 +19,38 @@ export const Contact = () => {
   const { lang } = useLang();
   const ref = useReveal<HTMLDivElement>();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
       toast.error(lang === "es" ? "Revisa los campos del formulario." : "Please check the form fields.");
       return;
     }
-    toast.success(t.contact.sent[lang]);
-    setForm({ name: "", email: "", message: "" });
+    setSending(true);
+    try {
+      const { error } = await supabase.functions.invoke("send-transactional-email", {
+        body: {
+          templateName: "contact-message",
+          recipientEmail: "ramosdeliverye@gmail.com",
+          idempotencyKey: `contact-${Date.now()}-${parsed.data.email}`,
+          templateData: parsed.data,
+        },
+      });
+      if (error) throw error;
+      toast.success(t.contact.sent[lang]);
+      setForm({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error("contact send failed:", err);
+      toast.error(
+        lang === "es"
+          ? "No se pudo enviar el mensaje. Intenta de nuevo o llámanos."
+          : "Message could not be sent. Please try again or call us."
+      );
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
