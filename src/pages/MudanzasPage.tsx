@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles, Mail, Phone, MessageSquare } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import movingHeroAsset from "@/assets/moving-services-hero.jpg.asset.json";
 
 const EMAIL = "ramosdeliverye@gmail.com";
 const PHONE_TEL = "+17864262444";
@@ -73,6 +74,17 @@ const Body = () => {
             {title}
           </h1>
           <p className="mt-6 text-ink/75 text-lg max-w-2xl leading-relaxed">{desc}</p>
+
+          <div className="mt-10 rounded-md overflow-hidden border border-border/70 shadow-soft aspect-[16/9] md:aspect-[21/9]">
+            <img
+              src={movingHeroAsset.url}
+              alt={lang === "es" ? "Equipo de Ramos Delivery en mudanza" : "Ramos Delivery moving crew"}
+              loading="lazy"
+              width={1600}
+              height={686}
+              className="h-full w-full object-cover"
+            />
+          </div>
 
           <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tiers.map((tier, i) => (
