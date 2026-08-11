@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ShieldCheck, Truck, Package, Sparkles, Mail, Phone, MessageSquare } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import movingHeroAsset from "@/assets/moving-services-hero.jpg.asset.json";
 
 const EMAIL = "ramosdeliverye@gmail.com";
 const PHONE_TEL = "+17864262444";
