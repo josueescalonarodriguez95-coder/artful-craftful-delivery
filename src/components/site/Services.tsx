@@ -5,8 +5,10 @@ import { useReveal } from "@/hooks/useReveal";
 import crates from "@/assets/service-crates.jpg";
 import pedestals from "@/assets/service-pedestals.jpg";
 import restoration from "@/assets/service-restoration.jpg";
-import moving from "@/assets/service-moving.jpg";
+import movingAsset from "@/assets/moving-services-hero.jpg.asset.json";
 import heavyCrane from "@/assets/service-heavy-crane.jpg";
+
+const moving = movingAsset.url;
 
 export const Services = () => {
   const { lang } = useLang();
