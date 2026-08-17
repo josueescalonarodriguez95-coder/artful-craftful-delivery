@@ -47,7 +47,7 @@ export const Nav = () => {
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-cream/85 backdrop-blur-md border-b border-border/60" : "bg-transparent"
+        scrolled ? "glass-strong border-0 border-b border-white/10 rounded-none" : "glass border-0 border-b border-white/5 rounded-none"
       }`}
     >
       <div className="container flex items-center justify-between h-16 md:h-20">
@@ -69,11 +69,11 @@ export const Nav = () => {
         </button>
 
         <nav className="hidden md:flex items-center gap-2 text-sm">
-          <Link to="/#services" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.services}</Link>
-          <Link to="/delivery" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.delivery}</Link>
-          <Link to="/#pedestals" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.pedestals}</Link>
-          <Link to="/restauraciones" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.restorations}</Link>
-          <Link to="/#contact" className="px-4 py-2 rounded-full border border-ink/15 bg-cream/70 backdrop-blur-sm text-ink font-medium hover:bg-ink hover:text-cream hover:border-ink transition-all duration-300 shadow-sm">{T.contact}</Link>
+          <Link to="/#services" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.services}</Link>
+          <Link to="/delivery" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.delivery}</Link>
+          <Link to="/#pedestals" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.pedestals}</Link>
+          <Link to="/restauraciones" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.restorations}</Link>
+          <Link to="/#contact" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.contact}</Link>
         </nav>
 
         <div className="flex items-center gap-3">
