@@ -125,7 +125,7 @@ export const CartDrawer = () => {
   return (
     <>
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent className="bg-cream text-ink w-full sm:max-w-[21rem] flex flex-col">
+        <SheetContent className="glass-opaque text-ink w-full sm:max-w-[21rem] flex flex-col">
           <SheetHeader>
             <SheetTitle className="font-display text-3xl text-ink">{T.title}</SheetTitle>
           </SheetHeader>

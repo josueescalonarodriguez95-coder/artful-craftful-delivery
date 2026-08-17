@@ -117,7 +117,7 @@ export const Nav = () => {
                 <Menu className="h-4 w-4" />
               </button>
             </SheetTrigger>
-            <SheetContent side="right" className="bg-cream border-l border-border overflow-hidden">
+            <SheetContent side="right" className="glass-opaque border-l border-border overflow-hidden">
               <div aria-hidden className="pointer-events-none absolute inset-0 -z-0 flex items-center justify-center overflow-hidden">
                 <img
                   src={logoRamos}
