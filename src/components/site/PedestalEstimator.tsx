@@ -349,7 +349,7 @@ export const PedestalEstimator = () => {
               <div className="mt-6 pt-6 border-t border-cream/20">
                 <div className="flex items-baseline justify-between">
                   <span className="text-xs uppercase tracking-[0.2em] text-cream/70">Total · {qty}u</span>
-                  <span className="font-display text-5xl tabular-nums">${calc.total.toFixed(0)}</span>
+                  <span className="font-display text-5xl tabular-nums">${calc.total.toFixed(2)}</span>
                 </div>
               </div>
               <Button
