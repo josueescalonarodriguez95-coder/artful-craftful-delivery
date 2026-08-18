@@ -1,5 +1,6 @@
 import { useLang } from "./LangContext";
-import heroImg from "@/assets/hero-truck.jpg";
+import heroAsset from "@/assets/hero-truck.png.asset.json";
+
 
 export const Hero = () => {
   const { lang } = useLang();
