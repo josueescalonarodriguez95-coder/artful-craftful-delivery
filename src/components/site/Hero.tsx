@@ -1,5 +1,6 @@
 import { useLang } from "./LangContext";
-import heroImg from "@/assets/hero-truck.jpg";
+import heroAsset from "@/assets/hero-truck.png.asset.json";
+
 
 export const Hero = () => {
   const { lang } = useLang();
@@ -7,8 +8,8 @@ export const Hero = () => {
     <section id="top" className="relative w-full overflow-hidden bg-cream">
       <picture>
         <img
-          src={heroImg}
-          alt={lang === "es" ? "Galería de arte con obra enmarcada" : "Art gallery with framed artwork"}
+          src={heroAsset.url}
+          alt={lang === "es" ? "Camión de Ramos Delivery Enterprise en ruta" : "Ramos Delivery Enterprise truck on the road"}
           className="block w-full h-auto max-h-[100svh] object-contain"
           width={1600}
           height={1024}
