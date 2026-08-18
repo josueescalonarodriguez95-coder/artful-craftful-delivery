@@ -154,7 +154,10 @@ export const PedestalEstimator = () => {
       perUnit *= ACRYLIC_THICKNESS[acrylicThickness].mult;
     }
     if (urgency === "rush") perUnit *= 1.25;
-    const total = perUnit * qty;
+    // Precio final INMUTABLE: se redondea a centavos aquí y NO se recalcula
+    // ni se convierte en ningún otro lugar (carrito, checkout, pagos).
+    perUnit = Math.round(perUnit * 100) / 100;
+    const total = Math.round(perUnit * qty * 100) / 100;
     return { volume, perUnit, total };
   }, [h, w, d, material, finish, acrylicThickness, qty, urgency]);
 
@@ -346,7 +349,7 @@ export const PedestalEstimator = () => {
               <div className="mt-6 pt-6 border-t border-cream/20">
                 <div className="flex items-baseline justify-between">
                   <span className="text-xs uppercase tracking-[0.2em] text-cream/70">Total · {qty}u</span>
-                  <span className="font-display text-5xl tabular-nums">${calc.total.toFixed(0)}</span>
+                  <span className="font-display text-5xl tabular-nums">${calc.total.toFixed(2)}</span>
                 </div>
               </div>
               <Button
