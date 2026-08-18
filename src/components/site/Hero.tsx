@@ -8,7 +8,7 @@ export const Hero = () => {
     <section id="top" className="relative w-full overflow-hidden bg-cream">
       <picture>
         <img
-          src={heroImg}
+          src={heroAsset.url}
           alt={lang === "es" ? "Galería de arte con obra enmarcada" : "Art gallery with framed artwork"}
           className="block w-full h-auto max-h-[100svh] object-contain"
           width={1600}
