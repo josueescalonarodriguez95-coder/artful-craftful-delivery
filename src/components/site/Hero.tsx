@@ -9,7 +9,7 @@ export const Hero = () => {
       <picture>
         <img
           src={heroAsset.url}
-          alt={lang === "es" ? "Galería de arte con obra enmarcada" : "Art gallery with framed artwork"}
+          alt={lang === "es" ? "Camión de Ramos Delivery Enterprise en ruta" : "Ramos Delivery Enterprise truck on the road"}
           className="block w-full h-auto max-h-[100svh] object-contain"
           width={1600}
           height={1024}
