@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AboutPanel } from "./AboutPanel";
+import { InternalHashLink } from "./InternalHashLink";
 import logoRamos from "@/assets/logo-ramos-clean.png";
 
 export const Nav = () => {
