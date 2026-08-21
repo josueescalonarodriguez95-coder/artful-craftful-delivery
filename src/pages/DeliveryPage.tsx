@@ -108,7 +108,9 @@ const Body = () => {
               </h3>
             </div>
             <Button asChild size="lg" className="bg-clay hover:bg-clay/90 text-cream rounded-full px-7">
-              <Link to="/#delivery">{lang === "es" ? "Ir a la calculadora" : "Open calculator"}</Link>
+              <InternalHashLink to="/#delivery" className="inline-flex items-center justify-center bg-clay hover:bg-clay/90 text-cream rounded-full px-7 py-3 text-sm font-medium transition">
+                {lang === "es" ? "Ir a la calculadora" : "Open calculator"}
+              </InternalHashLink>
             </Button>
           </div>
         </div>
