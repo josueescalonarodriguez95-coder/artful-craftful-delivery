@@ -277,9 +277,9 @@ export const Nav = () => {
             asChild
             className="w-full bg-clay hover:bg-clay/90 text-cream rounded-full mt-2"
           >
-            <Link to="/#contact">
+            <InternalHashLink to="/#contact">
               {lang === "es" ? "Enviar mensaje por formulario" : "Send a message via form"}
-            </Link>
+            </InternalHashLink>
           </Button>
         </DialogContent>
       </Dialog>
