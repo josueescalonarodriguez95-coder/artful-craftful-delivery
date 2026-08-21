@@ -70,11 +70,11 @@ export const Nav = () => {
         </button>
 
         <nav className="hidden md:flex items-center gap-2 text-sm">
-          <Link to="/#services" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.services}</Link>
+          <InternalHashLink to="/#services" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.services}</InternalHashLink>
           <Link to="/delivery" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.delivery}</Link>
-          <Link to="/#pedestals" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.pedestals}</Link>
+          <InternalHashLink to="/#pedestals" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.pedestals}</InternalHashLink>
           <Link to="/restauraciones" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.restorations}</Link>
-          <Link to="/#contact" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.contact}</Link>
+          <InternalHashLink to="/#contact" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.contact}</InternalHashLink>
         </nav>
 
         <div className="flex items-center gap-3">
