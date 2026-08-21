@@ -6,6 +6,7 @@ import { Nav } from "@/components/site/Nav";
 import { Footer } from "@/components/site/Footer";
 import { ScrollToTop } from "@/components/site/ScrollToTop";
 import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
+import { InternalHashLink } from "@/components/site/InternalHashLink";
 import { Button } from "@/components/ui/button";
 
 const Body = () => {
