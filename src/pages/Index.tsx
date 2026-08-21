@@ -43,10 +43,18 @@ const SEO = () => {
 const Index = () => {
   const { hash } = useLocation();
   useEffect(() => {
-    if (hash) {
+    const allowed = sessionStorage.getItem("rde-scroll-hash");
+    if (allowed && hash && allowed === hash) {
+      sessionStorage.removeItem("rde-scroll-hash");
       const el = document.querySelector(hash);
       if (el) {
         setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+      }
+    } else {
+      // Cargas directas (bookmark, refresh, link compartido) siempre inician arriba.
+      window.scrollTo({ top: 0, behavior: "auto" });
+      if (window.location.hash && window.history.replaceState) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
       }
     }
   }, [hash]);
