@@ -133,38 +133,38 @@ export const Nav = () => {
                 </SheetTitle>
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-1">
-                <Link
+              <InternalHashLink
                   to="/#delivery"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Package className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Huacales a medida" : "Custom crates"}</span>
-                </Link>
-                <Link
+                </InternalHashLink>
+                <InternalHashLink
                   to="/#pedestals"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Box className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Pedestales a medida" : "Custom pedestals"}</span>
-                </Link>
-                <Link
+                </InternalHashLink>
+                <InternalHashLink
                   to="/#storage"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Archive className="h-5 w-5 text-clay" />
                   <span>Fine Art Storage</span>
-                </Link>
-                <Link
+                </InternalHashLink>
+                <InternalHashLink
                   to="/#installation"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Hammer className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Art Installation" : "Art Installation"}</span>
-                </Link>
+                </InternalHashLink>
                 <Link
                   to="/mudanzas"
                   onClick={closeMenu}
