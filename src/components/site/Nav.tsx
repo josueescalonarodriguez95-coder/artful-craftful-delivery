@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { AboutPanel } from "./AboutPanel";
+import { InternalHashLink } from "./InternalHashLink";
 import logoRamos from "@/assets/logo-ramos-clean.png";
 
 export const Nav = () => {
@@ -69,11 +70,11 @@ export const Nav = () => {
         </button>
 
         <nav className="hidden md:flex items-center gap-2 text-sm">
-          <Link to="/#services" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.services}</Link>
+          <InternalHashLink to="/#services" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.services}</InternalHashLink>
           <Link to="/delivery" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.delivery}</Link>
-          <Link to="/#pedestals" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.pedestals}</Link>
+          <InternalHashLink to="/#pedestals" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.pedestals}</InternalHashLink>
           <Link to="/restauraciones" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.restorations}</Link>
-          <Link to="/#contact" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.contact}</Link>
+          <InternalHashLink to="/#contact" className="px-4 py-2 rounded-full glass text-ink font-medium hover:bg-ink/90 hover:text-cream transition-all duration-300 shadow-sm">{T.contact}</InternalHashLink>
         </nav>
 
         <div className="flex items-center gap-3">
@@ -132,38 +133,38 @@ export const Nav = () => {
                 </SheetTitle>
               </SheetHeader>
               <nav className="mt-8 flex flex-col gap-1">
-                <Link
+              <InternalHashLink
                   to="/#delivery"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Package className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Huacales a medida" : "Custom crates"}</span>
-                </Link>
-                <Link
+                </InternalHashLink>
+                <InternalHashLink
                   to="/#pedestals"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Box className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Pedestales a medida" : "Custom pedestals"}</span>
-                </Link>
-                <Link
+                </InternalHashLink>
+                <InternalHashLink
                   to="/#storage"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Archive className="h-5 w-5 text-clay" />
                   <span>Fine Art Storage</span>
-                </Link>
-                <Link
+                </InternalHashLink>
+                <InternalHashLink
                   to="/#installation"
                   onClick={closeMenu}
                   className="flex items-center gap-3 px-3 py-3 rounded-lg font-normal text-ink hover:bg-ink/5 transition"
                 >
                   <Hammer className="h-5 w-5 text-clay" />
                   <span>{lang === "es" ? "Art Installation" : "Art Installation"}</span>
-                </Link>
+                </InternalHashLink>
                 <Link
                   to="/mudanzas"
                   onClick={closeMenu}
@@ -276,9 +277,9 @@ export const Nav = () => {
             asChild
             className="w-full bg-clay hover:bg-clay/90 text-cream rounded-full mt-2"
           >
-            <Link to="/#contact">
+            <InternalHashLink to="/#contact">
               {lang === "es" ? "Enviar mensaje por formulario" : "Send a message via form"}
-            </Link>
+            </InternalHashLink>
           </Button>
         </DialogContent>
       </Dialog>
