@@ -11,8 +11,8 @@ export const Hero = () => {
           src={heroAsset.url}
           alt={lang === "es" ? "Camión de Ramos Delivery Enterprise en ruta" : "Ramos Delivery Enterprise truck on the road"}
           className="block w-full h-auto max-h-[100svh] object-contain"
-          width={1600}
-          height={1024}
+          width={1254}
+          height={1254}
           loading="eager"
           decoding="async"
         />
