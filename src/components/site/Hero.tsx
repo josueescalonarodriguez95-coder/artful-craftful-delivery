@@ -1,6 +1,6 @@
 import { useLang } from "./LangContext";
 import heroAsset from "@/assets/hero-truck.png.asset.json";
-import heroWideAsset from "@/assets/hero-truck-wide.png.asset.json";
+import heroWide from "@/assets/hero-truck-wide-six-services.png";
 
 
 export const Hero = () => {
@@ -10,9 +10,9 @@ export const Hero = () => {
       <picture>
         <source
           media="(min-width: 768px)"
-          srcSet={heroWideAsset.url}
-          width={1920}
-          height={1080}
+          srcSet={heroWide}
+          width={1376}
+          height={768}
         />
         <img
           src={heroAsset.url}
